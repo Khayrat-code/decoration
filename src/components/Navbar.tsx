@@ -17,7 +17,7 @@ export function Navbar() {
   const { lang, setLang } = useLang()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -26,14 +26,19 @@ export function Navbar() {
   return (
     <header
       style={{
-        position: 'sticky',
+        position: 'fixed',
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 50,
-        background: scrolled ? 'rgba(245, 241, 234, 0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'saturate(140%) blur(10px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'saturate(140%) blur(10px)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--line)' : '1px solid transparent',
-        transition: 'background-color 240ms ease, border-color 240ms ease, backdrop-filter 240ms ease',
+        // Always-on translucent background — the header never disappears.
+        background: scrolled
+          ? 'rgba(245, 241, 234, 0.94)'
+          : 'rgba(245, 241, 234, 0.78)',
+        backdropFilter: 'saturate(140%) blur(14px)',
+        WebkitBackdropFilter: 'saturate(140%) blur(14px)',
+        borderBottom: '1px solid var(--line)',
+        transition: 'background-color 240ms ease, backdrop-filter 240ms ease',
       }}
     >
       <div
@@ -42,7 +47,7 @@ export function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '22px 32px',
+          padding: '18px 32px',
           gap: 24,
         }}
       >
@@ -121,7 +126,7 @@ export function Navbar() {
                 textTransform: lang === 'ar' ? 'none' : 'uppercase',
                 padding: '8px 14px',
                 border: '1px solid var(--line-2)',
-                background: 'transparent',
+                background: 'rgba(255, 255, 255, 0.4)',
                 color: 'var(--ink-2)',
                 borderRadius: 999,
                 cursor: 'pointer',
