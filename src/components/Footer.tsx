@@ -52,7 +52,7 @@ export function Footer() {
           <FooterCol title={t('footer.columns.studio')}>
             <span style={footerText}>{t('footer.studio.appointment')}</span>
             <span style={footerText}>{t('footer.studio.hours')}</span>
-            <a href="mailto:hello@toolcan.example" style={footerLinkText}>
+            <a href="mailto:khayratum@gmail.com" style={footerLinkText}>
               {t('footer.studio.email')}
             </a>
           </FooterCol>

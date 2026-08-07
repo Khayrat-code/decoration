@@ -59,7 +59,7 @@ const T = {
     studio: {
       appointment:  { ar: 'بموعد مسبق',   en: 'By appointment' },
       hours:        { ar: 'الإثنين — الجمعة، ١٠–١٨', en: 'Mon — Fri, 10–18' },
-      email:        { ar: 'hello@toolcan.example',     en: 'hello@toolcan.example' },
+      email:        { ar: 'khayratum@gmail.com',       en: 'khayratum@gmail.com' },
     },
     connect: {
       instagram: { ar: 'إنستغرام', en: 'Instagram' },
@@ -237,7 +237,7 @@ const T = {
       },
       email: {
         label:  { ar: 'البريد', en: 'Email' },
-        title:  { ar: 'hello@toolcan.example', en: 'hello@toolcan.example' },
+        title:  { ar: 'khayratum@gmail.com', en: 'khayratum@gmail.com' },
         detail: { ar: 'نرد خلال خمسة أيام عمل.', en: 'We reply within five working days.' },
       },
       hours: {
