@@ -47,7 +47,7 @@ export function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '18px 32px',
+          padding: '12px 32px',
           gap: 24,
         }}
       >
@@ -56,7 +56,7 @@ export function Navbar() {
           style={{ borderBottom: 'none' }}
           aria-label="ToolCan Decoration home"
         >
-          <Logo size="md" />
+          <Logo size="sm" />
         </NavLink>
 
         {!isAdmin && (
