@@ -46,6 +46,7 @@ export function Footer() {
           <FooterCol title={t('footer.columns.explore')}>
             <FooterLink to="/">{t('nav.home')}</FooterLink>
             <FooterLink to="/gallery">{t('nav.gallery')}</FooterLink>
+            <FooterLink to="/about">{t('nav.about')}</FooterLink>
             <FooterLink to="/contact">{t('nav.contact')}</FooterLink>
           </FooterCol>
 
@@ -64,6 +65,9 @@ export function Footer() {
             <a href="https://pinterest.com" target="_blank" rel="noreferrer" style={footerLinkText}>
               {t('footer.connect.pinterest')} <ArrowUpRight size={14} />
             </a>
+            <Link to="/policies" style={footerLinkText}>
+              {t('footer.legal.policies')}
+            </Link>
             <Link to="/admin/login" style={{ ...footerLinkText, opacity: 0.5 }}>
               {t('footer.connect.admin')}
             </Link>

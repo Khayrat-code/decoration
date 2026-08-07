@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, ArrowRight, Compass, Layers, Hammer, Sparkles } from 'lucide-react'
+import { ArrowRight, Compass, Layers, Hammer, Sparkles } from 'lucide-react'
 import { supabase, TABLES } from '../lib/supabase'
 import { GalleryGrid, type GalleryItem } from '../components/GalleryGrid'
 import { useLang, useT } from '../i18n/LanguageContext'
@@ -14,42 +14,21 @@ const HERO_IMAGE =
 
 const PROCESS_ICONS = [Compass, Layers, Hammer, Sparkles]
 
-interface CategoryCount {
-  key: string
-  count: number
-}
-
 export function Home() {
   const [featured, setFeatured] = useState<GalleryItem[]>([])
-  const [counts, setCounts] = useState<CategoryCount[]>([])
-  const [total, setTotal] = useState(0)
   const t = useT()
-  const { lang, category } = useLang()
+  const { lang } = useLang()
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      const [{ data: feat }, { data: all }] = await Promise.all([
-        supabase
-          .from(TABLES.gallery)
-          .select('*')
-          .order('sort_order', { ascending: true })
-          .limit(6),
-        supabase.from(TABLES.gallery).select('category'),
-      ])
+      const { data } = await supabase
+        .from(TABLES.gallery)
+        .select('*')
+        .order('sort_order', { ascending: true })
+        .limit(6)
       if (cancelled) return
-      setFeatured((feat as GalleryItem[]) ?? [])
-
-      const map: Record<string, number> = {}
-      ;(all ?? []).forEach((r: { category: string }) => {
-        map[r.category] = (map[r.category] || 0) + 1
-      })
-      // Order by the canonical category order, not by count.
-      const ordered = CATEGORIES.map((c) => ({ key: c.key, count: map[c.key] || 0 })).filter(
-        (c) => c.count > 0,
-      )
-      setCounts(ordered)
-      setTotal((all ?? []).length)
+      setFeatured((data as GalleryItem[]) ?? [])
     })()
     return () => {
       cancelled = true
@@ -233,9 +212,8 @@ export function Home() {
           <SectionHead
             eyebrow={t('home.selected.eyebrow')}
             title={t('home.selected.title')}
-            cta={{ to: '/gallery', label: t('home.selected.cta') }}
           />
-          <div style={{ marginTop: 64 }}>
+          <div style={{ marginTop: 56 }}>
             {featured.length > 0 ? (
               <GalleryGrid items={featured.slice(0, 6)} showCategories={false} compact />
             ) : (
@@ -247,163 +225,112 @@ export function Home() {
         </div>
       </section>
 
-      {/* ============ STATS — live per-category counter ============ */}
+      {/* ============ TYPES OF SPACES (compact, above "How we work") ============ */}
       <section
-        style={{
-          background: 'var(--bg-2)',
-          padding: '96px 0',
-          borderTop: '1px solid var(--line)',
-          borderBottom: '1px solid var(--line)',
-        }}
+        className="section-tight"
+        style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}
       >
         <div className="container">
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              marginBottom: 56,
-              flexWrap: 'wrap',
-              gap: 24,
+              display: 'grid',
+              gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 2fr)',
+              gap: 64,
+              alignItems: 'start',
             }}
+            className="types-grid"
           >
             <div>
-              <span className="eyebrow">{t('home.stats.eyebrow')}</span>
+              <span className="eyebrow">{t('home.categories.eyebrow')}</span>
               <h2
                 style={{
+                  marginTop: 14,
                   fontSize: 'var(--fs-h2)',
                   fontWeight: lang === 'ar' ? 700 : 400,
-                  marginTop: 14,
-                  maxWidth: '20ch',
+                  maxWidth: '14ch',
+                  lineHeight: 1.2,
                 }}
               >
-                {t('home.stats.title')}
+                {t('home.categories.title')}
               </h2>
             </div>
             <div
               style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 56,
-                fontWeight: 400,
-                color: 'var(--ink)',
-                lineHeight: 1,
-                letterSpacing: lang === 'ar' ? 0 : '-0.02em',
-                display: 'flex',
-                alignItems: 'baseline',
-                gap: 12,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '12px 32px',
+                paddingTop: 8,
               }}
+              className="types-list"
             >
-              <span>{String(total).padStart(2, '0')}</span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: 13,
-                  fontWeight: 500,
-                  letterSpacing: lang === 'ar' ? 0 : '0.18em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
-                  color: 'var(--ink-3)',
-                }}
-              >
-                {t('home.stats.total')}
-              </span>
+              {CATEGORIES.map((c, i) => (
+                <motion.div
+                  key={c.key}
+                  initial={{ opacity: 0, x: lang === 'ar' ? 8 : -8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.45, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    gap: 14,
+                    padding: '14px 0',
+                    borderTop: '1px solid var(--line)',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 500,
+                      color: 'var(--ink-3)',
+                      letterSpacing: '0.18em',
+                      minWidth: 22,
+                    }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: lang === 'ar' ? 18 : 19,
+                      fontWeight: lang === 'ar' ? 700 : 400,
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    {lang === 'ar' ? c.ar : c.en}
+                  </span>
+                </motion.div>
+              ))}
             </div>
           </div>
-
-          <p
-            style={{
-              color: 'var(--ink-2)',
-              fontSize: 15,
-              maxWidth: 560,
-              marginBottom: 40,
-            }}
-          >
-            {t('home.stats.subtitle')}
-          </p>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-              gap: 0,
-              border: '1px solid var(--line)',
-              borderRadius: 'var(--radius)',
-              overflow: 'hidden',
-              background: 'var(--surface)',
-            }}
-          >
-            {counts.map((c, i) => (
-              <motion.div
-                key={c.key}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  padding: '32px 24px',
-                  borderInlineStart: i === 0 ? 'none' : '1px solid var(--line)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  gap: 12,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontSize: 56,
-                    fontWeight: 400,
-                    color: 'var(--ink)',
-                    lineHeight: 1,
-                    letterSpacing: lang === 'ar' ? 0 : '-0.02em',
-                  }}
-                >
-                  {String(c.count).padStart(2, '0')}
-                </div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: 'var(--ink-2)',
-                    fontWeight: 500,
-                  }}
-                >
-                  {category(c.key)}
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
+        <style>{`
+          @media (max-width: 880px) {
+            .types-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+            .types-list { grid-template-columns: 1fr 1fr !important; }
+          }
+          @media (max-width: 520px) {
+            .types-list { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
       </section>
 
-      {/* ============ PROCESS ============ */}
+      {/* ============ HOW WE WORK (compact) ============ */}
       <section className="section">
         <div className="container">
           <SectionHead
             eyebrow={t('home.process.eyebrow')}
             title={t('home.process.title')}
-            subtitle={t('home.process.subtitle')}
           />
           <div
             style={{
-              marginTop: 80,
+              marginTop: 56,
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 40,
-              position: 'relative',
+              gap: 32,
             }}
             className="process-grid"
           >
-            <div
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                top: 24,
-                insetInlineStart: '8%',
-                insetInlineEnd: '8%',
-                height: 1,
-                background: 'var(--line-2)',
-                zIndex: 0,
-              }}
-            />
             <ProcessSteps />
           </div>
         </div>
@@ -414,73 +341,6 @@ export function Home() {
           @media (max-width: 520px) {
             .process-grid { grid-template-columns: 1fr !important; }
           }
-        `}</style>
-      </section>
-
-      {/* ============ CATEGORY SHOWCASE ============ */}
-      <section
-        className="section"
-        style={{ background: 'var(--bg-2)' }}
-      >
-        <div className="container">
-          <SectionHead
-            eyebrow={t('home.categories.eyebrow')}
-            title={t('home.categories.title')}
-            cta={{ to: '/gallery', label: t('home.categories.cta') }}
-          />
-          <div
-            style={{
-              marginTop: 64,
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
-              gap: 16,
-            }}
-            className="cat-grid"
-          >
-            {CATEGORIES.map((c, i) => (
-              <motion.div
-                key={c.key}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <Link
-                  to={`/gallery?cat=${c.key}`}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 12,
-                    padding: '40px 12px',
-                    background: 'var(--surface)',
-                    border: '1px solid var(--line)',
-                    borderRadius: 'var(--radius)',
-                    color: 'var(--ink)',
-                    borderBottom: '1px solid var(--line)',
-                    transition: 'border-color 220ms ease, color 220ms ease',
-                  }}
-                  className="cat-tile"
-                >
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: lang === 'ar' ? 20 : 22,
-                      fontWeight: lang === 'ar' ? 700 : 500,
-                    }}
-                  >
-                    {lang === 'ar' ? c.ar : c.en}
-                  </span>
-                  <ArrowUpRight size={16} color="var(--ink-3)" />
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        <style>{`
-          @media (max-width: 1024px) { .cat-grid { grid-template-columns: repeat(4, 1fr) !important; } }
-          @media (max-width: 640px)  { .cat-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-          .cat-tile:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
         `}</style>
       </section>
 
@@ -563,52 +423,49 @@ function ProcessSteps() {
         return (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-            style={{ position: 'relative' }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
           >
             <div
               style={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                background: 'var(--bg)',
-                border: '1px solid var(--line-2)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                gap: 12,
+                marginBottom: 14,
                 color: 'var(--accent)',
-                marginBottom: 20,
-                position: 'relative',
-                zIndex: 1,
               }}
             >
-              <Icon size={20} strokeWidth={1.4} />
-            </div>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 500,
-                letterSpacing: lang === 'ar' ? 0 : '0.22em',
-                textTransform: lang === 'ar' ? 'none' : 'uppercase',
-                color: 'var(--ink-3)',
-                marginBottom: 8,
-              }}
-            >
-              {String(i + 1).padStart(2, '0')}
+              <Icon size={18} strokeWidth={1.4} />
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  letterSpacing: '0.22em',
+                  color: 'var(--ink-3)',
+                }}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
             </div>
             <h3
               style={{
-                fontSize: 22,
+                fontSize: 19,
                 fontWeight: lang === 'ar' ? 700 : 500,
-                marginBottom: 12,
+                marginBottom: 8,
               }}
             >
               {s.title[lang]}
             </h3>
-            <p style={{ color: 'var(--ink-2)', fontSize: 15, lineHeight: lang === 'ar' ? 1.95 : 1.65 }}>
+            <p
+              style={{
+                color: 'var(--ink-2)',
+                fontSize: 14,
+                lineHeight: lang === 'ar' ? 1.85 : 1.65,
+                margin: 0,
+              }}
+            >
               {s.body[lang]}
             </p>
           </motion.div>
@@ -621,66 +478,24 @@ function ProcessSteps() {
 function SectionHead({
   eyebrow,
   title,
-  subtitle,
-  cta,
 }: {
   eyebrow: string
   title: string
-  subtitle?: string
-  cta?: { to: string; label: string }
 }) {
   const { lang } = useLang()
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: cta ? '1fr auto' : '1fr',
-        alignItems: 'flex-end',
-        gap: 24,
-      }}
-    >
-      <div>
-        <span className="eyebrow">{eyebrow}</span>
-        <h2
-          style={{
-            fontSize: 'var(--fs-h2)',
-            fontWeight: lang === 'ar' ? 700 : 400,
-            marginTop: 14,
-            maxWidth: '20ch',
-          }}
-        >
-          {title}
-        </h2>
-        {subtitle && (
-          <p
-            style={{
-              marginTop: 16,
-              color: 'var(--ink-2)',
-              fontSize: 17,
-              maxWidth: 560,
-              lineHeight: lang === 'ar' ? 1.95 : 1.6,
-            }}
-          >
-            {subtitle}
-          </p>
-        )}
-      </div>
-      {cta && (
-        <Link
-          to={cta.to}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            fontSize: 13,
-            color: 'var(--ink)',
-            borderBottom: '1px solid var(--ink-2)',
-            paddingBottom: 4,
-          }}
-        >
-          {cta.label} <ArrowUpRight size={14} className="icon-flip" />
-        </Link>
-      )}
+    <div>
+      <span className="eyebrow">{eyebrow}</span>
+      <h2
+        style={{
+          fontSize: 'var(--fs-h2)',
+          fontWeight: lang === 'ar' ? 700 : 400,
+          marginTop: 14,
+          maxWidth: '20ch',
+        }}
+      >
+        {title}
+      </h2>
     </div>
   )
 }

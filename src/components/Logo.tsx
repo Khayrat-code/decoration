@@ -1,5 +1,3 @@
-import { useLang } from '../i18n/LanguageContext'
-
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg'
   variant?: 'full' | 'mark'
@@ -9,12 +7,13 @@ interface LogoProps {
 
 /**
  * ToolCan brand mark.
+ * Always renders the wordmark in English ("ToolCan Decoration") regardless
+ * of the active UI language — the brand name is the brand name.
+ *
  * - Mark only: a "T" inside a sage rounded square with a small caramel dot.
- * - Full: mark + wordmark (ToolCan / تولكان) + subtitle.
- * In Arabic the wordmark reads "تولكان" with "للديكور" beneath.
+ * - Full: mark + "ToolCan" wordmark + "DECORATION" eyebrow.
  */
 export function Logo({ size = 'md', variant = 'full', tone = 'default' }: LogoProps) {
-  const { lang } = useLang()
   const dims = {
     sm: { mark: 26, fontSize: 16, eyebrowSize: 7, gap: 8 },
     md: { mark: 34, fontSize: 21, eyebrowSize: 8, gap: 12 },
@@ -35,7 +34,7 @@ export function Logo({ size = 'md', variant = 'full', tone = 'default' }: LogoPr
         gap: dims.gap,
         lineHeight: 1,
       }}
-      aria-label={lang === 'ar' ? 'تولكان للديكور' : 'ToolCan Decoration'}
+      aria-label="ToolCan Decoration"
     >
       <svg
         width={dims.mark}
@@ -50,35 +49,29 @@ export function Logo({ size = 'md', variant = 'full', tone = 'default' }: LogoPr
         <rect x="29" y="29" width={dotSize} height={dotSize} rx="0.5" fill="#B8835A" />
       </svg>
       {variant === 'full' && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: lang === 'ar' ? 4 : 3,
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
           <span
             style={{
-              fontFamily: 'var(--font-serif)',
+              fontFamily: "'Fraunces', Georgia, serif",
               fontSize: dims.fontSize,
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 500,
               color: wordColor,
-              letterSpacing: lang === 'ar' ? 0 : '-0.01em',
+              letterSpacing: '-0.01em',
             }}
           >
-            {lang === 'ar' ? 'تولكان' : 'ToolCan'}
+            ToolCan
           </span>
           <span
             style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: dims.eyebrowSize + 3,
+              fontFamily: "'Inter', sans-serif",
+              fontSize: dims.eyebrowSize,
               fontWeight: 500,
-              letterSpacing: lang === 'ar' ? 0 : '0.22em',
+              letterSpacing: '0.22em',
               color: subColor,
-              textTransform: lang === 'ar' ? 'none' : 'uppercase',
+              textTransform: 'uppercase',
             }}
           >
-            {lang === 'ar' ? 'للديكور' : 'Decoration'}
+            Decoration
           </span>
         </div>
       )}

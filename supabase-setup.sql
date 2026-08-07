@@ -36,9 +36,47 @@ create table if not exists public.contact_submissions (
 create index if not exists contact_submissions_created_idx
   on public.contact_submissions (created_at desc);
 
--- ---- 3. Row-level security --------------------------------------------
+-- ---- 3. analytics_sessions + analytics_events (anonymous, no login) --
+create table if not exists public.analytics_sessions (
+  id            uuid primary key default gen_random_uuid(),
+  session_id    text not null unique,
+  referrer      text,
+  user_agent    text,
+  screen_width  integer,
+  screen_height integer,
+  language      text,
+  country       text,
+  started_at    timestamptz not null default now(),
+  last_seen_at  timestamptz not null default now(),
+  page_count    integer not null default 1
+);
+
+create index if not exists analytics_sessions_started_idx
+  on public.analytics_sessions (started_at desc);
+create index if not exists analytics_sessions_session_idx
+  on public.analytics_sessions (session_id);
+
+create table if not exists public.analytics_events (
+  id          uuid primary key default gen_random_uuid(),
+  session_id  text not null,
+  path        text not null,
+  referrer    text,
+  duration_ms integer default 0,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists analytics_events_session_idx
+  on public.analytics_events (session_id);
+create index if not exists analytics_events_created_idx
+  on public.analytics_events (created_at desc);
+create index if not exists analytics_events_path_idx
+  on public.analytics_events (path);
+
+-- ---- 4. Row-level security --------------------------------------------
 alter table public.gallery_images       enable row level security;
 alter table public.contact_submissions  enable row level security;
+alter table public.analytics_sessions  enable row level security;
+alter table public.analytics_events     enable row level security;
 
 -- Public read on gallery (the website shows it to everyone).
 drop policy if exists "Public read gallery" on public.gallery_images;
@@ -83,7 +121,40 @@ create policy "Admin delete contact"
   for delete
   using (auth.role() = 'authenticated');
 
--- ---- 4. updated_at trigger (gallery) ----------------------------------
+-- Analytics: anyone can record their own session / events.
+drop policy if exists "Public upsert session" on public.analytics_sessions;
+create policy "Public upsert session"
+  on public.analytics_sessions
+  for insert
+  with check (true);
+
+drop policy if exists "Public update session" on public.analytics_sessions;
+create policy "Public update session"
+  on public.analytics_sessions
+  for update
+  using (true)
+  with check (true);
+
+drop policy if exists "Public insert event" on public.analytics_events;
+create policy "Public insert event"
+  on public.analytics_events
+  for insert
+  with check (true);
+
+-- Only authenticated users (the admin) can read analytics.
+drop policy if exists "Admin read sessions" on public.analytics_sessions;
+create policy "Admin read sessions"
+  on public.analytics_sessions
+  for select
+  using (auth.role() = 'authenticated');
+
+drop policy if exists "Admin read events" on public.analytics_events;
+create policy "Admin read events"
+  on public.analytics_events
+  for select
+  using (auth.role() = 'authenticated');
+
+-- ---- 5. updated_at trigger (gallery) ----------------------------------
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$
 begin

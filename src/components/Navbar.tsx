@@ -6,6 +6,7 @@ import { useLang, useT } from '../i18n/LanguageContext'
 const linkKeys = [
   { to: '/',         key: 'nav.home' },
   { to: '/gallery',  key: 'nav.gallery' },
+  { to: '/about',    key: 'nav.about' },
   { to: '/contact',  key: 'nav.contact' },
 ] as const
 

@@ -39,6 +39,7 @@ const T = {
   nav: {
     home:        { ar: 'الرئيسية',     en: 'Home' },
     gallery:     { ar: 'المعرض',       en: 'Gallery' },
+    about:       { ar: 'من نحن',       en: 'About' },
     contact:     { ar: 'تواصل',        en: 'Contact' },
     exitAdmin:   { ar: 'الخروج من الإدارة', en: 'Exit admin' },
     skipToContent:{ ar: 'تخطّي إلى المحتوى', en: 'Skip to content' },
@@ -65,6 +66,9 @@ const T = {
       instagram: { ar: 'إنستغرام', en: 'Instagram' },
       pinterest: { ar: 'بنترست',   en: 'Pinterest' },
       admin:     { ar: 'دخول الاستوديو', en: 'Studio admin' },
+    },
+    legal: {
+      policies: { ar: 'السياسات', en: 'Policies' },
     },
     copyright: {
       ar: '© ${year} تولكان للديكور · جميع الحقوق محفوظة',
@@ -314,6 +318,130 @@ const T = {
     backToTop:   { ar: 'العودة للأعلى', en: 'Back to top' },
     switchLangAr: { ar: 'EN',            en: 'AR' },
     switchLangEn: { ar: 'AR',            en: 'EN' },
+  },
+
+  /* ------------------ About page ------------------ */
+  about: {
+    eyebrow: { ar: 'من نحن', en: 'About' },
+    title:   { ar: 'استوديو صغير، وغرفٌ بُنيت ببطء.', en: 'A small studio, rooms built slowly.' },
+    body1: {
+      ar: 'تولكان للديكور هو أحد استوديوهات مجموعة تولكان، يعمل على عددٍ قليل من المشاريع في كل مرة. نعيش في حيٍّ هادئ، ونستقبل المشاريع ببطء — لأن العمل المتأنّي لا يُختصر.',
+      en: 'ToolCan Decoration is one of the studios under the ToolCan group, taking on a small number of projects at a time. We work slowly — considered work cannot be rushed.',
+    },
+    body2: {
+      ar: 'نصوغ غرفاً بألوانٍ ناعمة، وموادّ تتقادم بجمال: خشب، حجر، كتان، جص، ونحاس. نختار القطع لكيف تتغيّر مع السنوات، لا كيف تظهر في صورة.',
+      en: 'We shape rooms with soft palettes and materials that age well — wood, stone, linen, plaster, brass. We choose pieces for how they change over years, not how they photograph in a moment.',
+    },
+    body3: {
+      ar: 'نبدأ من المحادثة الطويلة، ومن المكان نفسه. ثم نرسم، نُراجع، نُعتمد. ثم نُركّب في الموقع بهدوء. كل مشروع يترك أثره على الاستوديو وعلى مَن فيه.',
+      en: 'We start with a long conversation, and with the space itself. Then we draw, revise, and sign off. Then we install on site, calmly. Every project leaves its mark on the studio and on the people in it.',
+    },
+    valuesEyebrow: { ar: 'قيمنا', en: 'Our values' },
+    values: [
+      {
+        title: { ar: 'الإصغاء قبل التصميم', en: 'Listen before drawing' },
+        body:  {
+          ar: 'كل غرفة تبدأ بسؤال: كيف تعيش هنا؟ التصميم يأتي بعد الإجابة، لا قبلها.',
+          en: 'Every room starts with a question: how do you live here? The design comes after the answer, never before.',
+        },
+      },
+      {
+        title: { ar: 'مواد تَعِيش', en: 'Materials that live' },
+        body:  {
+          ar: 'نختار الخشب والحجر والكتان لما يتقادمون، لا لما يلمعون. الجمال في الثانية لا يكفي.',
+          en: 'We pick wood, stone, and linen for how they age, not how they gleam. A moment’s beauty is not enough.',
+        },
+      },
+      {
+        title: { ar: 'عدد قليل من المشاريع', en: 'Few projects at a time' },
+        body:  {
+          ar: 'نرفض أكثر مما نقبل. المشروع الذي يستحق الاهتمام الكامل هو مشروعٌ واحدٌ فقط، لا خمسة.',
+          en: 'We turn down more than we take on. A project worth full attention is one, not five.',
+        },
+      },
+      {
+        title: { ar: 'الهدوء جزءٌ من العمل', en: 'Quiet is part of the work' },
+        body:  {
+          ar: 'لا نُعلن عن خطواتنا، ولا نسابق أحداً. النتيجة تظهر في الغرفة، لا على وسائل التواصل.',
+          en: 'We don’t announce our steps, and we don’t race anyone. The result shows up in the room, not on social media.',
+        },
+      },
+    ],
+  },
+
+  /* ------------------ Policies page ------------------ */
+  policies: {
+    eyebrow: { ar: 'السياسات', en: 'Policies' },
+    title:   { ar: 'كيف نتعامل مع بياناتك وأعمالنا', en: 'How we handle your data and our work' },
+    intro:   {
+      ar: 'صفحةٌ بسيطة بما نلتزم به. إن كان لديك أي سؤال، راسلنا على البريد أدناه.',
+      en: 'A short, plain account of what we commit to. If anything’s unclear, write to the address below.',
+    },
+    lastUpdated: { ar: 'آخر تحديث', en: 'Last updated' },
+    privacy: {
+      title: { ar: 'الخصوصية', en: 'Privacy' },
+      body: {
+        ar: 'نجمع فقط ما نحتاجه: رسائلك عبر النموذج، وملفات الصور التي ترفعها عبر لوحة الإدارة عند الدخول. لا نبيع بياناتك، ولا نشاركها مع طرف ثالث. يمكنك طلب حذفها في أي وقت.',
+        en: 'We only collect what we need: the messages you send through the contact form, and the images you upload through the admin dashboard when signed in. We do not sell your data, and we do not share it with third parties. You can ask us to delete it at any time.',
+      },
+    },
+    cookies: {
+      title: { ar: 'ملفات تعريف الارتباط', en: 'Cookies & local storage' },
+      body: {
+        ar: 'نستخدم التخزين المحلي في متصفحك لحفظ اختيار اللغة، وحفظ جلسة تسجيل الدخول للإدارة. لا نضع أي ملفّات تتبّع أو إعلانات.',
+        en: 'We use your browser’s local storage to remember your language choice, and to keep you signed in to the admin area. We do not place any tracking or advertising cookies.',
+      },
+    },
+    analytics: {
+      title: { ar: 'إحصائيات الزوار', en: 'Visitor analytics' },
+      body: {
+        ar: 'نسجّل زيارات مجهولة الهوية (الصفحات التي شُوهدت، ومدة البقاء التقريبية) لتحسين الموقع. لا نجمع اسمك أو بريدك إلا إذا أرسلتهما عبر النموذج.',
+        en: 'We record anonymous visits (which pages were seen, and rough time spent) to improve the site. We do not collect your name or email unless you send them through the contact form.',
+      },
+    },
+    images: {
+      title: { ar: 'حقوق الصور', en: 'Image rights' },
+      body: {
+        ar: 'جميع الصور في هذا الموقع من أعمال الاستوديو، أو مأذونٌ باستخدامها من أصحابها. لا يحق لأي طرف استخدام هذه الصور دون إذن كتابي منّا.',
+        en: 'All photographs in this site are our own work, or used with the owner’s permission. No one may reuse these images without our written consent.',
+      },
+    },
+    contact: {
+      title: { ar: 'تواصل', en: 'Get in touch' },
+      body: {
+        ar: 'لأي استفسار يخص الخصوصية أو استخدام الصور، راسلنا على khayratum@gmail.com.',
+        en: 'For any question about privacy or image use, write to khayratum@gmail.com.',
+      },
+    },
+  },
+
+  /* ------------------ Analytics (admin) ------------------ */
+  analytics: {
+    title:    { ar: 'إحصائيات الزوار', en: 'Visitor analytics' },
+    subtitle: { ar: 'بيانات مجهولة الهوية من الزوار (بدون تسجيل دخول).', en: 'Anonymous data from visitors (no login required).' },
+    empty:    { ar: 'لا توجد زيارات بعد. تفحّح الموقع من نافذة خاصة لرؤية البيانات تنمو.', en: 'No visits yet. Browse the site from a private window to see the data grow.' },
+    kpi: {
+      visitors:    { ar: 'زائر فريد',     en: 'Unique visitors' },
+      pageViews:    { ar: 'مشاهدة صفحة',   en: 'Page views' },
+      avgDuration:  { ar: 'متوسط البقاء',  en: 'Avg. session' },
+      todayVisitors:{ ar: 'زوار اليوم',     en: 'Today' },
+    },
+    dailyHeading: { ar: 'آخر ٧ أيام', en: 'Last 7 days' },
+    pagesHeading:  { ar: 'الصفحات الأكثر زيارة', en: 'Top pages' },
+    recentsHeading:{ ar: 'آخر الزيارات', en: 'Recent visits' },
+    headers: {
+      path:     { ar: 'المسار', en: 'Path' },
+      when:     { ar: 'الوقت',  en: 'When' },
+      duration: { ar: 'المدة',  en: 'Duration' },
+      source:   { ar: 'المصدر', en: 'Source' },
+      pages:    { ar: 'صفحات',  en: 'Pages' },
+      device:   { ar: 'الجهاز', en: 'Device' },
+      lang:     { ar: 'اللغة',  en: 'Lang' },
+    },
+    duration: {
+      lessThanMin: { ar: 'أقل من دقيقة', en: '< 1 min' },
+      minutes:     { ar: 'دقائق',       en: 'min' },
+    },
   },
 } as const
 

@@ -5,7 +5,7 @@ import type { GalleryItem } from '../components/GalleryGrid'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T, { CATEGORIES } from '../i18n/translations'
 
-type Tab = 'gallery' | 'submissions'
+type Tab = 'gallery' | 'submissions' | 'analytics'
 
 interface ContactSubmission {
   id: string
@@ -72,16 +72,449 @@ export function AdminDashboard() {
             >
               {t('admin.tabMessages')}
             </button>
+            <button
+              type="button"
+              className={tab === 'analytics' ? 'btn' : 'btn btn-secondary'}
+              onClick={() => setTab('analytics')}
+            >
+              {t('analytics.title')}
+            </button>
             <button type="button" className="btn btn-ghost" onClick={handleSignOut}>
               {signOutLabel ?? t('admin.signOut')}
             </button>
           </div>
         </div>
 
-        {tab === 'gallery' ? <GalleryManager /> : <SubmissionsManager />}
+        {tab === 'gallery'
+          ? <GalleryManager />
+          : tab === 'submissions'
+          ? <SubmissionsManager />
+          : <AnalyticsPanel />}
       </div>
     </section>
   )
+}
+
+/* ----------------- Analytics panel ----------------- */
+
+interface SessionRow {
+  id: string
+  session_id: string
+  referrer: string | null
+  user_agent: string | null
+  language: string | null
+  started_at: string
+  last_seen_at: string
+  page_count: number
+}
+interface EventRow {
+  id: string
+  session_id: string
+  path: string
+  duration_ms: number
+  created_at: string
+}
+
+function AnalyticsPanel() {
+  const t = useT()
+  const { lang } = useLang()
+  const [sessions, setSessions] = useState<SessionRow[]>([])
+  const [events, setEvents] = useState<EventRow[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const load = async () => {
+    setLoading(true)
+    setError(null)
+    const [s, e] = await Promise.all([
+      supabase
+        .from(TABLES.analyticsSessions)
+        .select('*')
+        .order('started_at', { ascending: false })
+        .limit(500),
+      supabase
+        .from(TABLES.analyticsEvents)
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(2000),
+    ])
+    if (s.error) setError(s.error.message)
+    if (e.error) setError(e.error.message)
+    setSessions((s.data as SessionRow[]) ?? [])
+    setEvents((e.data as EventRow[]) ?? [])
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
+
+  // KPIs
+  const totalVisitors = new Set(sessions.map((s) => s.session_id)).size
+  const totalEvents = events.length
+  const durationsMs = events
+    .map((e) => e.duration_ms)
+    .filter((d) => d > 0)
+  const avgDurationMs =
+    durationsMs.length > 0
+      ? Math.round(durationsMs.reduce((a, b) => a + b, 0) / durationsMs.length)
+      : 0
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const todayVisitors = sessions.filter((s) => new Date(s.started_at) >= today).length
+
+  // Top paths
+  const pathCounts = new Map<string, number>()
+  events.forEach((e) => pathCounts.set(e.path, (pathCounts.get(e.path) ?? 0) + 1))
+  const topPaths = Array.from(pathCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+
+  // Last 7 days chart data
+  const days: { label: string; count: number }[] = []
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date()
+    d.setHours(0, 0, 0, 0)
+    d.setDate(d.getDate() - i)
+    const next = new Date(d)
+    next.setDate(next.getDate() + 1)
+    const count = sessions.filter((s) => {
+      const t = new Date(s.started_at).getTime()
+      return t >= d.getTime() && t < next.getTime()
+    }).length
+    days.push({
+      label: d.toLocaleDateString(lang === 'ar' ? 'ar-SA' : 'en-US', {
+        weekday: 'short',
+      }),
+      count,
+    })
+  }
+  const maxDay = Math.max(1, ...days.map((d) => d.count))
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 22, fontWeight: lang === 'ar' ? 700 : 500, marginBottom: 8 }}>
+        {t('analytics.title')}
+      </h2>
+      <p style={{ color: 'var(--ink-2)', fontSize: 14, marginBottom: 24 }}>
+        {t('analytics.subtitle')}
+      </p>
+
+      {error && (
+        <div
+          role="alert"
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--line-2)',
+            borderInlineStart: '3px solid var(--danger)',
+            color: 'var(--ink-2)',
+            padding: '10px 12px',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: 14,
+            marginBottom: 16,
+          }}
+        >
+          {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div style={{ color: 'var(--ink-3)', padding: '32px 0' }}>…</div>
+      ) : sessions.length === 0 && events.length === 0 ? (
+        <div
+          style={{
+            background: 'var(--surface-2)',
+            border: '1px dashed var(--line-2)',
+            borderRadius: 'var(--radius)',
+            padding: 48,
+            textAlign: 'center',
+            color: 'var(--ink-2)',
+          }}
+        >
+          {t('analytics.empty')}
+        </div>
+      ) : (
+        <>
+          {/* KPIs */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 16,
+              marginBottom: 32,
+            }}
+            className="kpi-grid"
+          >
+            <Kpi label={t('analytics.kpi.visitors')} value={totalVisitors} />
+            <Kpi label={t('analytics.kpi.pageViews')} value={totalEvents} />
+            <Kpi
+              label={t('analytics.kpi.avgDuration')}
+              value={formatDuration(avgDurationMs, lang, t)}
+            />
+            <Kpi label={t('analytics.kpi.todayVisitors')} value={todayVisitors} />
+          </div>
+
+          {/* Last 7 days */}
+          <Section label={t('analytics.dailyHeading')}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(7, 1fr)',
+                gap: 8,
+                alignItems: 'end',
+                height: 140,
+                padding: '12px 0',
+              }}
+            >
+              {days.map((d, i) => {
+                const h = (d.count / maxDay) * 100
+                return (
+                  <div
+                    key={i}
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}
+                  >
+                    <div style={{ fontSize: 12, color: 'var(--ink-2)' }}>{d.count}</div>
+                    <div
+                      style={{
+                        width: '100%',
+                        height: `${Math.max(h, 4)}%`,
+                        background: 'var(--accent)',
+                        borderRadius: 4,
+                        minHeight: 4,
+                      }}
+                    />
+                    <div
+                      style={{
+                        fontSize: 11,
+                        color: 'var(--ink-3)',
+                        letterSpacing: '0.08em',
+                        textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                      }}
+                    >
+                      {d.label}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </Section>
+
+          {/* Top pages */}
+          <Section label={t('analytics.pagesHeading')}>
+            <table
+              style={{
+                width: '100%',
+                borderCollapse: 'collapse',
+                fontSize: 14,
+              }}
+            >
+              <thead>
+                <tr>
+                  <Th>{t('analytics.headers.path')}</Th>
+                  <Th align={lang === 'ar' ? 'left' : 'right'}>{t('analytics.headers.pages')}</Th>
+                </tr>
+              </thead>
+              <tbody>
+                {topPaths.map(([path, count]) => (
+                  <tr key={path}>
+                    <Td>
+                      <code
+                        style={{
+                          background: 'var(--bg-2)',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: 12,
+                          color: 'var(--ink)',
+                        }}
+                      >
+                        {path}
+                      </code>
+                    </Td>
+                    <Td align={lang === 'ar' ? 'left' : 'right'}>{count}</Td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Section>
+
+          {/* Recent sessions */}
+          <Section label={t('analytics.recentsHeading')}>
+            <div style={{ overflowX: 'auto' }}>
+              <table
+                style={{
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  fontSize: 14,
+                  minWidth: 720,
+                }}
+              >
+                <thead>
+                  <tr>
+                    <Th>{t('analytics.headers.when')}</Th>
+                    <Th>{t('analytics.headers.source')}</Th>
+                    <Th>{t('analytics.headers.lang')}</Th>
+                    <Th>{t('analytics.headers.device')}</Th>
+                    <Th align={lang === 'ar' ? 'left' : 'right'}>{t('analytics.headers.pages')}</Th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sessions.slice(0, 15).map((s) => {
+                    const ref = (s.referrer || '').replace(/^https?:\/\//, '').split('/')[0] || '—'
+                    return (
+                      <tr key={s.id}>
+                        <Td>{new Date(s.started_at).toLocaleString(lang === 'ar' ? 'ar-SA' : 'en-US')}</Td>
+                        <Td>
+                          <code
+                            style={{
+                              background: 'var(--bg-2)',
+                              padding: '3px 8px',
+                              borderRadius: 4,
+                              fontSize: 12,
+                            }}
+                          >
+                            {ref}
+                          </code>
+                        </Td>
+                        <Td>{s.language || '—'}</Td>
+                        <Td>{deviceLabel(s.user_agent || '')}</Td>
+                        <Td align={lang === 'ar' ? 'left' : 'right'}>{s.page_count}</Td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </Section>
+        </>
+      )}
+
+      <style>{`
+        @media (max-width: 720px) {
+          .kpi-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+      `}</style>
+    </div>
+  )
+}
+
+function Kpi({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div
+      style={{
+        background: 'var(--surface-2)',
+        border: '1px solid var(--line)',
+        borderRadius: 'var(--radius)',
+        padding: 20,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: "'Fraunces', serif",
+          fontSize: 40,
+          fontWeight: 400,
+          color: 'var(--ink)',
+          lineHeight: 1,
+          letterSpacing: '-0.02em',
+        }}
+      >
+        {value}
+      </div>
+      <div
+        style={{
+          marginTop: 8,
+          fontSize: 12,
+          color: 'var(--ink-3)',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  )
+}
+
+function Section({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        background: 'var(--surface)',
+        border: '1px solid var(--line)',
+        borderRadius: 'var(--radius)',
+        padding: 20,
+        marginBottom: 24,
+      }}
+    >
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          color: 'var(--ink-3)',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          marginBottom: 16,
+        }}
+      >
+        {label}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+function Th({ children, align }: { children: React.ReactNode; align?: 'left' | 'right' }) {
+  return (
+    <th
+      style={{
+        textAlign: align ?? (typeof align === 'string' ? align : 'start'),
+        padding: '8px 12px',
+        fontSize: 11,
+        fontWeight: 500,
+        letterSpacing: '0.18em',
+        textTransform: 'uppercase',
+        color: 'var(--ink-3)',
+        borderBottom: '1px solid var(--line)',
+      }}
+    >
+      {children}
+    </th>
+  )
+}
+function Td({ children, align }: { children: React.ReactNode; align?: 'left' | 'right' }) {
+  return (
+    <td
+      style={{
+        textAlign: align,
+        padding: '10px 12px',
+        borderBottom: '1px solid var(--line)',
+        color: 'var(--ink)',
+      }}
+    >
+      {children}
+    </td>
+  )
+}
+
+function deviceLabel(ua: string): string {
+  if (/iPhone/i.test(ua)) return 'iPhone'
+  if (/iPad/i.test(ua)) return 'iPad'
+  if (/Android/i.test(ua)) return 'Android'
+  if (/Macintosh/i.test(ua)) return 'Mac'
+  if (/Windows/i.test(ua)) return 'Windows'
+  if (/Linux/i.test(ua)) return 'Linux'
+  return '—'
+}
+
+function formatDuration(ms: number, lang: 'ar' | 'en', t: (k: string, v?: Record<string, string | number>) => string) {
+  if (ms < 1000) return '—'
+  const totalSec = Math.round(ms / 1000)
+  if (totalSec < 60) return `${totalSec}s`
+  const min = Math.floor(totalSec / 60)
+  const sec = totalSec % 60
+  if (lang === 'ar') {
+    return sec > 0 ? `${min} ${t('analytics.duration.minutes')} ${sec}` : `${min} ${t('analytics.duration.minutes')}`
+  }
+  return sec > 0 ? `${min}m ${sec}s` : `${min}m`
 }
 
 /* ----------------- Gallery manager ----------------- */
