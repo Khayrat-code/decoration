@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+.vite
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Editor / OS
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.log
+Thumbs.db
+
+# Test / cache
+coverage
+.cache
+.turbo
+tsconfig.tsbuildinfo
+
+# Local debug scripts
+scripts/debug-build.mjs

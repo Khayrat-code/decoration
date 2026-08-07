@@ -1,0 +1,295 @@
+/* ============================================================
+   ToolCan Decoration — global styles
+   - Quiet, warm, considered palette
+   - Bilingual: English (Fraunces + Inter, LTR) / Arabic (Amiri + Tajawal, RTL)
+   - No mouse-driven motion (no hover transforms, no scroll FX, no parallax)
+   - Focus rings kept for keyboard accessibility
+   ============================================================ */
+
+:root {
+  /* Color tokens — pulled from the studio's interior palette */
+  --bg: #F5F1EA;
+  --bg-2: #ECE3D0;
+  --bg-3: #E2D6BD;
+  --surface: #FFFFFF;
+  --surface-2: #FAF6EE;
+  --ink: #1F1F1F;
+  --ink-2: #5C5C5C;
+  --ink-3: #8E8E8E;
+  --ink-4: #B5B5B5;
+  --line: #E1D8C3;
+  --line-2: #C8BDA4;
+  --accent: #3D4F3D;
+  --accent-2: #B8835A;
+  --accent-3: #C7A87A;
+  --danger: #B05050;
+  --success: #4F6B4F;
+
+  /* Type stack — language-aware (set per [data-lang] below) */
+  --font-serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+  --space-12: 200px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 14px;
+
+  /* Layout */
+  --max-width: 1320px;
+  --max-width-narrow: 880px;
+
+  /* Type sizes (fluid) */
+  --fs-display: clamp(56px, 9vw, 132px);
+  --fs-h1: clamp(40px, 5.5vw, 76px);
+  --fs-h2: clamp(30px, 3.6vw, 48px);
+  --fs-h3: clamp(22px, 2.4vw, 30px);
+  --fs-h4: clamp(18px, 1.6vw, 22px);
+  --fs-body: 17px;
+  --fs-small: 14px;
+  --fs-eyebrow: 12px;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Language-specific font stack ---------- */
+[data-lang='ar'] {
+  --font-serif: 'Amiri', 'Tajawal', 'Noto Naskh Arabic', serif;
+  --font-sans: 'Tajawal', 'Cairo', 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+[data-lang='ar'] body {
+  /* Arabic reads with a touch more line-height and slightly tighter tracking. */
+  line-height: 1.85;
+  font-weight: 400;
+}
+
+[data-lang='ar'] h1,
+[data-lang='ar'] h2,
+[data-lang='ar'] h3,
+[data-lang='ar'] h4 {
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 200ms var(--ease-out-soft);
+}
+
+a:hover { color: var(--ink); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); }
+
+p { margin: 0; }
+
+img { display: block; max-width: 100%; height: auto; }
+button { font-family: inherit; }
+
+::selection { background: var(--accent); color: var(--bg); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 999px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
+
+/* ---------- Layout primitives ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+.container-narrow {
+  width: 100%;
+  max-width: var(--max-width-narrow);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+main { flex: 1 0 auto; }
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 16px 28px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--bg);
+  text-decoration: none;
+  transition:
+    background-color 250ms var(--ease-out-soft),
+    color 250ms var(--ease-out-soft),
+    border-color 250ms var(--ease-out-soft);
+}
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn-secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-secondary:hover { background: var(--ink); color: var(--bg); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+  border-color: transparent;
+  padding: 8px 12px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.btn-light { background: var(--bg); color: var(--accent); }
+.btn-light:hover { background: var(--ink); color: var(--bg); }
+.btn-danger { background: var(--surface); color: var(--danger); border-color: var(--line-2); }
+.btn[disabled], .btn[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+
+/* In Arabic we don't want uppercase Latin; keep the buttons more natural. */
+[data-lang='ar'] .btn { text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+/* ---------- Form fields ---------- */
+
+.field { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
+.field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+[data-lang='ar'] .field label { letter-spacing: 0; text-transform: none; font-size: 13px; }
+.field input,
+.field textarea,
+.field select {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  width: 100%;
+  transition: border-color 200ms var(--ease-out-soft);
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.field textarea { min-height: 160px; resize: vertical; }
+.field .hint { font-size: 12px; color: var(--ink-3); }
+
+/* ---------- Page-fade ---------- */
+.page-fade { animation: pageFade 360ms var(--ease-out-soft); }
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Utility ---------- */
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.divider { border: 0; border-top: 1px solid var(--line); margin: var(--space-8) 0; }
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+[data-lang='ar'] .eyebrow { letter-spacing: 0; text-transform: none; font-size: 13px; }
+
+.section { padding: var(--space-11) 0; }
+.section-tight { padding: var(--space-9) 0; }
+@media (max-width: 720px) {
+  .section { padding: var(--space-9) 0; }
+  .section-tight { padding: var(--space-7) 0; }
+  .container, .container-narrow { padding: 0 var(--space-5); }
+}
+
+/* YARL lightbox theme */
+.yarl__container { --yarl__color_backdrop: rgba(20, 22, 20, 0.96); }
+.yarl__slide { background: transparent; }
+.yarl__slide_image { border-radius: 4px; }
+
+/* ---------- RTL helpers ---------- */
+/* Flip directional icons in RTL contexts. */
+[data-dir='rtl'] .icon-flip { transform: scaleX(-1); }
+/* Logical text alignment utility */
+[dir='rtl'] .text-start  { text-align: right; }
+[dir='ltr'] .text-start  { text-align: left; }
+[dir='rtl'] .text-end    { text-align: left; }
+[dir='ltr'] .text-end    { text-align: right; }
