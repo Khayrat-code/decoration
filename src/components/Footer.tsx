@@ -59,11 +59,17 @@ export function Footer() {
           </FooterCol>
 
           <FooterCol title={t('footer.columns.connect')}>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" style={footerLinkText}>
+            <a href="https://www.tiktok.com/@toolcan.sa" target="_blank" rel="noreferrer" style={footerLinkText}>
+              {t('footer.connect.tiktok')} <ArrowUpRight size={14} />
+            </a>
+            <a href="https://www.snapchat.com/add/toolcan.sa" target="_blank" rel="noreferrer" style={footerLinkText}>
+              {t('footer.connect.snap')} <ArrowUpRight size={14} />
+            </a>
+            <a href="https://www.instagram.com/toolcan.sa" target="_blank" rel="noreferrer" style={footerLinkText}>
               {t('footer.connect.instagram')} <ArrowUpRight size={14} />
             </a>
-            <a href="https://pinterest.com" target="_blank" rel="noreferrer" style={footerLinkText}>
-              {t('footer.connect.pinterest')} <ArrowUpRight size={14} />
+            <a href="https://x.com/toolcan_" target="_blank" rel="noreferrer" style={footerLinkText}>
+              {t('footer.connect.x')} <ArrowUpRight size={14} />
             </a>
             <Link to="/policies" style={footerLinkText}>
               {t('footer.legal.policies')}

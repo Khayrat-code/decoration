@@ -63,8 +63,10 @@ const T = {
       email:        { ar: 'khayratum@gmail.com',       en: 'khayratum@gmail.com' },
     },
     connect: {
-      instagram: { ar: 'إنستغرام', en: 'Instagram' },
-      pinterest: { ar: 'بنترست',   en: 'Pinterest' },
+      tiktok:    { ar: 'تيك توك',     en: 'TikTok' },
+      snap:      { ar: 'سناب شات',    en: 'Snapchat' },
+      instagram: { ar: 'إنستغرام',    en: 'Instagram' },
+      x:         { ar: 'إكس',          en: 'X' },
       admin:     { ar: 'دخول الاستوديو', en: 'Studio admin' },
     },
     legal: {
