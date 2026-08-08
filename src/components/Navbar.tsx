@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 import { Logo } from './Logo'
 import { useLang, useT } from '../i18n/LanguageContext'
 
@@ -14,6 +15,7 @@ export function Navbar() {
   const location = useLocation()
   const isAdmin = location.pathname.startsWith('/admin')
   const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
   const t = useT()
   const { lang, setLang } = useLang()
 
@@ -24,6 +26,10 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    setOpen(false)
+  }, [location.pathname])
+
   return (
     <header
       style={{
@@ -32,8 +38,7 @@ export function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
-        // Always-on translucent background — the header never disappears.
-        background: scrolled
+        background: scrolled || open
           ? 'rgba(245, 241, 234, 0.94)'
           : 'rgba(245, 241, 234, 0.78)',
         backdropFilter: 'saturate(140%) blur(14px)',
@@ -43,7 +48,7 @@ export function Navbar() {
       }}
     >
       <div
-        className="container"
+        className="container nav-bar"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -61,7 +66,7 @@ export function Navbar() {
         </NavLink>
 
         {!isAdmin && (
-          <nav aria-label={t('nav.primaryNav')}>
+          <nav className="nav-desktop" aria-label={t('nav.primaryNav')}>
             <ul
               style={{
                 display: 'flex',
@@ -134,16 +139,32 @@ export function Navbar() {
                 minWidth: 44,
                 transition: 'all 200ms var(--ease-out-soft)',
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--accent)'
-                e.currentTarget.style.color = 'var(--ink)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--line-2)'
-                e.currentTarget.style.color = 'var(--ink-2)'
-              }}
             >
               {lang === 'ar' ? 'EN' : 'AR'}
+            </button>
+          )}
+          {!isAdmin && (
+            <button
+              type="button"
+              className="nav-burger"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              onClick={() => setOpen((v) => !v)}
+              style={{
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 40,
+                height: 40,
+                border: '1px solid var(--line-2)',
+                background: 'rgba(255, 255, 255, 0.4)',
+                color: 'var(--ink)',
+                borderRadius: 10,
+                cursor: 'pointer',
+              }}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           )}
           {isAdmin && (
@@ -162,6 +183,54 @@ export function Navbar() {
           )}
         </div>
       </div>
+
+      {!isAdmin && open && (
+        <nav id="mobile-menu" className="nav-mobile" aria-label={t('nav.primaryNav')}>
+          <ul>
+            {linkKeys.map((l) => (
+              <li key={l.to}>
+                <NavLink
+                  to={l.to}
+                  end={l.to === '/'}
+                  style={({ isActive }) => ({
+                    display: 'block',
+                    color: isActive ? 'var(--ink)' : 'var(--ink-2)',
+                    background: isActive ? 'rgba(61, 79, 61, 0.08)' : 'transparent',
+                    fontSize: 15,
+                    fontWeight: isActive ? 700 : 500,
+                    textDecoration: 'none',
+                    borderBottom: 'none',
+                    padding: '14px 16px',
+                    borderRadius: 10,
+                  })}
+                >
+                  {t(l.key)}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
+      <style>{`
+        @media (max-width: 880px) {
+          .nav-desktop { display: none; }
+          .nav-burger { display: inline-flex !important; }
+          .nav-bar { padding: 10px 16px !important; gap: 12px; }
+        }
+        .nav-mobile {
+          border-top: 1px solid var(--line);
+          padding: 8px 16px 16px;
+        }
+        .nav-mobile ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+      `}</style>
     </header>
   )
 }
