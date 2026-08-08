@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Compass, Layers, Hammer, Sparkles } from 'lucide-react'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T from '../i18n/translations'
+import { ShowcaseStrip } from '../components/ShowcaseStrip'
 
 // The very first uploaded Living-room image is the hero. Hardcoded so
 // the page paints instantly without waiting on a fetch.
@@ -185,6 +186,9 @@ export function Home() {
           }
         `}</style>
       </section>
+
+      {/* ============ SHOWCASE STRIP (no title — واجهة images) ============ */}
+      <ShowcaseStrip />
 
       {/* ============ HOW WE WORK (compact) ============ */}
       <section className="section">

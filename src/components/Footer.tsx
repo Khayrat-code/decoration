@@ -4,24 +4,36 @@ import { useT } from '../i18n/LanguageContext'
 /**
  * Minimal footer.
  *
- * - Desktop: one row with wordmark · nav links · socials, then a thin
- *   copyright + admin strip.
- * - Mobile: the wordmark/nav/socials row is hidden (all of it is already
- *   in the main navbar and the hero CTAs), so the footer collapses to a
- *   single ~40px line with the essentials: copyright · policies · admin.
+ * Layout (both desktop and mobile, just compact differently):
+ *  - Top row: wordmark · nav · socials (horizontal on desktop, hidden
+ *    on small screens because the main navbar already carries all of
+ *    this).
+ *  - On small screens, the socials move into a thin second row right
+ *    above the copyright line — so they ARE visible on phones, just
+ *    in a tighter arrangement.
+ *  - Bottom row: copyright · policies · admin (always visible).
  *
- * Total height on a phone: ~56px including padding.
+ * Total height on a phone: ~80px (one compact socials line + the
+ * copyright line).
+ * Total height on desktop: ~90px.
  */
 export function Footer() {
   const year = new Date().getFullYear()
   const t = useT()
+
+  const socialLinks: Array<{ href: string; label: string }> = [
+    { href: 'https://www.tiktok.com/@toolcan.sa', label: t('footer.connect.tiktok') },
+    { href: 'https://www.snapchat.com/add/toolcan.sa', label: t('footer.connect.snap') },
+    { href: 'https://www.instagram.com/toolcan.sa', label: t('footer.connect.instagram') },
+    { href: 'https://x.com/toolcan_', label: t('footer.connect.x') },
+  ]
 
   return (
     <footer
       style={{
         background: 'var(--ink)',
         color: 'rgba(245, 241, 234, 0.7)',
-        padding: '14px 0',
+        padding: '10px 0 12px',
         marginTop: 'auto',
       }}
     >
@@ -35,8 +47,8 @@ export function Footer() {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: 16,
-            marginBottom: 12,
-            paddingBottom: 12,
+            marginBottom: 8,
+            paddingBottom: 8,
             borderBottom: '1px solid rgba(245, 241, 234, 0.08)',
           }}
         >
@@ -75,19 +87,32 @@ export function Footer() {
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-            <a href="https://www.tiktok.com/@toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
-              {t('footer.connect.tiktok')}
-            </a>
-            <a href="https://www.snapchat.com/add/toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
-              {t('footer.connect.snap')}
-            </a>
-            <a href="https://www.instagram.com/toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
-              {t('footer.connect.instagram')}
-            </a>
-            <a href="https://x.com/toolcan_" target="_blank" rel="noreferrer" style={footerLink}>
-              {t('footer.connect.x')}
-            </a>
+            {socialLinks.map((s) => (
+              <a key={s.href} href={s.href} target="_blank" rel="noreferrer" style={footerLink}>
+                {s.label}
+              </a>
+            ))}
           </div>
+        </div>
+
+        {/* Mobile-only socials row (hidden on desktop) */}
+        <div
+          className="footer-socials-mobile"
+          style={{
+            display: 'none',
+            justifyContent: 'center',
+            gap: 14,
+            flexWrap: 'wrap',
+            paddingBottom: 8,
+            marginBottom: 8,
+            borderBottom: '1px solid rgba(245, 241, 234, 0.08)',
+          }}
+        >
+          {socialLinks.map((s) => (
+            <a key={s.href} href={s.href} target="_blank" rel="noreferrer" style={{ ...footerLink, fontSize: 11 }}>
+              {s.label}
+            </a>
+          ))}
         </div>
 
         {/* Bottom row: copyright + policies + admin — always visible, always one line */}
@@ -116,11 +141,17 @@ export function Footer() {
       </div>
 
       <style>{`
-        /* Hide the top row on small screens — the main navbar already
-           shows wordmark + nav + socials, so the footer only needs the
-           essentials line. */
+        /* Desktop: top row carries everything. Hide the mobile-only
+           socials row, since the top row already has them. */
+        @media (min-width: 721px) {
+          .footer-socials-mobile { display: none !important; }
+        }
+        /* Mobile: hide the big top row (wordmark + nav + socials
+           are all already in the navbar), and show the compact
+           socials row instead. */
         @media (max-width: 720px) {
           .footer-top-row { display: none !important; }
+          .footer-socials-mobile { display: flex !important; }
         }
       `}</style>
     </footer>
