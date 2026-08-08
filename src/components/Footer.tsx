@@ -2,8 +2,15 @@ import { Link } from 'react-router-dom'
 import { useT } from '../i18n/LanguageContext'
 
 /**
- * Compact footer — single row, minimal vertical space.
- * ~4× smaller than the previous version (was ~500px tall, now ~120px).
+ * Minimal footer.
+ *
+ * - Desktop: one row with wordmark · nav links · socials, then a thin
+ *   copyright + admin strip.
+ * - Mobile: the wordmark/nav/socials row is hidden (all of it is already
+ *   in the main navbar and the hero CTAs), so the footer collapses to a
+ *   single ~40px line with the essentials: copyright · policies · admin.
+ *
+ * Total height on a phone: ~56px including padding.
  */
 export function Footer() {
   const year = new Date().getFullYear()
@@ -14,29 +21,32 @@ export function Footer() {
       style={{
         background: 'var(--ink)',
         color: 'rgba(245, 241, 234, 0.7)',
-        padding: '32px 0',
+        padding: '14px 0',
         marginTop: 'auto',
       }}
     >
       <div className="container">
+        {/* Top row: wordmark + nav + socials — desktop only */}
         <div
+          className="footer-top-row"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            gap: 24,
+            gap: 16,
+            marginBottom: 12,
+            paddingBottom: 12,
+            borderBottom: '1px solid rgba(245, 241, 234, 0.08)',
           }}
-          className="footer-row"
         >
-          {/* Brand mark */}
           <Link
             to="/"
             style={{
               borderBottom: 'none',
               color: 'rgba(245, 241, 234, 0.92)',
               fontFamily: "'Fraunces', Georgia, serif",
-              fontSize: 17,
+              fontSize: 15,
               fontWeight: 500,
               letterSpacing: '-0.01em',
             }}
@@ -45,12 +55,11 @@ export function Footer() {
             ToolCan Decoration
           </Link>
 
-          {/* Nav links */}
           <nav aria-label={t('nav.primaryNav')}>
             <ul
               style={{
                 display: 'flex',
-                gap: 24,
+                gap: 18,
                 listStyle: 'none',
                 margin: 0,
                 padding: 0,
@@ -65,15 +74,7 @@ export function Footer() {
             </ul>
           </nav>
 
-          {/* Socials + policies + admin (compact) */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 18,
-              flexWrap: 'wrap',
-            }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
             <a href="https://www.tiktok.com/@toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
               {t('footer.connect.tiktok')}
             </a>
@@ -89,27 +90,25 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Bottom row: copyright + policies + admin — always visible, always one line */}
         <div
           style={{
-            marginTop: 20,
-            paddingTop: 16,
-            borderTop: '1px solid rgba(245, 241, 234, 0.08)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: 12,
-            color: 'rgba(245, 241, 234, 0.45)',
-            fontSize: 12,
+            gap: 8,
+            color: 'rgba(245, 241, 234, 0.5)',
+            fontSize: 11,
             letterSpacing: '0.04em',
           }}
         >
-          <span>© {year} ToolCan · Part of the ToolCan group of studios</span>
-          <span style={{ display: 'flex', gap: 16 }}>
-            <Link to="/policies" style={{ ...footerLink, color: 'rgba(245, 241, 234, 0.45)' }}>
+          <span>© {year} ToolCan</span>
+          <span style={{ display: 'flex', gap: 14 }}>
+            <Link to="/policies" style={{ ...footerLink, color: 'rgba(245, 241, 234, 0.5)', fontSize: 11 }}>
               {t('footer.legal.policies')}
             </Link>
-            <Link to="/admin/login" style={{ ...footerLink, color: 'rgba(245, 241, 234, 0.35)' }}>
+            <Link to="/admin/login" style={{ ...footerLink, color: 'rgba(245, 241, 234, 0.4)', fontSize: 11 }}>
               {t('footer.connect.admin')}
             </Link>
           </span>
@@ -117,8 +116,11 @@ export function Footer() {
       </div>
 
       <style>{`
+        /* Hide the top row on small screens — the main navbar already
+           shows wordmark + nav + socials, so the footer only needs the
+           essentials line. */
         @media (max-width: 720px) {
-          .footer-row { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+          .footer-top-row { display: none !important; }
         }
       `}</style>
     </footer>
@@ -127,7 +129,7 @@ export function Footer() {
 
 const footerLink: React.CSSProperties = {
   color: 'rgba(245, 241, 234, 0.7)',
-  fontSize: 13,
+  fontSize: 12,
   borderBottom: 'none',
   textDecoration: 'none',
 }
