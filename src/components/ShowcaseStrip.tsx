@@ -10,26 +10,27 @@ interface CoverImage {
 }
 
 /**
- * "واجهة" strip — a no-title, full-bleed horizontal showcase.
+ * "واجهة" grid — a no-title, centered mosaic of one cover image
+ * per room category.
  *
- * Each room category in the user's library has a "واجهة" (cover) image.
- * This component finds them automatically (by storage_path = "img-…"
- * which is what the uploader produces for files whose original name
- * sanitises to empty — i.e. the Arabic واجهة / الواجهة files), then
- * lays them out as a large, swipeable, snap-scrolling strip.
+ * Each room category in the user's library has a "واجهة" (cover)
+ * image. This component finds them automatically (by storage_path
+ * = "img-…" which is what the uploader produces for files whose
+ * original name sanitises to empty — i.e. the Arabic واجهة /
+ * الواجهة files), then renders them as a responsive centered
+ * grid:
+ *   - 1 column on phones
+ *   - 2 columns on small tablets
+ *   - 3 columns on desktop
  *
- * - No title, no heading. The visuals carry the section.
- * - One image is roughly 78% of the viewport wide on phones, ~38% on
- *   desktop, with the rest peeking in to show there is more.
- * - Pure CSS scroll-snap — no JS carousel logic, no autoplay, works
- *   on touch and trackpad.
- * - Subtle Framer-Motion reveal on first appearance (not mouse-driven).
+ * No horizontal scroll, no scroll-snap. Every card is visible
+ * and the whole grid is horizontally centered in the page via
+ * `max-width + margin: 0 auto`, so the section is genuinely
+ * "in the middle" in both LTR and RTL without any direction-
+ * dependent padding math.
  *
- * Centering: --card-w is defined in the <style> block below and is the
- * single source of truth for the card's main-axis size. The inline
- * padding uses calc((100vw - var(--card-w)) / 2) so the padding always
- * equals the leftover space on each side — first and last cards can
- * therefore scroll all the way to the center, in both LTR and RTL.
+ * Subtle Framer-Motion reveal on first appearance (not mouse-
+ * driven).
  */
 export function ShowcaseStrip() {
   const [covers, setCovers] = useState<CoverImage[]>([])
@@ -80,21 +81,7 @@ export function ShowcaseStrip() {
         background: 'var(--bg)',
       }}
     >
-      <div
-        className="showcase-strip"
-        style={{
-          display: 'flex',
-          gap: 20,
-          overflowX: 'auto',
-          overflowY: 'hidden',
-          scrollSnapType: 'x mandatory',
-          paddingInline:
-            'max(20px, calc((100vw - var(--card-w, 78vw)) / 2))',
-          scrollPaddingInline:
-            'max(20px, calc((100vw - var(--card-w, 78vw)) / 2))',
-          paddingBlock: 8,
-        }}
-      >
+      <div className="showcase-grid">
         {covers.map((cover, i) => (
           <motion.figure
             key={cover.id}
@@ -103,16 +90,6 @@ export function ShowcaseStrip() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.6, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
             className="showcase-card"
-            style={{
-              margin: 0,
-              scrollSnapAlign: 'center',
-              position: 'relative',
-              borderRadius: 14,
-              overflow: 'hidden',
-              aspectRatio: '4 / 3',
-              background: 'var(--bg-2)',
-              boxShadow: '0 14px 40px -22px rgba(20, 22, 20, 0.32)',
-            }}
           >
             <img
               src={cover.image_url}
@@ -130,23 +107,37 @@ export function ShowcaseStrip() {
       </div>
 
       <style>{`
-        .showcase-strip {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-          --card-w: 78vw;
+        .showcase-grid {
+          max-width: 1120px;
+          margin: 0 auto;
+          padding: 0 24px;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 16px;
         }
-        .showcase-strip::-webkit-scrollbar { display: none; }
-
         .showcase-card {
-          flex: 0 0 var(--card-w);
-          min-width: 260px;
+          margin: 0;
+          position: relative;
+          border-radius: 14px;
+          overflow: hidden;
+          aspect-ratio: 4 / 3;
+          background: var(--bg-2);
+          box-shadow: 0 14px 40px -22px rgba(20, 22, 20, 0.32);
         }
 
-        @media (min-width: 720px) {
-          .showcase-strip { --card-w: 46vw; }
+        @media (min-width: 640px) {
+          .showcase-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            padding: 0 32px;
+          }
         }
-        @media (min-width: 1024px) {
-          .showcase-strip { --card-w: 38vw; }
+        @media (min-width: 960px) {
+          .showcase-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 0 40px;
+          }
         }
       `}</style>
     </section>
