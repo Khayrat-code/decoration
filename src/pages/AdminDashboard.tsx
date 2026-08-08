@@ -1,27 +1,46 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  Home as HomeIcon,
+  Layers,
+  Image as ImageIcon,
+  Folder,
+  MessageSquare,
+  Mail,
+  FileText,
+  BarChart3,
+  ExternalLink,
+  LogOut,
+  type LucideIcon,
+} from 'lucide-react'
 import { supabase, TABLES, BUCKETS } from '../lib/supabase'
 import type { GalleryItem } from '../components/GalleryGrid'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T, { CATEGORIES } from '../i18n/translations'
+import { Logo } from '../components/Logo'
+import { HeroManager } from '../components/admin/HeroManager'
+import { ServicesManager } from '../components/admin/ServicesManager'
+import { CategoriesManager } from '../components/admin/CategoriesManager'
+import { TestimonialsManager } from '../components/admin/TestimonialsManager'
+import { InvoicesManager } from '../components/admin/InvoicesManager'
+import { MessagesManager } from '../components/admin/MessagesManager'
 
-type Tab = 'gallery' | 'submissions' | 'analytics'
-
-interface ContactSubmission {
-  id: string
-  name: string
-  email: string
-  phone: string | null
-  message: string
-  read: boolean
-  created_at: string
-}
+type Tab =
+  | 'hero'
+  | 'services'
+  | 'gallery'
+  | 'categories'
+  | 'testimonials'
+  | 'messages'
+  | 'invoices'
+  | 'analytics'
 
 const CATEGORY_OPTIONS = CATEGORIES.map((c) => c.key)
 
 export function AdminDashboard() {
   const navigate = useNavigate()
-  const [tab, setTab] = useState<Tab>('gallery')
+  const [tab, setTab] = useState<Tab>('hero')
+  const [unread, setUnread] = useState(0)
   const [signOutLabel, setSignOutLabel] = useState<string | null>(null)
   const t = useT()
   const { lang } = useLang()
@@ -32,66 +51,136 @@ export function AdminDashboard() {
     navigate('/admin/login', { replace: true })
   }
 
+  const tabs: Array<{ key: Tab; label: string; icon: LucideIcon; badge?: number }> = [
+    { key: 'hero', label: t('admin.tabHero'), icon: HomeIcon },
+    { key: 'services', label: t('admin.tabServices'), icon: Layers },
+    { key: 'gallery', label: t('admin.tabWorks'), icon: ImageIcon },
+    { key: 'categories', label: t('admin.tabCategories'), icon: Folder },
+    { key: 'testimonials', label: t('admin.tabTestimonials'), icon: MessageSquare },
+    { key: 'messages', label: t('admin.tabMessages'), icon: Mail, badge: unread },
+    { key: 'invoices', label: t('admin.tabInvoices'), icon: FileText },
+    { key: 'analytics', label: t('analytics.title'), icon: BarChart3 },
+  ]
+
   return (
-    <section className="section">
-      <div className="container">
+    <div style={{ background: 'var(--bg)' }}>
+      <header style={{ background: 'var(--ink)' }}>
         <div
+          className="container"
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: 16,
-            marginBottom: 32,
+            gap: 12,
+            padding: '14px 32px',
           }}
         >
-          <div>
-            <span className="eyebrow">{t('admin.eyebrow')}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <h1
               style={{
-                fontSize: 36,
-                marginTop: 8,
-                fontWeight: lang === 'ar' ? 700 : 400,
+                fontSize: 20,
+                fontWeight: lang === 'ar' ? 700 : 500,
+                color: '#F5F1EA',
+                margin: 0,
               }}
             >
               {t('admin.title')}
             </h1>
+            <Logo size="sm" tone="light" />
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <Link
+              to="/"
+              className="btn"
+              style={{
+                background: 'transparent',
+                color: 'rgba(245, 241, 234, 0.85)',
+                border: '1px solid rgba(245, 241, 234, 0.3)',
+                padding: '10px 18px',
+              }}
+            >
+              <ExternalLink size={15} /> {t('admin.preview')}
+            </Link>
             <button
               type="button"
-              className={tab === 'gallery' ? 'btn' : 'btn btn-secondary'}
-              onClick={() => setTab('gallery')}
+              className="btn"
+              style={{
+                background: 'rgba(176, 80, 80, 0.16)',
+                color: '#E4A5A5',
+                border: '1px solid rgba(176, 80, 80, 0.5)',
+                padding: '10px 18px',
+              }}
+              onClick={handleSignOut}
             >
-              {t('admin.tabGallery')}
-            </button>
-            <button
-              type="button"
-              className={tab === 'submissions' ? 'btn' : 'btn btn-secondary'}
-              onClick={() => setTab('submissions')}
-            >
-              {t('admin.tabMessages')}
-            </button>
-            <button
-              type="button"
-              className={tab === 'analytics' ? 'btn' : 'btn btn-secondary'}
-              onClick={() => setTab('analytics')}
-            >
-              {t('analytics.title')}
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={handleSignOut}>
-              {signOutLabel ?? t('admin.signOut')}
+              <LogOut size={15} className="icon-flip" /> {signOutLabel ?? t('admin.signOut')}
             </button>
           </div>
         </div>
+      </header>
 
-        {tab === 'gallery'
-          ? <GalleryManager />
-          : tab === 'submissions'
-          ? <SubmissionsManager />
-          : <AnalyticsPanel />}
+      <div className="container" style={{ padding: '28px 32px 0' }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }} role="tablist" aria-label={t('admin.title')}>
+          {tabs.map(({ key, label, icon: Icon, badge }) => {
+            const active = tab === key
+            return (
+              <button
+                key={key}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setTab(key)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  fontFamily: 'inherit',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  padding: '10px 18px',
+                  borderRadius: 'var(--radius)',
+                  border: active ? '1px solid var(--accent-2)' : '1px solid var(--line-2)',
+                  background: active ? 'var(--accent-2)' : 'var(--surface)',
+                  color: active ? '#FFFFFF' : 'var(--ink-2)',
+                  transition: 'background-color 200ms, color 200ms, border-color 200ms',
+                }}
+              >
+                <Icon size={16} strokeWidth={1.6} />
+                {label}
+                {typeof badge === 'number' && badge > 0 && (
+                  <span
+                    style={{
+                      background: active ? '#FFFFFF' : 'var(--accent-2)',
+                      color: active ? 'var(--accent-2)' : '#FFFFFF',
+                      borderRadius: 999,
+                      padding: '2px 9px',
+                      fontSize: 11,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {badge}
+                  </span>
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
-    </section>
+
+      <section style={{ padding: '32px 0 96px' }}>
+        <div className="container">
+          {tab === 'hero' && <HeroManager />}
+          {tab === 'services' && <ServicesManager />}
+          {tab === 'gallery' && <GalleryManager />}
+          {tab === 'categories' && <CategoriesManager />}
+          {tab === 'testimonials' && <TestimonialsManager />}
+          {tab === 'messages' && <MessagesManager onUnreadChange={setUnread} />}
+          {tab === 'invoices' && <InvoicesManager />}
+          {tab === 'analytics' && <AnalyticsPanel />}
+        </div>
+      </section>
+    </div>
   )
 }
 
@@ -149,7 +238,6 @@ function AnalyticsPanel() {
     load()
   }, [])
 
-  // KPIs
   const totalVisitors = new Set(sessions.map((s) => s.session_id)).size
   const totalEvents = events.length
   const durationsMs = events
@@ -163,14 +251,12 @@ function AnalyticsPanel() {
   today.setHours(0, 0, 0, 0)
   const todayVisitors = sessions.filter((s) => new Date(s.started_at) >= today).length
 
-  // Top paths
   const pathCounts = new Map<string, number>()
   events.forEach((e) => pathCounts.set(e.path, (pathCounts.get(e.path) ?? 0) + 1))
   const topPaths = Array.from(pathCounts.entries())
     .sort((a, b) => b[1] - a[1])
     .slice(0, 8)
 
-  // Last 7 days chart data
   const days: { label: string; count: number }[] = []
   for (let i = 6; i >= 0; i--) {
     const d = new Date()
@@ -235,7 +321,6 @@ function AnalyticsPanel() {
         </div>
       ) : (
         <>
-          {/* KPIs */}
           <div
             style={{
               display: 'grid',
@@ -254,7 +339,6 @@ function AnalyticsPanel() {
             <Kpi label={t('analytics.kpi.todayVisitors')} value={todayVisitors} />
           </div>
 
-          {/* Last 7 days */}
           <Section label={t('analytics.dailyHeading')}>
             <div
               style={{
@@ -299,7 +383,6 @@ function AnalyticsPanel() {
             </div>
           </Section>
 
-          {/* Top pages */}
           <Section label={t('analytics.pagesHeading')}>
             <table
               style={{
@@ -337,7 +420,6 @@ function AnalyticsPanel() {
             </table>
           </Section>
 
-          {/* Recent sessions */}
           <Section label={t('analytics.recentsHeading')}>
             <div style={{ overflowX: 'auto' }}>
               <table
@@ -466,7 +548,7 @@ function Th({ children, align }: { children: React.ReactNode; align?: 'left' | '
   return (
     <th
       style={{
-        textAlign: align ?? (typeof align === 'string' ? align : 'start'),
+        textAlign: align ?? 'start',
         padding: '8px 12px',
         fontSize: 11,
         fontWeight: 500,
@@ -946,202 +1028,5 @@ function ImageForm({
         </button>
       </div>
     </form>
-  )
-}
-
-/* ----------------- Submissions manager ----------------- */
-
-function SubmissionsManager() {
-  const [items, setItems] = useState<ContactSubmission[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const t = useT()
-  const { lang } = useLang()
-
-  const load = async () => {
-    setLoading(true)
-    const { data, error } = await supabase
-      .from(TABLES.contact)
-      .select('*')
-      .order('created_at', { ascending: false })
-    if (error) setError(error.message)
-    setItems((data as ContactSubmission[]) ?? [])
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    load()
-  }, [])
-
-  const toggleRead = async (s: ContactSubmission) => {
-    const { error } = await supabase
-      .from(TABLES.contact)
-      .update({ read: !s.read })
-      .eq('id', s.id)
-    if (error) {
-      setError(error.message)
-      return
-    }
-    setItems((arr) => arr.map((i) => (i.id === s.id ? { ...i, read: !s.read } : i)))
-  }
-
-  const onDelete = async (s: ContactSubmission) => {
-    if (!confirm(t('admin.messages.deleteConfirm', { name: s.name }))) return
-    const { error } = await supabase.from(TABLES.contact).delete().eq('id', s.id)
-    if (error) {
-      setError(error.message)
-      return
-    }
-    setItems((arr) => arr.filter((i) => i.id !== s.id))
-  }
-
-  return (
-    <div>
-      <h2
-        style={{
-          fontSize: 22,
-          fontWeight: lang === 'ar' ? 700 : 500,
-          marginBottom: 20,
-        }}
-      >
-        {t('admin.messages.heading')}
-      </h2>
-
-      {error && (
-        <div
-          role="alert"
-          style={{
-            background: 'var(--surface)',
-            border: '1px solid var(--line-2)',
-            borderInlineStart: '3px solid var(--danger)',
-            color: 'var(--ink-2)',
-            padding: '10px 12px',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: 14,
-            marginBottom: 16,
-          }}
-        >
-          {error}
-        </div>
-      )}
-
-      {loading ? (
-        <div style={{ color: 'var(--ink-3)', padding: '32px 0' }}>…</div>
-      ) : items.length === 0 ? (
-        <div
-          style={{
-            background: 'var(--surface-2)',
-            border: '1px dashed var(--line-2)',
-            borderRadius: 'var(--radius)',
-            padding: 48,
-            textAlign: 'center',
-            color: 'var(--ink-2)',
-          }}
-        >
-          <div
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 20,
-              fontWeight: lang === 'ar' ? 700 : 400,
-              color: 'var(--ink)',
-              marginBottom: 6,
-            }}
-          >
-            {t('admin.messages.emptyTitle')}
-          </div>
-          <div style={{ fontSize: 14 }}>{t('admin.messages.emptyBody')}</div>
-        </div>
-      ) : (
-        <ul
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 12,
-          }}
-        >
-          {items.map((s) => (
-            <li
-              key={s.id}
-              style={{
-                background: s.read ? 'var(--surface-2)' : 'var(--surface)',
-                border: '1px solid var(--line)',
-                borderInlineStart: `3px solid ${s.read ? 'var(--line-2)' : 'var(--accent)'}`,
-                borderRadius: 'var(--radius)',
-                padding: 20,
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: 8,
-                  marginBottom: 8,
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 17,
-                      fontWeight: lang === 'ar' ? 700 : 400,
-                      color: 'var(--ink)',
-                    }}
-                  >
-                    {s.name}
-                  </div>
-                  <div style={{ fontSize: 13, color: 'var(--ink-2)' }}>
-                    <a href={`mailto:${s.email}`} style={{ color: 'var(--ink-2)' }}>
-                      {s.email}
-                    </a>
-                    {s.phone && <> · {s.phone}</>}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    color: 'var(--ink-3)',
-                  }}
-                >
-                  {new Date(s.created_at).toLocaleString(lang === 'ar' ? 'ar-SA' : 'en-US')}
-                </div>
-              </div>
-              <p
-                style={{
-                  color: 'var(--ink-2)',
-                  fontSize: 14,
-                  lineHeight: lang === 'ar' ? 1.95 : 1.6,
-                  whiteSpace: 'pre-wrap',
-                  margin: 0,
-                }}
-              >
-                {s.message}
-              </p>
-              <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  style={{ padding: '6px 12px', fontSize: 13 }}
-                  onClick={() => toggleRead(s)}
-                >
-                  {s.read ? t('admin.messages.markUnread') : t('admin.messages.markRead')}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  style={{ padding: '6px 12px', fontSize: 13 }}
-                  onClick={() => onDelete(s)}
-                >
-                  {t('admin.messages.delete')}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
   )
 }

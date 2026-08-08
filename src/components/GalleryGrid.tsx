@@ -7,6 +7,7 @@ import 'yet-another-react-lightbox/plugins/captions.css'
 import 'yet-another-react-lightbox/plugins/thumbnails.css'
 import 'yet-another-react-lightbox/plugins/counter.css'
 import { supabase, TABLES } from '../lib/supabase'
+import { getSetting } from '../lib/settings'
 import { useLang, useT } from '../i18n/LanguageContext'
 
 export interface GalleryItem {
@@ -33,8 +34,19 @@ export function GalleryGrid({ items: propItems, showCategories = true, compact =
   const [error, setError] = useState<string | null>(null)
   const [active, setActive] = useState<string>('All')
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+  const [hidden, setHidden] = useState<string[]>([])
   const t = useT()
   const { lang, category } = useLang()
+
+  useEffect(() => {
+    let cancelled = false
+    getSetting<{ hidden: string[] }>('categories').then((s) => {
+      if (!cancelled && s?.hidden) setHidden(s.hidden)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     if (propItems) return
@@ -61,19 +73,23 @@ export function GalleryGrid({ items: propItems, showCategories = true, compact =
   }, [propItems])
 
   const allLabel = t('gallery.allLabel')
+  const shownItems = useMemo(
+    () => items.filter((i) => !hidden.includes(i.category || 'General')),
+    [items, hidden],
+  )
   const categories = useMemo(
     () => [
       { value: '__all__', label: allLabel },
-      ...Array.from(new Set(items.map((i) => i.category || 'General'))).map((c) => ({
+      ...Array.from(new Set(shownItems.map((i) => i.category || 'General'))).map((c) => ({
         value: c,
         label: category(c),
       })),
     ],
-    [items, allLabel, category],
+    [shownItems, allLabel, category],
   )
   const visible = useMemo(
-    () => (active === '__all__' ? items : items.filter((i) => (i.category || 'General') === active)),
-    [items, active],
+    () => (active === '__all__' ? shownItems : shownItems.filter((i) => (i.category || 'General') === active)),
+    [shownItems, active],
   )
   const lightboxItem = lightboxIdx !== null ? visible[lightboxIdx] : null
 

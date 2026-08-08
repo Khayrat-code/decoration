@@ -1,0 +1,19 @@
+export const BUSINESS = {
+  phoneDisplay: '+966 55 000 0000',
+  phoneHref: 'tel:+966550000000',
+  whatsappHref: 'https://wa.me/966550000000',
+  email: 'khayratum@gmail.com',
+  address: {
+    ar: 'الرياض، المملكة العربية السعودية',
+    en: 'Riyadh, Saudi Arabia',
+  },
+  cr: '1010000000',
+  socials: [
+    { key: 'tiktok', href: 'https://www.tiktok.com/@toolcan.sa' },
+    { key: 'snap', href: 'https://www.snapchat.com/add/toolcan.sa' },
+    { key: 'instagram', href: 'https://www.instagram.com/toolcan.sa' },
+    { key: 'x', href: 'https://x.com/toolcan_' },
+  ],
+} as const
+
+export type SocialKey = (typeof BUSINESS.socials)[number]['key']

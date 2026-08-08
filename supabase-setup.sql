@@ -154,6 +154,85 @@ create policy "Admin read events"
   for select
   using (auth.role() = 'authenticated');
 
+-- ---- 4b. site_settings (hero / services / categories visibility) ------
+create table if not exists public.site_settings (
+  key         text primary key,
+  value       jsonb not null,
+  updated_at  timestamptz not null default now()
+);
+
+alter table public.site_settings enable row level security;
+
+drop policy if exists "Public read settings" on public.site_settings;
+create policy "Public read settings"
+  on public.site_settings
+  for select
+  using (true);
+
+drop policy if exists "Admin write settings" on public.site_settings;
+create policy "Admin write settings"
+  on public.site_settings
+  for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- ---- 4c. testimonials ---------------------------------------------------
+create table if not exists public.testimonials (
+  id          uuid primary key default gen_random_uuid(),
+  name        text not null,
+  body        text not null,
+  rating      integer not null default 5,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists testimonials_created_idx
+  on public.testimonials (created_at desc);
+
+alter table public.testimonials enable row level security;
+
+drop policy if exists "Public read testimonials" on public.testimonials;
+create policy "Public read testimonials"
+  on public.testimonials
+  for select
+  using (true);
+
+drop policy if exists "Admin write testimonials" on public.testimonials;
+create policy "Admin write testimonials"
+  on public.testimonials
+  for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- ---- 4d. invoices ---------------------------------------------------------
+create table if not exists public.invoices (
+  id          uuid primary key default gen_random_uuid(),
+  number      text not null,
+  client      text not null,
+  amount      numeric not null default 0,
+  status      text not null default 'unpaid',
+  due_date    date,
+  notes       text,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists invoices_created_idx
+  on public.invoices (created_at desc);
+
+alter table public.invoices enable row level security;
+
+drop policy if exists "Admin read invoices" on public.invoices;
+create policy "Admin read invoices"
+  on public.invoices
+  for select
+  using (auth.role() = 'authenticated');
+
+drop policy if exists "Admin write invoices" on public.invoices;
+create policy "Admin write invoices"
+  on public.invoices
+  for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
 -- ---- 5. updated_at trigger (gallery) ----------------------------------
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$

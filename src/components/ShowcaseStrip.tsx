@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { supabase, TABLES } from '../lib/supabase'
+import { getSetting } from '../lib/settings'
 
 interface CoverImage {
   id: string
@@ -48,7 +49,11 @@ export function ShowcaseStrip() {
         setLoading(false)
         return
       }
-      const all = (data ?? []) as Array<CoverImage & { storage_path: string }>
+      const hiddenSetting = await getSetting<{ hidden: string[] }>('categories')
+      const hidden = hiddenSetting?.hidden ?? []
+      const all = ((data ?? []) as Array<CoverImage & { storage_path: string }>).filter(
+        (row) => !hidden.includes(row.category || 'General'),
+      )
       const byCategory = new Map<string, CoverImage & { storage_path: string }>()
       for (const row of all) {
         const existing = byCategory.get(row.category)

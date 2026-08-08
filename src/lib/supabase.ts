@@ -20,6 +20,9 @@ export const TABLES = {
   contact: 'contact_submissions',
   analyticsSessions: 'analytics_sessions',
   analyticsEvents: 'analytics_events',
+  settings: 'site_settings',
+  testimonials: 'testimonials',
+  invoices: 'invoices',
 } as const
 
 export const BUCKETS = {

@@ -1,16 +1,33 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Compass, Layers, Hammer, Sparkles } from 'lucide-react'
+import {
+  ArrowRight,
+  Compass,
+  Layers,
+  Hammer,
+  Sparkles,
+  PenTool,
+  Sofa,
+  Armchair,
+  Box,
+  Star,
+} from 'lucide-react'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T from '../i18n/translations'
 import { ShowcaseStrip } from '../components/ShowcaseStrip'
-
-// The very first uploaded Living-room image is the hero. Hardcoded so
-// the page paints instantly without waiting on a fetch.
-const HERO_IMAGE =
-  'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/projects/living/Image-19-1786134733164.jpg'
+import { HeroSlider } from '../components/HeroSlider'
+import { supabase, TABLES } from '../lib/supabase'
+import { getSetting } from '../lib/settings'
+import {
+  DEFAULT_SERVICES,
+  normalizeServices,
+  type ServiceItem,
+  type TestimonialRow,
+} from '../lib/content'
 
 const PROCESS_ICONS = [Compass, Layers, Hammer, Sparkles]
+const SERVICE_ICONS = [PenTool, Sofa, Armchair, Box]
 
 export function Home() {
   const t = useT()
@@ -18,126 +35,7 @@ export function Home() {
 
   return (
     <>
-      {/* ============ HERO ============ */}
-      <section
-        style={{
-          position: 'relative',
-          height: 'min(92vh, 820px)',
-          minHeight: 600,
-          width: '100%',
-          overflow: 'hidden',
-          background: 'var(--ink)',
-        }}
-      >
-        <motion.img
-          src={HERO_IMAGE}
-          alt={lang === 'ar' ? 'غرفة من تصميم تولكان للديكور' : 'A ToolCan Decoration interior'}
-          initial={{ scale: 1.04, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'saturate(0.92)',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(180deg, rgba(20,22,20,0.5) 0%, rgba(20,22,20,0.15) 35%, rgba(20,22,20,0.6) 100%)',
-          }}
-        />
-        <div
-          className="container"
-          style={{
-            position: 'relative',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            padding: '0 32px 96px',
-            color: '#F5F1EA',
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            style={{ maxWidth: 880 }}
-          >
-            <span
-              style={{
-                fontSize: lang === 'ar' ? 13 : 12,
-                fontWeight: 500,
-                letterSpacing: lang === 'ar' ? 0 : '0.32em',
-                textTransform: lang === 'ar' ? 'none' : 'uppercase',
-                color: 'rgba(245, 241, 234, 0.78)',
-                display: 'inline-block',
-                marginBottom: 24,
-              }}
-            >
-              {t('home.hero.eyebrow')}
-            </span>
-            <h1
-              style={{
-                fontFamily: 'var(--font-serif)',
-                color: '#F5F1EA',
-                fontSize: 'var(--fs-display)',
-                fontWeight: lang === 'ar' ? 700 : 400,
-                lineHeight: lang === 'ar' ? 1.25 : 0.98,
-                letterSpacing: lang === 'ar' ? 0 : '-0.025em',
-                margin: 0,
-                maxWidth: '18ch',
-              }}
-            >
-              {t('home.hero.title1')}{' '}
-              <em
-                style={{
-                  color: '#C7A87A',
-                  fontStyle: lang === 'ar' ? 'normal' : 'italic',
-                  fontWeight: lang === 'ar' ? 700 : 400,
-                }}
-              >
-                {t('home.hero.titleEm')}
-              </em>{' '}
-              {t('home.hero.title2')}
-            </h1>
-            <p
-              style={{
-                marginTop: 28,
-                fontSize: 18,
-                color: 'rgba(245, 241, 234, 0.84)',
-                maxWidth: 540,
-                lineHeight: lang === 'ar' ? 1.85 : 1.6,
-              }}
-            >
-              {t('home.hero.body')}
-            </p>
-            <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
-              <Link to="/gallery" className="btn btn-light">
-                {t('home.hero.cta1')} <ArrowRight size={16} className="icon-flip" />
-              </Link>
-              <Link
-                to="/contact"
-                className="btn"
-                style={{
-                  background: 'transparent',
-                  color: '#F5F1EA',
-                  border: '1px solid rgba(245, 241, 234, 0.55)',
-                }}
-              >
-                {t('home.hero.cta2')}
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* ============ INTRO STRIP ============ */}
       <section className="section-tight" style={{ borderBottom: '1px solid var(--line)' }}>
@@ -187,8 +85,11 @@ export function Home() {
         `}</style>
       </section>
 
-      {/* ============ SHOWCASE STRIP (no title — واجهة images) ============ */}
+      {/* ============ SHOWCASE STRIP ============ */}
       <ShowcaseStrip />
+
+      {/* ============ SERVICES ============ */}
+      <ServicesSection />
 
       {/* ============ HOW WE WORK (compact) ============ */}
       <section className="section">
@@ -218,6 +119,9 @@ export function Home() {
           }
         `}</style>
       </section>
+
+      {/* ============ TESTIMONIALS ============ */}
+      <TestimonialsSection />
 
       {/* ============ BIG CTA ============ */}
       <section
@@ -285,6 +189,181 @@ export function Home() {
         `}</style>
       </section>
     </>
+  )
+}
+
+function ServicesSection() {
+  const { lang } = useLang()
+  const t = useT()
+  const [services, setServices] = useState<ServiceItem[]>(DEFAULT_SERVICES)
+
+  useEffect(() => {
+    let cancelled = false
+    getSetting<ServiceItem[]>('services').then((raw) => {
+      if (!cancelled) setServices(normalizeServices(raw))
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return (
+    <section className="section" style={{ background: 'var(--surface-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
+      <div className="container">
+        <SectionHead eyebrow={t('home.services.eyebrow')} title={t('home.services.title')} />
+        <div
+          className="services-grid"
+          style={{
+            marginTop: 56,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 24,
+          }}
+        >
+          {services.map((s, i) => {
+            const Icon = SERVICE_ICONS[i % SERVICE_ICONS.length]
+            return (
+              <motion.div
+                key={s.id}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  background: 'var(--surface)',
+                  border: '1px solid var(--line)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: 28,
+                }}
+              >
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 10,
+                    background: 'var(--accent)',
+                    color: 'var(--bg)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: 18,
+                  }}
+                >
+                  <Icon size={20} strokeWidth={1.5} />
+                </div>
+                <h3 style={{ fontSize: 19, fontWeight: lang === 'ar' ? 700 : 500, marginBottom: 8 }}>
+                  {s.title[lang]}
+                </h3>
+                <p style={{ color: 'var(--ink-2)', fontSize: 14, lineHeight: lang === 'ar' ? 1.85 : 1.65, margin: 0 }}>
+                  {s.description[lang]}
+                </p>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 980px) {
+          .services-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 560px) {
+          .services-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
+  )
+}
+
+function TestimonialsSection() {
+  const { lang } = useLang()
+  const t = useT()
+  const [items, setItems] = useState<TestimonialRow[]>([])
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const { data, error } = await supabase
+        .from(TABLES.testimonials)
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(6)
+      if (cancelled) return
+      if (!error && data) setItems(data as TestimonialRow[])
+      setLoaded(true)
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  if (!loaded || items.length === 0) return null
+
+  return (
+    <section className="section-tight" style={{ borderBottom: '1px solid var(--line)' }}>
+      <div className="container">
+        <SectionHead eyebrow={t('home.testimonials.eyebrow')} title={t('home.testimonials.title')} />
+        <div
+          className="testimonials-grid"
+          style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}
+        >
+          {items.map((item, i) => (
+            <motion.figure
+              key={item.id}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                margin: 0,
+                background: 'var(--surface-2)',
+                border: '1px solid var(--line)',
+                borderRadius: 'var(--radius-lg)',
+                padding: 28,
+              }}
+            >
+              <div style={{ display: 'flex', gap: 3, color: 'var(--accent-2)', marginBottom: 14 }}>
+                {Array.from({ length: 5 }).map((_, s) => (
+                  <Star
+                    key={s}
+                    size={15}
+                    fill={s < item.rating ? 'currentColor' : 'none'}
+                    strokeWidth={1.4}
+                  />
+                ))}
+              </div>
+              <blockquote
+                style={{
+                  margin: 0,
+                  color: 'var(--ink-2)',
+                  fontSize: 15,
+                  lineHeight: lang === 'ar' ? 1.9 : 1.7,
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {item.body}
+              </blockquote>
+              <figcaption
+                style={{
+                  marginTop: 16,
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 16,
+                  fontWeight: lang === 'ar' ? 700 : 500,
+                  color: 'var(--ink)',
+                }}
+              >
+                {item.name}
+              </figcaption>
+            </motion.figure>
+          ))}
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 980px) {
+          .testimonials-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
   )
 }
 
