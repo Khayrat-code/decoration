@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Compass, Layers, Hammer, Sparkles } from 'lucide-react'
-import { supabase, TABLES } from '../lib/supabase'
-import { GalleryGrid, type GalleryItem } from '../components/GalleryGrid'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T from '../i18n/translations'
 
@@ -15,25 +12,8 @@ const HERO_IMAGE =
 const PROCESS_ICONS = [Compass, Layers, Hammer, Sparkles]
 
 export function Home() {
-  const [featured, setFeatured] = useState<GalleryItem[]>([])
   const t = useT()
   const { lang } = useLang()
-
-  useEffect(() => {
-    let cancelled = false
-    ;(async () => {
-      const { data } = await supabase
-        .from(TABLES.gallery)
-        .select('*')
-        .order('sort_order', { ascending: true })
-        .limit(6)
-      if (cancelled) return
-      setFeatured((data as GalleryItem[]) ?? [])
-    })()
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   return (
     <>
@@ -204,25 +184,6 @@ export function Home() {
             .intro-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
           }
         `}</style>
-      </section>
-
-      {/* ============ FEATURED PROJECTS ============ */}
-      <section className="section">
-        <div className="container">
-          <SectionHead
-            eyebrow={t('home.selected.eyebrow')}
-            title={t('home.selected.title')}
-          />
-          <div style={{ marginTop: 56 }}>
-            {featured.length > 0 ? (
-              <GalleryGrid items={featured.slice(0, 6)} showCategories={false} compact />
-            ) : (
-              <div style={{ color: 'var(--ink-3)', fontSize: 14, textAlign: 'center', padding: '40px 0' }}>
-                {t('home.selected.loading')}
-              </div>
-            )}
-          </div>
-        </div>
       </section>
 
       {/* ============ HOW WE WORK (compact) ============ */}
