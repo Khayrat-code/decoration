@@ -14,7 +14,7 @@ export const CATEGORIES = [
   { key: 'Living',   ar: 'غرف معيشة',  en: 'Living'   },
   { key: 'Bedroom',  ar: 'غرف نوم',    en: 'Bedroom'  },
   { key: 'Kitchen',  ar: 'مطابخ',      en: 'Kitchen'  },
-  { key: 'Bathroom', ar: 'حمامات',     en: 'Bathroom' },
+  { key: 'Bathroom', ar: 'دورات مياه', en: 'Bathroom' },
   { key: 'Dining',   ar: 'صالة طعام',  en: 'Dining'   },
   { key: 'Office',   ar: 'مكاتب',      en: 'Office'   },
   { key: 'Kids',     ar: 'غرف أطفال',  en: 'Kids'     },
@@ -161,11 +161,6 @@ const T = {
           },
         },
       ],
-    },
-    categories: {
-      eyebrow: { ar: 'الغرف',       en: 'Rooms' },
-      title:   { ar: 'أنواع المساحات التي نصوغها', en: 'The kinds of spaces we shape' },
-      cta:     { ar: 'اطّلع على المعرض كاملاً',  en: 'See all in the gallery' },
     },
     cta: {
       eyebrow: { ar: 'البداية',  en: 'Begin' },

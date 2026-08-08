@@ -5,7 +5,7 @@ import { ArrowRight, Compass, Layers, Hammer, Sparkles } from 'lucide-react'
 import { supabase, TABLES } from '../lib/supabase'
 import { GalleryGrid, type GalleryItem } from '../components/GalleryGrid'
 import { useLang, useT } from '../i18n/LanguageContext'
-import T, { CATEGORIES } from '../i18n/translations'
+import T from '../i18n/translations'
 
 // The very first uploaded Living-room image is the hero. Hardcoded so
 // the page paints instantly without waiting on a fetch.
@@ -223,96 +223,6 @@ export function Home() {
             )}
           </div>
         </div>
-      </section>
-
-      {/* ============ TYPES OF SPACES (compact, above "How we work") ============ */}
-      <section
-        className="section-tight"
-        style={{ borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}
-      >
-        <div className="container">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 2fr)',
-              gap: 64,
-              alignItems: 'start',
-            }}
-            className="types-grid"
-          >
-            <div>
-              <span className="eyebrow">{t('home.categories.eyebrow')}</span>
-              <h2
-                style={{
-                  marginTop: 14,
-                  fontSize: 'var(--fs-h2)',
-                  fontWeight: lang === 'ar' ? 700 : 400,
-                  maxWidth: '14ch',
-                  lineHeight: 1.2,
-                }}
-              >
-                {t('home.categories.title')}
-              </h2>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '12px 32px',
-                paddingTop: 8,
-              }}
-              className="types-list"
-            >
-              {CATEGORIES.map((c, i) => (
-                <motion.div
-                  key={c.key}
-                  initial={{ opacity: 0, x: lang === 'ar' ? 8 : -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.45, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    gap: 14,
-                    padding: '14px 0',
-                    borderTop: '1px solid var(--line)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                      color: 'var(--ink-3)',
-                      letterSpacing: '0.18em',
-                      minWidth: 22,
-                    }}
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: lang === 'ar' ? 18 : 19,
-                      fontWeight: lang === 'ar' ? 700 : 400,
-                      color: 'var(--ink)',
-                    }}
-                  >
-                    {lang === 'ar' ? c.ar : c.en}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <style>{`
-          @media (max-width: 880px) {
-            .types-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-            .types-list { grid-template-columns: 1fr 1fr !important; }
-          }
-          @media (max-width: 520px) {
-            .types-list { grid-template-columns: 1fr !important; }
-          }
-        `}</style>
       </section>
 
       {/* ============ HOW WE WORK (compact) ============ */}

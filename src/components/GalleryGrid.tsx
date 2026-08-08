@@ -315,31 +315,19 @@ function GalleryCard({
           }}
           className="gallery-card-meta"
         >
-          <div>
+          {item.category && (
             <div
               style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: lang === 'ar' ? 17 : 18,
-                fontWeight: lang === 'ar' ? 700 : 400,
-                lineHeight: lang === 'ar' ? 1.4 : 1.2,
-                marginBottom: 4,
+                fontSize: 12,
+                fontWeight: 500,
+                letterSpacing: lang === 'ar' ? 0 : '0.22em',
+                textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                color: 'rgba(245, 241, 234, 0.92)',
               }}
             >
-              {item.title}
+              {category(item.category)}
             </div>
-            {item.category && (
-              <div
-                style={{
-                  fontSize: 11,
-                  letterSpacing: lang === 'ar' ? 0 : '0.22em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
-                  color: 'rgba(245, 241, 234, 0.78)',
-                }}
-              >
-                {category(item.category)}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
       <style>{`

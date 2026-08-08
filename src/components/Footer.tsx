@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
-import { Logo } from './Logo'
 import { useT } from '../i18n/LanguageContext'
 
+/**
+ * Compact footer — single row, minimal vertical space.
+ * ~4× smaller than the previous version (was ~500px tall, now ~120px).
+ */
 export function Footer() {
   const year = new Date().getFullYear()
   const t = useT()
@@ -11,153 +13,121 @@ export function Footer() {
     <footer
       style={{
         background: 'var(--ink)',
-        color: '#DAD3BF',
-        padding: '120px 0 40px',
+        color: 'rgba(245, 241, 234, 0.7)',
+        padding: '32px 0',
         marginTop: 'auto',
       }}
     >
       <div className="container">
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1.4fr) repeat(3, minmax(0, 1fr))',
-            gap: 64,
-            alignItems: 'start',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 24,
           }}
-          className="footer-grid"
+          className="footer-row"
         >
-          <div>
-            <div style={{ filter: 'invert(0.92) hue-rotate(180deg)' }}>
-              <Logo size="md" />
-            </div>
-            <p
+          {/* Brand mark */}
+          <Link
+            to="/"
+            style={{
+              borderBottom: 'none',
+              color: 'rgba(245, 241, 234, 0.92)',
+              fontFamily: "'Fraunces', Georgia, serif",
+              fontSize: 17,
+              fontWeight: 500,
+              letterSpacing: '-0.01em',
+            }}
+            aria-label="ToolCan Decoration home"
+          >
+            ToolCan Decoration
+          </Link>
+
+          {/* Nav links */}
+          <nav aria-label={t('nav.primaryNav')}>
+            <ul
               style={{
-                marginTop: 28,
-                color: 'rgba(245, 241, 234, 0.66)',
-                fontSize: 16,
-                maxWidth: 360,
-                lineHeight: 1.7,
+                display: 'flex',
+                gap: 24,
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+                alignItems: 'center',
+                flexWrap: 'wrap',
               }}
             >
-              {t('footer.blurb')}
-            </p>
+              <li><Link to="/" style={footerLink}>{t('nav.home')}</Link></li>
+              <li><Link to="/gallery" style={footerLink}>{t('nav.gallery')}</Link></li>
+              <li><Link to="/about" style={footerLink}>{t('nav.about')}</Link></li>
+              <li><Link to="/contact" style={footerLink}>{t('nav.contact')}</Link></li>
+            </ul>
+          </nav>
+
+          {/* Socials + policies + admin (compact) */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 18,
+              flexWrap: 'wrap',
+            }}
+          >
+            <a href="https://www.tiktok.com/@toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
+              {t('footer.connect.tiktok')}
+            </a>
+            <a href="https://www.snapchat.com/add/toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
+              {t('footer.connect.snap')}
+            </a>
+            <a href="https://www.instagram.com/toolcan.sa" target="_blank" rel="noreferrer" style={footerLink}>
+              {t('footer.connect.instagram')}
+            </a>
+            <a href="https://x.com/toolcan_" target="_blank" rel="noreferrer" style={footerLink}>
+              {t('footer.connect.x')}
+            </a>
           </div>
-
-          <FooterCol title={t('footer.columns.explore')}>
-            <FooterLink to="/">{t('nav.home')}</FooterLink>
-            <FooterLink to="/gallery">{t('nav.gallery')}</FooterLink>
-            <FooterLink to="/about">{t('nav.about')}</FooterLink>
-            <FooterLink to="/contact">{t('nav.contact')}</FooterLink>
-          </FooterCol>
-
-          <FooterCol title={t('footer.columns.studio')}>
-            <span style={footerText}>{t('footer.studio.appointment')}</span>
-            <span style={footerText}>{t('footer.studio.hours')}</span>
-            <a href="mailto:khayratum@gmail.com" style={footerLinkText}>
-              {t('footer.studio.email')}
-            </a>
-          </FooterCol>
-
-          <FooterCol title={t('footer.columns.connect')}>
-            <a href="https://www.tiktok.com/@toolcan.sa" target="_blank" rel="noreferrer" style={footerLinkText}>
-              {t('footer.connect.tiktok')} <ArrowUpRight size={14} />
-            </a>
-            <a href="https://www.snapchat.com/add/toolcan.sa" target="_blank" rel="noreferrer" style={footerLinkText}>
-              {t('footer.connect.snap')} <ArrowUpRight size={14} />
-            </a>
-            <a href="https://www.instagram.com/toolcan.sa" target="_blank" rel="noreferrer" style={footerLinkText}>
-              {t('footer.connect.instagram')} <ArrowUpRight size={14} />
-            </a>
-            <a href="https://x.com/toolcan_" target="_blank" rel="noreferrer" style={footerLinkText}>
-              {t('footer.connect.x')} <ArrowUpRight size={14} />
-            </a>
-            <Link to="/policies" style={footerLinkText}>
-              {t('footer.legal.policies')}
-            </Link>
-            <Link to="/admin/login" style={{ ...footerLinkText, opacity: 0.5 }}>
-              {t('footer.connect.admin')}
-            </Link>
-          </FooterCol>
         </div>
 
-        <hr
-          style={{
-            border: 0,
-            borderTop: '1px solid rgba(245, 241, 234, 0.12)',
-            margin: '80px 0 28px',
-          }}
-        />
         <div
           style={{
+            marginTop: 20,
+            paddingTop: 16,
+            borderTop: '1px solid rgba(245, 241, 234, 0.08)',
             display: 'flex',
             justifyContent: 'space-between',
-            color: 'rgba(245, 241, 234, 0.5)',
-            fontSize: 12,
+            alignItems: 'center',
             flexWrap: 'wrap',
             gap: 12,
+            color: 'rgba(245, 241, 234, 0.45)',
+            fontSize: 12,
+            letterSpacing: '0.04em',
           }}
         >
-          <span>{t('footer.copyright', { year })}</span>
-          <span>{t('footer.group')}</span>
+          <span>© {year} ToolCan · Part of the ToolCan group of studios</span>
+          <span style={{ display: 'flex', gap: 16 }}>
+            <Link to="/policies" style={{ ...footerLink, color: 'rgba(245, 241, 234, 0.45)' }}>
+              {t('footer.legal.policies')}
+            </Link>
+            <Link to="/admin/login" style={{ ...footerLink, color: 'rgba(245, 241, 234, 0.35)' }}>
+              {t('footer.connect.admin')}
+            </Link>
+          </span>
         </div>
       </div>
 
       <style>{`
         @media (max-width: 720px) {
-          .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 40px !important; }
+          .footer-row { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
         }
       `}</style>
     </footer>
   )
 }
 
-function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <div
-        style={{
-          fontSize: 11,
-          fontWeight: 500,
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: '#F5F1EA',
-          marginBottom: 18,
-        }}
-      >
-        {title}
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>{children}</div>
-    </div>
-  )
-}
-
-function FooterLink({ to, children }: { to: string; children: React.ReactNode }) {
-  return (
-    <Link
-      to={to}
-      style={{
-        color: 'rgba(245, 241, 234, 0.7)',
-        fontSize: 15,
-        borderBottom: 'none',
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        transition: 'color 200ms ease',
-      }}
-    >
-      {children}
-    </Link>
-  )
-}
-
-const footerText: React.CSSProperties = {
+const footerLink: React.CSSProperties = {
   color: 'rgba(245, 241, 234, 0.7)',
-  fontSize: 15,
-}
-
-const footerLinkText: React.CSSProperties = {
-  ...footerText,
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
+  fontSize: 13,
+  borderBottom: 'none',
+  textDecoration: 'none',
 }
