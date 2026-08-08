@@ -19,11 +19,17 @@ interface CoverImage {
  * lays them out as a large, swipeable, snap-scrolling strip.
  *
  * - No title, no heading. The visuals carry the section.
- * - One image is roughly 80% of the viewport wide on phones, ~38% on
+ * - One image is roughly 78% of the viewport wide on phones, ~38% on
  *   desktop, with the rest peeking in to show there is more.
  * - Pure CSS scroll-snap — no JS carousel logic, no autoplay, works
  *   on touch and trackpad.
  * - Subtle Framer-Motion reveal on first appearance (not mouse-driven).
+ *
+ * Centering: --card-w is defined in the <style> block below and is the
+ * single source of truth for the card's main-axis size. The inline
+ * padding uses calc((100vw - var(--card-w)) / 2) so the padding always
+ * equals the leftover space on each side — first and last cards can
+ * therefore scroll all the way to the center, in both LTR and RTL.
  */
 export function ShowcaseStrip() {
   const [covers, setCovers] = useState<CoverImage[]>([])
@@ -32,11 +38,6 @@ export function ShowcaseStrip() {
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      // The واجهة files have a storage_path that starts with the
-      // category + "img-…", because their original filename
-      // (واجهة / الواجهة) sanitises to empty in the uploader.
-      // We pull *all* images then filter in JS so we can be robust
-      // to file-name quirks without depending on path-string matching.
       const { data, error } = await supabase
         .from(TABLES.gallery)
         .select('id, title, category, image_url, storage_path')
@@ -47,9 +48,6 @@ export function ShowcaseStrip() {
         return
       }
       const all = (data ?? []) as Array<CoverImage & { storage_path: string }>
-      // The cover is the LAST image uploaded per category (highest
-      // image_url creation order within a category). We pick by
-      // grouping on category and choosing the last entry of each.
       const byCategory = new Map<string, CoverImage & { storage_path: string }>()
       for (const row of all) {
         const existing = byCategory.get(row.category)
@@ -57,9 +55,6 @@ export function ShowcaseStrip() {
           byCategory.set(row.category, row)
         }
       }
-      // Fallback: if the "img-" path heuristic doesn't pick a true واجهة
-      // (e.g. for categories that never had one), we still get the most
-      // recent upload per category, which is reasonable.
       setCovers(
         Array.from(byCategory.values())
           .sort((a, b) => a.category.localeCompare(b.category)),
@@ -72,9 +67,7 @@ export function ShowcaseStrip() {
   }, [])
 
   if (loading) {
-    return (
-      <div style={{ height: 120 }} aria-hidden="true" />
-    )
+    return <div style={{ height: 120 }} aria-hidden="true" />
   }
 
   if (covers.length === 0) return null
@@ -83,8 +76,6 @@ export function ShowcaseStrip() {
     <section
       aria-label="Project covers"
       style={{
-        // No top/bottom padding outside the strip — the visual is the
-        // entire section. We add a small breathing room via gap.
         padding: '32px 0 56px',
         background: 'var(--bg)',
       }}
@@ -97,12 +88,11 @@ export function ShowcaseStrip() {
           overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
-          // Bleed to the edge on mobile so the first/last card can
-          // sit flush against the viewport.
-          paddingInline: 'max(24px, calc((100vw - 1240px) / 2))',
+          paddingInline:
+            'max(20px, calc((100vw - var(--card-w, 78vw)) / 2))',
+          scrollPaddingInline:
+            'max(20px, calc((100vw - var(--card-w, 78vw)) / 2))',
           paddingBlock: 8,
-          // Hide the scrollbar (we have visual cue from the peeks).
-          scrollbarWidth: 'none',
         }}
       >
         {covers.map((cover, i) => (
@@ -114,9 +104,6 @@ export function ShowcaseStrip() {
             transition={{ duration: 0.6, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
             className="showcase-card"
             style={{
-              flex: '0 0 78%',
-              minWidth: 260,
-              maxWidth: 640,
               margin: 0,
               scrollSnapAlign: 'center',
               position: 'relative',
@@ -143,17 +130,23 @@ export function ShowcaseStrip() {
       </div>
 
       <style>{`
-        /* Hide scrollbar across browsers but keep scrollability. */
-        .showcase-strip { -ms-overflow-style: none; scrollbar-width: none; }
+        .showcase-strip {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          --card-w: 78vw;
+        }
         .showcase-strip::-webkit-scrollbar { display: none; }
 
-        /* On wider screens, show ~2.5 cards at once so the user
-           can see what's coming without scrolling. */
+        .showcase-card {
+          flex: 0 0 var(--card-w);
+          min-width: 260px;
+        }
+
         @media (min-width: 720px) {
-          .showcase-card { flex-basis: 46% !important; }
+          .showcase-strip { --card-w: 46vw; }
         }
         @media (min-width: 1024px) {
-          .showcase-card { flex-basis: 38% !important; }
+          .showcase-strip { --card-w: 38vw; }
         }
       `}</style>
     </section>
