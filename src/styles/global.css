@@ -122,6 +122,19 @@ a {
 
 a:hover { color: var(--ink); }
 
+/* Suppress the browser's default blue focus ring on mouse click.
+   Some browsers (Safari, older Chrome) fall back to the default :focus
+   ring on click even when :focus-visible is supported, which leaks a
+   loud blue square that doesn't fit the palette. */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Keyboard navigation — subtle sage ring, 2px with 3px offset. */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -131,6 +144,15 @@ select:focus-visible {
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
+
+/* Same for SVG links and any role="button" elements. */
+[role="button"]:focus:not(:focus-visible) { outline: none; }
+[role="button"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+/* On dark backgrounds (footer, hero strip) the focus ring needs to be
+   linen so it stays visible against the dark sage. */
+.dark-surface :focus-visible { outline-color: var(--bg); }
+.dark-surface a, .dark-surface button { color: var(--bg); }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
