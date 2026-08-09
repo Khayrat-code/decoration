@@ -51,6 +51,8 @@ export function Footer() {
     { key: 'mastercard', label: t('footer.payments.mastercard'), icon: 'mc' },
     { key: 'amex', label: t('footer.payments.amex') },
     { key: 'applePay', label: t('footer.payments.applePay') },
+    { key: 'tabby', label: t('footer.payments.tabby') },
+    { key: 'tamara', label: t('footer.payments.tamara') },
     { key: 'bank', label: t('footer.payments.bank'), icon: 'bank' },
     { key: 'cod', label: t('footer.payments.cod'), icon: 'cod' },
   ]
@@ -145,14 +147,6 @@ export function Footer() {
 
         <div className="f-bottom">
           <span>{t('footer.copyright', { year })}</span>
-          <span className="f-bottom-links">
-            <Link to="/policies" className="f-link" style={{ color: LIGHT_SOFT }}>
-              {t('footer.legal.policies')}
-            </Link>
-            <Link to="/admin/login" className="f-link" style={{ color: 'rgba(245, 241, 234, 0.4)' }}>
-              {t('footer.connect.admin')}
-            </Link>
-          </span>
         </div>
       </div>
 

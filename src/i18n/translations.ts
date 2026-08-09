@@ -86,6 +86,8 @@ const T = {
       mastercard: { ar: 'Mastercard', en: 'Mastercard' },
       amex:       { ar: 'AMEX', en: 'AMEX' },
       applePay:   { ar: 'Apple Pay', en: 'Apple Pay' },
+      tabby:      { ar: 'تابي', en: 'Tabby' },
+      tamara:     { ar: 'تمارا', en: 'Tamara' },
       bank:       { ar: 'تحويل بنكي', en: 'Bank transfer' },
       cod:        { ar: 'الدفع عند الاستلام', en: 'Cash on delivery' },
     },

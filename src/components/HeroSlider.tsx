@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useLang, useT } from '../i18n/LanguageContext'
+import { CATEGORIES } from '../i18n/translations'
 import { supabase, TABLES } from '../lib/supabase'
 import { getSetting } from '../lib/settings'
 import { DEFAULT_HERO, normalizeHero, type HeroSettings } from '../lib/content'
@@ -12,11 +13,39 @@ const FALLBACK_IMAGE =
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
+type Lang = 'ar' | 'en'
+
+// Map an image's category to one of the existing 3 hero slides.
+// We keep using the site's existing copy verbatim — no new content is
+// invented. For categories that don't have a dedicated slide (Kitchen,
+// Bathroom, etc.) we fall back to the generic slide 0.
+//
+//   Living   → slide 1  ("أناقة تليق بذوقك الرفيع" — living rooms)
+//   Bedroom  → slide 2  ("راحتك تبدأ من تصميمنا"   — bedrooms)
+//   default  → slide 0  ("نحوّل منزلك إلى تحفة فنية" — generic)
+function slideIndexForCategory(category: string | undefined): number {
+  if (category === 'Living')  return 1
+  if (category === 'Bedroom') return 2
+  return 0
+}
+
+// Look up the localized category name from the existing CATEGORIES
+// constant — used to put the category word in the hero subtitle so
+// viewers always see the room name that matches the image.
+function categoryLabel(category: string | undefined, lang: Lang): string {
+  if (!category) return ''
+  const found = CATEGORIES.find((c) => c.key === category)
+  if (!found) return category
+  return lang === 'ar' ? found.ar : found.en
+}
+
 export function HeroSlider() {
   const t = useT()
   const { lang } = useLang()
   const [settings, setSettings] = useState<HeroSettings>(DEFAULT_HERO)
-  const [images, setImages] = useState<string[]>([FALLBACK_IMAGE])
+  const [images, setImages] = useState<Array<{ url: string; category: string }>>([
+    { url: FALLBACK_IMAGE, category: 'Living' },
+  ])
   const [index, setIndex] = useState(0)
   const [projectCount, setProjectCount] = useState<number | null>(null)
 
@@ -32,12 +61,19 @@ export function HeroSlider() {
       if (!gallery.error && gallery.data) {
         const rows = gallery.data as Array<{ id: string; category: string; image_url: string }>
         setProjectCount(rows.length)
+        // First image per category, in CATEGORIES order so the slider
+        // always cycles Living → Bedroom → Kitchen → ... instead of
+        // an arbitrary gallery order.
         const byCategory = new Map<string, string>()
         for (const row of rows) {
           if (!byCategory.has(row.category)) byCategory.set(row.category, row.image_url)
         }
-        const picks = Array.from(byCategory.values()).slice(0, 3)
-        if (picks.length > 0) setImages(picks)
+        const ordered: Array<{ url: string; category: string }> = []
+        for (const c of CATEGORIES) {
+          const url = byCategory.get(c.key)
+          if (url) ordered.push({ url, category: c.key })
+        }
+        if (ordered.length > 0) setImages(ordered)
       }
     })()
     return () => {
@@ -46,7 +82,7 @@ export function HeroSlider() {
   }, [])
 
   const slides = settings.slides
-  const count = slides.length
+  const count = images.length
 
   const next = useCallback(() => setIndex((i) => (i + 1) % count), [count])
   const prev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count])
@@ -56,8 +92,14 @@ export function HeroSlider() {
     return () => window.clearInterval(id)
   }, [next, index])
 
-  const slide = slides[index]
-  const bg = images[index % images.length]
+  // Pick the slide from the existing 3 by the current image's category.
+  // The subtitle is replaced with the localized category name so the
+  // category word always appears on screen (per the brief: "إذا كانت
+  // الخلفية تعرض مطبخ، فلازم يطلع مطبخ").
+  const current = images[index] ?? images[0]
+  const slide = slides[slideIndexForCategory(current.category)]
+  const bg = current.url
+  const subtitle = categoryLabel(current.category, lang)
 
   const stats: Array<{ value: string; label: string }> = [
     { value: projectCount !== null ? String(projectCount) : '+', label: t('home.hero.stats.projects') },
@@ -138,7 +180,7 @@ export function HeroSlider() {
                   marginBottom: 20,
                 }}
               >
-                {slide.subtitle[lang]}
+                {subtitle}
               </span>
               <h1
                 style={{

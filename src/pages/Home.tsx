@@ -37,54 +37,6 @@ export function Home() {
     <>
       <HeroSlider />
 
-      {/* ============ INTRO STRIP ============ */}
-      <section className="section-tight" style={{ borderBottom: '1px solid var(--line)' }}>
-        <div className="container">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1.6fr',
-              gap: 80,
-              alignItems: 'start',
-            }}
-            className="intro-grid"
-          >
-            <div>
-              <span className="eyebrow">{t('home.intro.eyebrow')}</span>
-              <h2
-                style={{
-                  marginTop: 16,
-                  fontSize: 'var(--fs-h2)',
-                  fontWeight: lang === 'ar' ? 700 : 400,
-                  maxWidth: lang === 'ar' ? '16ch' : '12ch',
-                }}
-              >
-                {t('home.intro.title1')}{' '}
-                <em
-                  style={{
-                    color: 'var(--accent)',
-                    fontStyle: lang === 'ar' ? 'normal' : 'italic',
-                    fontWeight: lang === 'ar' ? 700 : 400,
-                  }}
-                >
-                  {t('home.intro.titleEm')}
-                </em>
-                {lang === 'ar' ? '.' : ''}
-              </h2>
-            </div>
-            <div style={{ color: 'var(--ink-2)', fontSize: 17, lineHeight: lang === 'ar' ? 1.95 : 1.75 }}>
-              <p style={{ marginBottom: 20 }}>{t('home.intro.body1')}</p>
-              <p>{t('home.intro.body2')}</p>
-            </div>
-          </div>
-        </div>
-        <style>{`
-          @media (max-width: 880px) {
-            .intro-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-          }
-        `}</style>
-      </section>
-
       {/* ============ SHOWCASE STRIP ============ */}
       <ShowcaseStrip />
 

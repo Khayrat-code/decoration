@@ -309,7 +309,7 @@ main { flex: 1 0 auto; }
 
 /* ---------- RTL helpers ---------- */
 /* Flip directional icons in RTL contexts. */
-[data-dir='rtl'] .icon-flip { transform: scaleX(-1); }
+[dir='rtl'] .icon-flip { transform: scaleX(-1); }
 /* Logical text alignment utility */
 [dir='rtl'] .text-start  { text-align: right; }
 [dir='ltr'] .text-start  { text-align: left; }
