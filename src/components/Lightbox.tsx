@@ -102,7 +102,7 @@ export function Lightbox({ src, alt, title, description, onClose }: LightboxProp
             {title && (
               <div
                 style={{
-                  fontFamily: "'Fraunces', serif",
+                  fontFamily: 'var(--font-serif)',
                   fontSize: 20,
                   fontWeight: 500,
                   marginBottom: 6,

@@ -1,83 +1,67 @@
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { supabase, TABLES } from '../lib/supabase'
-import { getSetting } from '../lib/settings'
 
-interface CoverImage {
-  id: string
-  image_url: string
-  category: string
-  title: string
+interface Cover {
+  src: string
+  /** Bilingual alt text — falls back to the first entry if a language is missing. */
+  alt: { ar: string; en: string }
 }
 
 /**
  * "واجهة" grid — a no-title, centered mosaic of one cover image
- * per room category.
+ * per room category, in the exact order the studio wants.
  *
- * Each room category in the user's library has a "واجهة" (cover)
- * image. This component finds them automatically (by storage_path
- * = "img-…" which is what the uploader produces for files whose
- * original name sanitises to empty — i.e. the Arabic واجهة /
- * الواجهة files), then renders them as a responsive centered
- * grid:
- *   - 1 column on phones
- *   - 2 columns on small tablets
- *   - 3 columns on desktop
+ * The 7 covers are hand-picked (from `C:\Users\khayrat\Downloads\arr`)
+ * and uploaded to Supabase storage under `covers/`. We hardcode the
+ * URLs here so the section always renders in the exact order
  *
- * No horizontal scroll, no scroll-snap. Every card is visible
- * and the whole grid is horizontally centered in the page via
- * `max-width + margin: 0 auto`, so the section is genuinely
- * "in the middle" in both LTR and RTL without any direction-
- * dependent padding math.
+ *   1 living · 2 bedroom · 3 office · 4 kitchen · 5 kids · 6 dining · 7 bathroom
  *
- * Subtle Framer-Motion reveal on first appearance (not mouse-
- * driven).
+ * — no DB query, no risk of the order drifting if someone re-uploads
+ * gallery rows.
+ *
+ * - 1 column on phones
+ * - 2 columns on small tablets (>= 640px)
+ * - 3 columns on desktop (>= 960px)
+ *
+ * The grid is wrapped in a max-width container with margin: 0 auto,
+ * so the whole mosaic is genuinely centered in both LTR and RTL with
+ * no direction-dependent padding math. No horizontal scroll, no
+ * scroll-snap drama.
+ *
+ * Subtle Framer-Motion reveal on first appearance (not mouse-driven).
  */
+const COVERS: Cover[] = [
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/1-living.jpg',
+    alt: { ar: 'صالة معيشة', en: 'Living room' },
+  },
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/2-bedroom.jpg',
+    alt: { ar: 'غرفة نوم', en: 'Bedroom' },
+  },
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/3-office.jpg',
+    alt: { ar: 'مكتب', en: 'Office' },
+  },
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/4-kitchen.jpg',
+    alt: { ar: 'مطبخ', en: 'Kitchen' },
+  },
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/5-kids.jpg',
+    alt: { ar: 'غرفة أطفال', en: 'Kids room' },
+  },
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/6-dining.jpg',
+    alt: { ar: 'صالة طعام', en: 'Dining room' },
+  },
+  {
+    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/7-bathroom.jpg',
+    alt: { ar: 'دورة مياه', en: 'Bathroom' },
+  },
+]
+
 export function ShowcaseStrip() {
-  const [covers, setCovers] = useState<CoverImage[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    let cancelled = false
-    ;(async () => {
-      const { data, error } = await supabase
-        .from(TABLES.gallery)
-        .select('id, title, category, image_url, storage_path')
-        .order('category')
-      if (cancelled) return
-      if (error) {
-        setLoading(false)
-        return
-      }
-      const hiddenSetting = await getSetting<{ hidden: string[] }>('categories')
-      const hidden = hiddenSetting?.hidden ?? []
-      const all = ((data ?? []) as Array<CoverImage & { storage_path: string }>).filter(
-        (row) => !hidden.includes(row.category || 'General'),
-      )
-      const byCategory = new Map<string, CoverImage & { storage_path: string }>()
-      for (const row of all) {
-        const existing = byCategory.get(row.category)
-        if (!existing || existing.id < row.id) {
-          byCategory.set(row.category, row)
-        }
-      }
-      setCovers(
-        Array.from(byCategory.values())
-          .sort((a, b) => a.category.localeCompare(b.category)),
-      )
-      setLoading(false)
-    })()
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  if (loading) {
-    return <div style={{ height: 120 }} aria-hidden="true" />
-  }
-
-  if (covers.length === 0) return null
-
   return (
     <section
       aria-label="Project covers"
@@ -87,9 +71,9 @@ export function ShowcaseStrip() {
       }}
     >
       <div className="showcase-grid">
-        {covers.map((cover, i) => (
+        {COVERS.map((cover, i) => (
           <motion.figure
-            key={cover.id}
+            key={cover.src}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
@@ -97,8 +81,8 @@ export function ShowcaseStrip() {
             className="showcase-card"
           >
             <img
-              src={cover.image_url}
-              alt={cover.title}
+              src={cover.src}
+              alt={cover.alt.en}
               loading={i === 0 ? 'eager' : 'lazy'}
               style={{
                 width: '100%',

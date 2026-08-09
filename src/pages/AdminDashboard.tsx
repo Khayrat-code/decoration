@@ -491,7 +491,7 @@ function Kpi({ label, value }: { label: string; value: number | string }) {
     >
       <div
         style={{
-          fontFamily: "'Fraunces', serif",
+          fontFamily: 'var(--font-serif)',
           fontSize: 40,
           fontWeight: 400,
           color: 'var(--ink)',
