@@ -78,9 +78,9 @@ export function Logo({ size = 'md', tone = 'default' }: LogoProps) {
           strokeWidth="2.6"
           strokeLinecap="round"
         />
-        {/* Tiny caret over the A — sit slightly closer to the apex than the literal coords */}
+        {/* Tiny caret over the A — with breathing room so it doesn't fuse with the apex at small sizes */}
         <path
-          d="M 422 76 L 432 58 L 434 76"
+          d="M 422 68 L 432 50 L 434 68"
           fill="none"
           stroke={color}
           strokeWidth="2.2"
