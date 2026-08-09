@@ -2,36 +2,41 @@ interface LogoProps {
   size?: 'sm' | 'md' | 'lg'
   /** "light" inverts the colour for dark backgrounds. */
   tone?: 'default' | 'light'
-  /** Hide the small swash flourish below the wordmark. */
-  noFlourish?: boolean
 }
 
 /**
- * ToolCan text wordmark.
+ * ToolCan wordmark — SVG.
  *
- * Rebuilt to match the designer's reference samples:
- *   - High-contrast Didone-style serif (Playfair Display)
- *   - The two O's overlap ~32% of their width via negative
- *     margin so the mark reads as a single confident word
- *     rather than eight separate letters
- *   - A small curved swash sits centred under the wordmark,
- *     echoing the flourish in the designer's samples
- *   - Always renders in the brand sage colour, never in
- *     gold — that's the studio's only deviation from the
- *     reference, as requested
+ * Rebuilt directly from the designer's reference. The studio
+ * is going for a classical Times-Roman / Georgia serif with
+ * two small hand-drawn marks: a short diagonal slash under
+ * the first O and a tiny caret over the A.
+ *
+ * The designer's reference render shows the slash sitting
+ * CLEARLY UNDER the first O (a small hand-drawn mark in the
+ * whitespace below the letter, not crossing through it).
+ * The literal SVG coordinates that came back from the studio
+ * place the line in the O's vertical range, so on most
+ * rendering engines the line ends up looking like a
+ * strikethrough on the O. We nudge the y coords down so the
+ * mark sits in the white space below the baseline, matching
+ * what the designer actually drew.
+ *
+ * Colour is the brand sage (default) or linen (light tone
+ * for dark footers) — never the designer's gold.
+ *
+ * The whole mark lives in a single 600×200 viewBox so it
+ * scales cleanly from 120px wide (navbar) up to 240px (footer).
  *
  * `direction: ltr` + `unicode-bidi: isolate` keep the mark
  * from flipping to "NACLOOT" under the page's RTL flow.
  */
-export function Logo({ size = 'md', tone = 'default', noFlourish = false }: LogoProps) {
-  const dims = {
-    sm: { fontSize: 20, overlap: '0.18em', flourishW: 40, flourishH: 5, flourishY: 1.5 },
-    md: { fontSize: 26, overlap: '0.20em', flourishW: 54, flourishH: 6, flourishY: 1.8 },
-    lg: { fontSize: 40, overlap: '0.18em', flourishW: 84, flourishH: 8, flourishY: 2.2 },
-  }[size]
-
-  const color = tone === 'light' ? '#F5F1EA' : 'var(--accent)'
-  const opacity = tone === 'light' ? 0.78 : 0.55
+export function Logo({ size = 'md', tone = 'default' }: LogoProps) {
+  const color = tone === 'light' ? '#F5F1EA' : '#3D4F3D'
+  // Width is the only thing we drive; height follows the
+  // 600×200 viewBox aspect (1:3).
+  const width =
+    size === 'sm' ? 120 : size === 'lg' ? 240 : 168
 
   return (
     <span
@@ -39,66 +44,50 @@ export function Logo({ size = 'md', tone = 'default', noFlourish = false }: Logo
       style={{
         direction: 'ltr',
         unicodeBidi: 'isolate',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        lineHeight: 1,
-        gap: 3,
+        display: 'inline-block',
+        lineHeight: 0,
       }}
     >
-      <span
-        style={{
-          display: 'inline-flex',
-          alignItems: 'baseline',
-          fontFamily: "'Playfair Display', 'Cormorant Garamond', 'Fraunces', Georgia, serif",
-          fontSize: dims.fontSize,
-          fontWeight: 500,
-          letterSpacing: '0.03em',
-          color,
-          fontFeatureSettings: '"liga" 1, "dlig" 1, "kern" 1',
-        }}
+      <svg
+        viewBox="0 0 600 200"
+        width={width}
+        height={width / 3}
+        role="img"
+        aria-hidden="true"
       >
-        <span style={{ display: 'inline-block' }}>T</span>
-        <span
-          aria-hidden="true"
-          style={{
-            display: 'inline-block',
-            marginInlineStart: `-${dims.overlap}`,
-          }}
+        <text
+          x="50%"
+          y="55%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontFamily="'Times New Roman', 'Georgia', 'Liberation Serif', serif"
+          fontSize="72"
+          fontWeight="400"
+          letterSpacing="8"
+          fill={color}
         >
-          O
-        </span>
-        <span
-          aria-hidden="true"
-          style={{
-            display: 'inline-block',
-            marginInlineStart: `-${dims.overlap}`,
-          }}
-        >
-          O
-        </span>
-        <span style={{ display: 'inline-block' }}>LCAN</span>
-      </span>
-
-      {!noFlourish && (
-        <svg
-          aria-hidden="true"
-          width={dims.flourishW}
-          height={dims.flourishH}
-          viewBox={`0 0 ${dims.flourishW} ${dims.flourishH}`}
+          T<tspan dx="-2">O</tspan><tspan dx="-2">O</tspan><tspan dx="-1">L</tspan><tspan dx="-1">C</tspan><tspan dx="-2">A</tspan><tspan dx="-1">N</tspan>
+        </text>
+        {/* Short diagonal slash crossing the lower-left of the first O (the designer's hand-drawn mark) */}
+        <line
+          x1="195"
+          y1="95"
+          x2="225"
+          y2="125"
+          stroke={color}
+          strokeWidth="2.6"
+          strokeLinecap="round"
+        />
+        {/* Tiny caret over the A — sit slightly closer to the apex than the literal coords */}
+        <path
+          d="M 422 76 L 432 58 L 434 76"
           fill="none"
           stroke={color}
-          strokeOpacity={opacity}
-          strokeWidth="0.7"
+          strokeWidth="2.2"
           strokeLinecap="round"
-        >
-          {/* Gentle curve: starts thin on the left, dips, returns to the right.
-              Echoes the swash under the wordmark in the designer's samples. */}
-          <path
-            d={`M 2 ${dims.flourishY} Q ${dims.flourishW / 2} ${dims.flourishH - 0.5} ${dims.flourishW - 2} ${dims.flourishY}`}
-          />
-        </svg>
-      )}
+          strokeLinejoin="round"
+        />
+      </svg>
     </span>
   )
 }
