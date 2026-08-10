@@ -114,6 +114,15 @@ const T = {
       },
       cta1: { ar: 'شاهد الأعمال', en: 'See the work' },
       cta2: { ar: 'ابدأ مشروعاً', en: 'Start a project' },
+      // 3 inline service tags rendered under the hero description, with a
+      // gold dot before each label. Pattern borrowed from zarva.sa —
+      // labels are pulled verbatim from the existing services items so we
+      // do not invent new marketing copy.
+      tags: [
+        { ar: 'التصميم الداخلي',        en: 'Interior Design'    },
+        { ar: 'الديكور المنزلي',        en: 'Home Décor'         },
+        { ar: 'معاينة ثلاثية الأبعاد',  en: '3D Visualization'   },
+      ],
       slides: [
         {
           subtitle: { ar: 'تصميم داخلي & ديكورات منزلية', en: 'Interior Design & Home Décor' },

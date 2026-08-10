@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useLang, useT } from '../i18n/LanguageContext'
-import { CATEGORIES } from '../i18n/translations'
+import T, { CATEGORIES } from '../i18n/translations'
 import { supabase, TABLES } from '../lib/supabase'
 import { getSetting } from '../lib/settings'
 import { DEFAULT_HERO, normalizeHero, type HeroSettings } from '../lib/content'
@@ -218,6 +218,48 @@ export function HeroSlider() {
               </p>
             </motion.div>
           </AnimatePresence>
+
+          {/* 3 inline service tags — gold dot + label.
+              Pattern borrowed from zarva.sa; labels are pulled verbatim
+              from the existing services items so no new copy is added. */}
+          <div
+            className="hero-tags"
+            style={{
+              display: 'flex',
+              gap: lang === 'ar' ? 22 : 20,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              marginTop: 24,
+            }}
+          >
+            {T.home.hero.tags.map((tag, i) => (
+              <span
+                key={i}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 9,
+                  color: 'rgba(245, 241, 234, 0.88)',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  letterSpacing: lang === 'ar' ? 0 : '0.04em',
+                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 999,
+                    background: '#C7A87A',
+                    flexShrink: 0,
+                  }}
+                />
+                {tag[lang]}
+              </span>
+            ))}
+          </div>
 
           <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
             <Link to="/gallery" className="btn btn-light">
