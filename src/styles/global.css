@@ -356,3 +356,32 @@ button { font-family: inherit; }
      doesn't get pushed off-screen. */
   .hero-laptop { height: min(96vh, 760px) !important; min-height: 620px !important; }
 }
+
+/* ---------- Section padding utilities (responsive) ----------
+   Used by page "hero" bands and big CTA bands so a single class
+   controls the padding at every breakpoint instead of a one-off
+   inline style per page. */
+.pt-hero        { padding: 120px 0 80px; }
+.pt-hero-tight  { padding: 96px 0; }
+.pt-cta         { padding: 120px 0; }
+.pt-cta-lg      { padding: 160px 0; }
+
+@media (max-width: 880px) {
+  .pt-hero       { padding: 100px 0 56px; }
+  .pt-hero-tight { padding: 72px 0; }
+  .pt-cta        { padding: 88px 0; }
+  .pt-cta-lg     { padding: 96px 0; }
+}
+@media (max-width: 480px) {
+  .pt-hero       { padding: 92px 0 40px; }
+  .pt-hero-tight { padding: 56px 0; }
+  .pt-cta        { padding: 64px 0; }
+  .pt-cta-lg     { padding: 72px 0; }
+}
+
+/* Form cards (contact / complaints) — generous padding on desktop,
+   tighter on phones so the card doesn't eat all the horizontal space. */
+.form-card { padding: 40px; }
+@media (max-width: 560px) {
+  .form-card { padding: 24px; }
+}

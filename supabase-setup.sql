@@ -235,16 +235,20 @@ create policy "Admin write invoices"
 
 -- ---- 4e. complaints (شكاوى واقتراحات) -----------------------------------
 create table if not exists public.complaints (
-  id          uuid primary key default gen_random_uuid(),
-  name        text not null,
-  email       text not null,
-  phone       text,
-  type        text not null default 'complaint',
-  subject     text,
-  message     text not null,
-  read        boolean not null default false,
-  created_at  timestamptz not null default now()
+  id              uuid primary key default gen_random_uuid(),
+  name            text not null,
+  email           text not null,
+  phone           text,
+  type            text not null default 'complaint',
+  subject         text,
+  message         text not null,
+  attachment_url  text,
+  read            boolean not null default false,
+  created_at      timestamptz not null default now()
 );
+
+-- Safe to re-run on a table created before the attachment feature existed.
+alter table public.complaints add column if not exists attachment_url text;
 
 create index if not exists complaints_created_idx
   on public.complaints (created_at desc);
@@ -275,6 +279,28 @@ create policy "Admin delete complaints"
   on public.complaints
   for delete
   using (auth.role() = 'authenticated');
+
+-- ---- 4f. "complaints" storage bucket (optional file attachment) -------
+-- The bucket itself is created by `npm run seed` (service-role key).
+-- These are the storage.objects RLS policies that let a visitor upload
+-- an attachment and let the admin read it back.
+drop policy if exists "Public upload complaint attachments" on storage.objects;
+create policy "Public upload complaint attachments"
+  on storage.objects
+  for insert
+  with check (bucket_id = 'complaints');
+
+drop policy if exists "Public read complaint attachments" on storage.objects;
+create policy "Public read complaint attachments"
+  on storage.objects
+  for select
+  using (bucket_id = 'complaints');
+
+drop policy if exists "Admin delete complaint attachments" on storage.objects;
+create policy "Admin delete complaint attachments"
+  on storage.objects
+  for delete
+  using (bucket_id = 'complaints' and auth.role() = 'authenticated');
 
 -- ---- 5. updated_at trigger (gallery) ----------------------------------
 create or replace function public.set_updated_at()

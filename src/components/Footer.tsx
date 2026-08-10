@@ -10,13 +10,8 @@ import { Logo } from './Logo'
 import { BUSINESS } from '../lib/business'
 import { TikTokIcon, SnapchatIcon, InstagramIcon, XIcon } from './SocialIcons'
 import {
-  MadaIcon,
-  VisaIcon,
-  MastercardIcon,
-  AmexIcon,
-  ApplePayIcon,
-  TabbyIcon,
-  TamaraIcon,
+  PaymentBadge,
+  IconBadge,
   BankIcon,
   CodIcon,
   CRIcon,
@@ -56,21 +51,17 @@ export function Footer() {
     { to: '/complaints', label: t('footer.complaints') },
   ]
 
-  type Pay = {
-    key: string
-    label: string
-    Icon: (p: { size?: number; style?: React.CSSProperties }) => React.ReactNode
-  }
+  type Pay = { key: string; label: string; src?: string; generic?: 'bank' | 'cod' }
   const payments: Pay[] = [
-    { key: 'mada',       label: t('footer.payments.mada'),       Icon: MadaIcon },
-    { key: 'visa',       label: t('footer.payments.visa'),       Icon: VisaIcon },
-    { key: 'mastercard', label: t('footer.payments.mastercard'), Icon: MastercardIcon },
-    { key: 'amex',       label: t('footer.payments.amex'),       Icon: AmexIcon },
-    { key: 'applePay',   label: t('footer.payments.applePay'),   Icon: ApplePayIcon },
-    { key: 'tabby',      label: t('footer.payments.tabby'),      Icon: TabbyIcon },
-    { key: 'tamara',     label: t('footer.payments.tamara'),     Icon: TamaraIcon },
-    { key: 'bank',       label: t('footer.payments.bank'),       Icon: BankIcon },
-    { key: 'cod',        label: t('footer.payments.cod'),        Icon: CodIcon },
+    { key: 'mada',       label: t('footer.payments.mada'),       src: '/payments/mada.svg' },
+    { key: 'visa',       label: t('footer.payments.visa'),       src: '/payments/visa.svg' },
+    { key: 'mastercard', label: t('footer.payments.mastercard'), src: '/payments/mastercard.svg' },
+    { key: 'amex',       label: t('footer.payments.amex'),       src: '/payments/amex.svg' },
+    { key: 'applePay',   label: t('footer.payments.applePay'),   src: '/payments/apple-pay.svg' },
+    { key: 'tabby',      label: t('footer.payments.tabby'),      src: '/payments/tabby.svg' },
+    { key: 'tamara',     label: t('footer.payments.tamara'),     src: '/payments/tamara.svg' },
+    { key: 'bank',       label: t('footer.payments.bank'),       generic: 'bank' },
+    { key: 'cod',        label: t('footer.payments.cod'),        generic: 'cod' },
   ]
 
   return (
@@ -143,7 +134,7 @@ export function Footer() {
               </div>
             </div>
             <div className="f-cr">
-              <CRIcon size={36} style={{ marginInlineEnd: 12, verticalAlign: 'middle' }} />
+              <CRIcon size={36} />
               <span>
                 {t('footer.crLabel')}: <span dir="ltr" style={{ color: 'rgba(245, 241, 234, 0.85)' }}>{BUSINESS.cr}</span>
               </span>
@@ -154,11 +145,15 @@ export function Footer() {
         <div className="f-pay">
           <span className="f-pay-label">{t('footer.paymentsTitle')}</span>
           <div className="f-pay-chips">
-            {payments.map((p) => (
-              <span key={p.key} className="f-pay-chip" title={p.label} aria-label={p.label}>
-                <p.Icon size={34} />
-              </span>
-            ))}
+            {payments.map((p) =>
+              p.generic ? (
+                <IconBadge key={p.key} label={p.label}>
+                  {p.generic === 'bank' ? <BankIcon size={20} /> : <CodIcon size={20} />}
+                </IconBadge>
+              ) : (
+                <PaymentBadge key={p.key} src={p.src!} label={p.label} />
+              ),
+            )}
           </div>
         </div>
 
@@ -230,6 +225,7 @@ export function Footer() {
           margin-top: 14px;
           display: flex;
           align-items: center;
+          gap: 12px;
           font-size: 13px;
           color: ${LIGHT_SOFT};
         }
@@ -243,15 +239,6 @@ export function Footer() {
         }
         .f-pay-label { font-size: 12px; color: ${LIGHT_SOFT}; }
         .f-pay-chips { display: flex; gap: 10px; flex-wrap: wrap; }
-        .f-pay-chip {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background: transparent;
-          border-radius: 6px;
-          padding: 4px 6px;
-          line-height: 0;
-        }
         .f-bottom {
           display: flex;
           justify-content: space-between;
@@ -276,7 +263,6 @@ export function Footer() {
           .f-socials { margin-top: 16px; }
           .f-contact-rows { gap: 12px; font-size: 13px; }
           .f-pay { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 0; }
-          .f-pay-chip { padding: 4px; }
           .f-bottom {
             flex-direction: column;
             justify-content: center;

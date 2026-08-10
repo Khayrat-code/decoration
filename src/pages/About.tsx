@@ -19,9 +19,9 @@ export function About() {
   return (
     <>
       <section
+        className="pt-hero"
         style={{
           background: 'var(--bg)',
-          padding: '120px 0 80px',
           borderBottom: '1px solid var(--line)',
         }}
       >
@@ -72,9 +72,9 @@ export function About() {
 
       {/* ============ SIGNATURE BAND ============ */}
       <section
+        className="pt-hero-tight"
         style={{
           background: 'var(--bg-2)',
-          padding: '96px 0',
           borderBottom: '1px solid var(--line)',
         }}
       >
@@ -215,9 +215,9 @@ export function About() {
       </section>
 
       <section
+        className="pt-cta"
         style={{
           background: 'var(--bg-2)',
-          padding: '120px 0',
           borderTop: '1px solid var(--line)',
           textAlign: 'center',
         }}

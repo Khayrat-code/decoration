@@ -11,9 +11,9 @@ export function Gallery() {
   return (
     <>
       <section
+        className="pt-hero"
         style={{
           background: 'var(--bg)',
-          padding: '120px 0 80px',
           borderBottom: '1px solid var(--line)',
         }}
       >
@@ -58,9 +58,9 @@ export function Gallery() {
       </section>
 
       <section
+        className="pt-cta"
         style={{
           background: 'var(--bg-2)',
-          padding: '120px 0',
           borderTop: '1px solid var(--line)',
         }}
       >

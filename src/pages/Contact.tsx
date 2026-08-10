@@ -116,11 +116,11 @@ export function Contact() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="form-card"
             style={{
               background: 'var(--surface-2)',
               border: '1px solid var(--line)',
               borderRadius: 'var(--radius-lg)',
-              padding: 40,
             }}
             noValidate
           >

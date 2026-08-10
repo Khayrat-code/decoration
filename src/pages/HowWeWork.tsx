@@ -20,9 +20,9 @@ export function HowWeWork() {
   return (
     <>
       <section
+        className="pt-hero"
         style={{
           background: 'var(--bg)',
-          padding: '120px 0 80px',
           borderBottom: '1px solid var(--line)',
         }}
       >
@@ -277,10 +277,10 @@ export function HowWeWork() {
       </section>
 
       <section
+        className="pt-cta"
         style={{
           background: 'var(--accent)',
           color: 'var(--bg)',
-          padding: '120px 0',
         }}
       >
         <div className="container-narrow" style={{ textAlign: 'center' }}>

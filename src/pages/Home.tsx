@@ -77,6 +77,7 @@ export function Home() {
 
       {/* ============ BIG CTA ============ */}
       <section
+        className="cta-section"
         style={{
           background: 'var(--accent)',
           color: 'var(--bg)',
@@ -153,6 +154,10 @@ export function Home() {
           @media (max-width: 880px) {
             .cta-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
             .cta-grid a { align-self: flex-start !important; }
+            .cta-section { padding: 96px 0 !important; }
+          }
+          @media (max-width: 480px) {
+            .cta-section { padding: 72px 0 !important; }
           }
         `}</style>
       </section>

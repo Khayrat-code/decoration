@@ -1,18 +1,21 @@
 import { motion } from 'framer-motion'
-import { useT } from '../i18n/LanguageContext'
+import { useLang, useT } from '../i18n/LanguageContext'
+import T from '../i18n/translations'
+import { BUSINESS } from '../lib/business'
 
-const SECTION_KEYS = ['privacy', 'cookies', 'analytics', 'images', 'terms', 'delivery', 'contact'] as const
+const SECTION_KEYS = ['cookies', 'analytics', 'images', 'terms', 'delivery', 'contact'] as const
 
 export function Policies() {
   const t = useT()
-  const updated = new Date().toLocaleDateString('en-US', {
+  const { lang } = useLang()
+  const updated = new Date().toLocaleDateString(lang === 'ar' ? 'ar-SA' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   })
 
   return (
-    <section style={{ padding: '120px 0 80px' }}>
+    <section className="pt-hero">
       <div className="container-narrow">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -23,9 +26,11 @@ export function Policies() {
           <h1
             style={{
               fontSize: 'var(--fs-h1)',
+              fontWeight: lang === 'ar' ? 700 : 500,
               marginTop: 16,
               marginBottom: 24,
-              lineHeight: 1.15,
+              lineHeight: lang === 'ar' ? 1.3 : 1.15,
+              maxWidth: '20ch',
             }}
           >
             {t('policies.title')}
@@ -34,7 +39,7 @@ export function Policies() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 17,
-              lineHeight: 1.75,
+              lineHeight: lang === 'ar' ? 1.9 : 1.75,
               maxWidth: 640,
               marginBottom: 12,
             }}
@@ -54,19 +59,20 @@ export function Policies() {
         </motion.div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+          <PrivacySection index={0} />
           {SECTION_KEYS.map((key, i) => (
             <motion.div
               key={key}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.5, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: (i + 1) * 0.04, ease: [0.16, 1, 0.3, 1] }}
               style={{ borderTop: '1px solid var(--line)', paddingTop: 28 }}
             >
               <h2
                 style={{
                   fontSize: 24,
-                  fontWeight: 500,
+                  fontWeight: lang === 'ar' ? 700 : 500,
                   marginBottom: 12,
                 }}
               >
@@ -76,7 +82,7 @@ export function Policies() {
                 style={{
                   color: 'var(--ink-2)',
                   fontSize: 16,
-                  lineHeight: 1.85,
+                  lineHeight: lang === 'ar' ? 1.95 : 1.85,
                   maxWidth: 680,
                   margin: 0,
                 }}
@@ -88,5 +94,98 @@ export function Policies() {
         </div>
       </div>
     </section>
+  )
+}
+
+function PrivacySection({ index }: { index: number }) {
+  const t = useT()
+  const { lang } = useLang()
+  const p = T.policies.privacy
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.5, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
+      style={{ borderTop: '1px solid var(--line)', paddingTop: 28 }}
+    >
+      <h2 style={{ fontSize: 24, fontWeight: lang === 'ar' ? 700 : 500, marginBottom: 12 }}>
+        {t('policies.privacy.title')}
+      </h2>
+      <p
+        style={{
+          color: 'var(--ink-2)',
+          fontSize: 16,
+          lineHeight: lang === 'ar' ? 1.95 : 1.85,
+          maxWidth: 680,
+          margin: 0,
+          marginBottom: 28,
+        }}
+      >
+        {t('policies.privacy.intro')}
+      </p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 680 }}>
+        <PrivacyBlock title={t('policies.privacy.whatTitle')}>
+          <p style={privacyBodyStyle(lang)}>{t('policies.privacy.whatBody')}</p>
+        </PrivacyBlock>
+
+        <PrivacyBlock title={t('policies.privacy.whyTitle')}>
+          <p style={{ ...privacyBodyStyle(lang), marginBottom: 10 }}>{t('policies.privacy.whyIntro')}</p>
+          <ul style={{ margin: 0, paddingInlineStart: 20, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {p.whyItems.map((item, i) => (
+              <li key={i} style={privacyBodyStyle(lang)}>
+                {item[lang]}
+              </li>
+            ))}
+          </ul>
+        </PrivacyBlock>
+
+        <PrivacyBlock title={t('policies.privacy.protectTitle')}>
+          <p style={privacyBodyStyle(lang)}>{t('policies.privacy.protectBody')}</p>
+        </PrivacyBlock>
+
+        <PrivacyBlock title={t('policies.privacy.rightsTitle')}>
+          <p style={privacyBodyStyle(lang)}>{t('policies.privacy.rightsBody')}</p>
+        </PrivacyBlock>
+
+        <PrivacyBlock title={t('policies.privacy.contactTitle')}>
+          <p style={{ ...privacyBodyStyle(lang), marginBottom: 10 }}>{t('policies.privacy.contactBody')}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 15, color: 'var(--ink-2)' }}>
+            <span>
+              {t('policies.privacy.emailLabel')}:{' '}
+              <a href={`mailto:${BUSINESS.email}`} style={{ color: 'var(--accent)' }}>
+                {BUSINESS.email}
+              </a>
+            </span>
+            <span dir="ltr" style={{ textAlign: lang === 'ar' ? 'end' : 'start' }}>
+              {t('policies.privacy.phoneLabel')}:{' '}
+              <a href={BUSINESS.phoneHref} style={{ color: 'var(--accent)' }}>
+                {BUSINESS.phoneDisplay}
+              </a>
+            </span>
+          </div>
+        </PrivacyBlock>
+      </div>
+    </motion.div>
+  )
+}
+
+function privacyBodyStyle(lang: 'ar' | 'en'): React.CSSProperties {
+  return {
+    color: 'var(--ink-2)',
+    fontSize: 15,
+    lineHeight: lang === 'ar' ? 1.95 : 1.8,
+    margin: 0,
+  }
+}
+
+function PrivacyBlock({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--ink)', marginBottom: 8 }}>{title}</h3>
+      {children}
+    </div>
   )
 }
