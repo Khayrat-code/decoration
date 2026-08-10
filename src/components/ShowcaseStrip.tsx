@@ -10,11 +10,11 @@ interface Cover {
  * "واجهة" grid — a no-title, centered mosaic of one cover image
  * per room category, in the exact order the studio wants.
  *
- * The 7 covers are hand-picked (from `C:\Users\khayrat\Downloads\arr`)
+ * The 6 covers are hand-picked (from `C:\Users\khayrat\Downloads\arr`)
  * and uploaded to Supabase storage under `covers/`. We hardcode the
  * URLs here so the section always renders in the exact order
  *
- *   1 living · 2 bedroom · 3 office · 4 kitchen · 5 kids · 6 dining · 7 bathroom
+ *   1 living · 2 bedroom · 3 office · 4 kitchen · 5 kids · 6 dining
  *
  * — no DB query, no risk of the order drifting if someone re-uploads
  * gallery rows.
@@ -54,10 +54,6 @@ const COVERS: Cover[] = [
   {
     src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/6-dining.jpg',
     alt: { ar: 'صالة طعام', en: 'Dining room' },
-  },
-  {
-    src: 'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/covers/7-bathroom.jpg',
-    alt: { ar: 'دورة مياه', en: 'Bathroom' },
   },
 ]
 

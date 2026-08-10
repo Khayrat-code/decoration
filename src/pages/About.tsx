@@ -1,12 +1,20 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T from '../i18n/translations'
 
 export function About() {
   const t = useT()
   const { lang } = useLang()
+
+  const paragraphs: Array<{ key: string }> = [
+    { key: 'about.body1' },
+    { key: 'about.body2' },
+    { key: 'about.body3' },
+    { key: 'about.body4' },
+    { key: 'about.body5' },
+  ]
 
   return (
     <>
@@ -27,43 +35,123 @@ export function About() {
             <h1
               style={{
                 fontSize: 'var(--fs-h1)',
+                fontWeight: lang === 'ar' ? 700 : 500,
                 marginTop: 16,
-                marginBottom: 40,
-                lineHeight: 1.15,
+                marginBottom: 56,
+                lineHeight: lang === 'ar' ? 1.3 : 1.1,
+                maxWidth: '14ch',
               }}
             >
               {t('about.title')}
             </h1>
 
             <div
+              className="about-prose"
               style={{
                 color: 'var(--ink-2)',
-                fontSize: 18,
-                lineHeight: 1.85,
-                maxWidth: 680,
+                fontSize: 19,
+                lineHeight: lang === 'ar' ? 2.0 : 1.85,
+                maxWidth: 720,
               }}
             >
-              <p style={{ marginBottom: 24 }}>{t('about.body1')}</p>
-              <p style={{ marginBottom: 24 }}>{t('about.body2')}</p>
-              <p>{t('about.body3')}</p>
+              {paragraphs.map((p, i) => (
+                <p
+                  key={p.key}
+                  style={{
+                    marginBottom: i === paragraphs.length - 1 ? 0 : 28,
+                    fontWeight: lang === 'ar' ? 400 : 400,
+                  }}
+                >
+                  {t(p.key)}
+                </p>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
+      {/* ============ SIGNATURE BAND ============ */}
+      <section
+        style={{
+          background: 'var(--bg-2)',
+          padding: '96px 0',
+          borderBottom: '1px solid var(--line)',
+        }}
+      >
+        <div className="container-narrow">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              gap: 28,
+              alignItems: 'start',
+            }}
+            className="about-signature"
+          >
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 999,
+                background: 'var(--accent)',
+                color: 'var(--bg)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <Sparkles size={22} strokeWidth={1.5} />
+            </div>
+            <div>
+              <span
+                className="eyebrow"
+                style={{ display: 'block', marginBottom: 10 }}
+              >
+                {t('about.signatureEyebrow')}
+              </span>
+              <p
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(22px, 2.4vw, 30px)',
+                  lineHeight: lang === 'ar' ? 1.55 : 1.35,
+                  color: 'var(--ink)',
+                  fontWeight: lang === 'ar' ? 700 : 500,
+                  margin: 0,
+                  maxWidth: 640,
+                }}
+              >
+                {t('about.signature')}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+        <style>{`
+          @media (max-width: 720px) {
+            .about-signature { grid-template-columns: 1fr !important; gap: 18px !important; }
+          }
+        `}</style>
+      </section>
+
+      {/* ============ VALUES ============ */}
       <section className="section">
         <div className="container-narrow">
           <span className="eyebrow">{t('about.valuesEyebrow')}</span>
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
+              fontWeight: lang === 'ar' ? 700 : 500,
               marginTop: 14,
               marginBottom: 56,
-              lineHeight: 1.2,
+              lineHeight: lang === 'ar' ? 1.3 : 1.2,
               maxWidth: '20ch',
             }}
           >
-            {t('about.title')}
+            {t('about.valuesEyebrow')}
           </h2>
 
           <div
@@ -96,9 +184,10 @@ export function About() {
                 </div>
                 <h3
                   style={{
-                    fontSize: 20,
-                    marginBottom: 10,
-                    fontWeight: 500,
+                    fontSize: 22,
+                    fontWeight: lang === 'ar' ? 700 : 500,
+                    marginBottom: 12,
+                    lineHeight: lang === 'ar' ? 1.4 : 1.25,
                   }}
                 >
                   {v.title[lang]}
@@ -106,8 +195,8 @@ export function About() {
                 <p
                   style={{
                     color: 'var(--ink-2)',
-                    fontSize: 15,
-                    lineHeight: 1.7,
+                    fontSize: 16,
+                    lineHeight: lang === 'ar' ? 1.95 : 1.7,
                     margin: 0,
                   }}
                 >
@@ -138,8 +227,10 @@ export function About() {
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
+              fontWeight: lang === 'ar' ? 700 : 500,
               marginTop: 16,
               marginBottom: 24,
+              lineHeight: lang === 'ar' ? 1.35 : 1.2,
             }}
           >
             {t('contact.title')}
@@ -148,8 +239,8 @@ export function About() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 17,
-              lineHeight: 1.7,
-              maxWidth: 540,
+              lineHeight: lang === 'ar' ? 1.95 : 1.7,
+              maxWidth: 560,
               margin: '0 auto 32px',
             }}
           >

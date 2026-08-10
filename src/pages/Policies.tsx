@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useT } from '../i18n/LanguageContext'
 
-const SECTION_KEYS = ['privacy', 'cookies', 'analytics', 'images', 'contact'] as const
+const SECTION_KEYS = ['privacy', 'cookies', 'analytics', 'images', 'terms', 'delivery', 'contact'] as const
 
 export function Policies() {
   const t = useT()

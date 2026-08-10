@@ -18,6 +18,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 export const TABLES = {
   gallery: 'gallery_images',
   contact: 'contact_submissions',
+  complaints: 'complaints',
   analyticsSessions: 'analytics_sessions',
   analyticsEvents: 'analytics_events',
   settings: 'site_settings',

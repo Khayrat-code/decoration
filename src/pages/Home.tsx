@@ -98,6 +98,8 @@ export function Home() {
                   fontSize: 13,
                   fontWeight: 500,
                   color: 'rgba(245, 241, 234, 0.7)',
+                  letterSpacing: lang === 'ar' ? 0 : '0.22em',
+                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
                 }}
               >
                 {t('home.cta.eyebrow')}
@@ -105,22 +107,36 @@ export function Home() {
               <h2
                 style={{
                   color: 'var(--bg)',
-                  fontSize: 'clamp(40px, 5.5vw, 76px)',
-                  fontWeight: lang === 'ar' ? 700 : 400,
+                  fontSize: 'clamp(36px, 5vw, 64px)',
+                  fontWeight: lang === 'ar' ? 700 : 500,
                   marginTop: 16,
-                  lineHeight: lang === 'ar' ? 1.3 : 1.05,
-                  maxWidth: lang === 'ar' ? '16ch' : '14ch',
+                  lineHeight: lang === 'ar' ? 1.3 : 1.15,
+                  maxWidth: lang === 'ar' ? '20ch' : '18ch',
                 }}
               >
                 {t('home.cta.title')}
               </h2>
               <p
                 style={{
+                  fontFamily: 'var(--font-serif)',
+                  color: 'rgba(245, 241, 234, 0.92)',
+                  fontSize: 'clamp(20px, 2.2vw, 26px)',
+                  fontWeight: lang === 'ar' ? 700 : 500,
+                  lineHeight: lang === 'ar' ? 1.5 : 1.3,
+                  marginTop: 18,
+                  maxWidth: 640,
+                  fontStyle: lang === 'ar' ? 'normal' : 'italic',
+                }}
+              >
+                {t('home.cta.tagline')}
+              </p>
+              <p
+                style={{
                   color: 'rgba(245, 241, 234, 0.78)',
                   fontSize: 17,
-                  lineHeight: lang === 'ar' ? 1.95 : 1.65,
-                  maxWidth: 520,
-                  marginTop: 24,
+                  lineHeight: lang === 'ar' ? 1.95 : 1.7,
+                  maxWidth: 560,
+                  marginTop: 22,
                 }}
               >
                 {t('home.cta.body')}

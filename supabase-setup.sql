@@ -233,6 +233,49 @@ create policy "Admin write invoices"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+-- ---- 4e. complaints (شكاوى واقتراحات) -----------------------------------
+create table if not exists public.complaints (
+  id          uuid primary key default gen_random_uuid(),
+  name        text not null,
+  email       text not null,
+  phone       text,
+  type        text not null default 'complaint',
+  subject     text,
+  message     text not null,
+  read        boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists complaints_created_idx
+  on public.complaints (created_at desc);
+
+alter table public.complaints enable row level security;
+
+drop policy if exists "Public insert complaints" on public.complaints;
+create policy "Public insert complaints"
+  on public.complaints
+  for insert
+  with check (true);
+
+drop policy if exists "Admin read complaints" on public.complaints;
+create policy "Admin read complaints"
+  on public.complaints
+  for select
+  using (auth.role() = 'authenticated');
+
+drop policy if exists "Admin update complaints" on public.complaints;
+create policy "Admin update complaints"
+  on public.complaints
+  for update
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+drop policy if exists "Admin delete complaints" on public.complaints;
+create policy "Admin delete complaints"
+  on public.complaints
+  for delete
+  using (auth.role() = 'authenticated');
+
 -- ---- 5. updated_at trigger (gallery) ----------------------------------
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$

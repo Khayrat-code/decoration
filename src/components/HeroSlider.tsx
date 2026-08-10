@@ -110,6 +110,7 @@ export function HeroSlider() {
 
   return (
     <section
+      className="hero-laptop"
       style={{
         position: 'relative',
         height: 'min(92vh, 860px)',
@@ -156,11 +157,11 @@ export function HeroSlider() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',
-          padding: '0 32px 48px',
+          padding: 'calc(var(--navbar-h) + 28px) 32px 48px',
           color: '#F5F1EA',
         }}
       >
-        <div style={{ maxWidth: 880, minHeight: 300 }}>
+        <div style={{ maxWidth: 880 }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
@@ -183,11 +184,12 @@ export function HeroSlider() {
                 {subtitle}
               </span>
               <h1
+                className="hero-title"
                 style={{
                   fontFamily: 'var(--font-serif)',
                   color: '#F5F1EA',
                   fontSize: 'clamp(40px, 6.5vw, 92px)',
-                  fontWeight: lang === 'ar' ? 700 : 400,
+                  fontWeight: lang === 'ar' ? 700 : 500,
                   lineHeight: lang === 'ar' ? 1.3 : 1.05,
                   letterSpacing: lang === 'ar' ? 0 : '-0.02em',
                   margin: 0,
@@ -199,13 +201,14 @@ export function HeroSlider() {
                   style={{
                     color: '#C7A87A',
                     fontStyle: lang === 'ar' ? 'normal' : 'italic',
-                    fontWeight: lang === 'ar' ? 700 : 400,
+                    fontWeight: lang === 'ar' ? 700 : 500,
                   }}
                 >
                   {slide.highlight[lang]}
                 </em>
               </h1>
               <p
+                className="hero-desc"
                 style={{
                   marginTop: 22,
                   fontSize: 18,
@@ -261,7 +264,7 @@ export function HeroSlider() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
+          <div className="hero-ctas" style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
             <Link to="/gallery" className="btn btn-light">
               {t('home.hero.cta1')} <ArrowRight size={16} className="icon-flip" />
             </Link>
@@ -373,6 +376,16 @@ export function HeroSlider() {
       <style>{`
         @media (max-width: 720px) {
           .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (min-width: 1024px) and (max-height: 820px) {
+          .hero-title { font-size: clamp(36px, 5vw, 64px) !important; line-height: 1.05 !important; }
+          .hero-desc { font-size: 16px !important; margin-top: 16px !important; }
+          .hero-tags { margin-top: 18px !important; }
+          .hero-ctas { margin-top: 22px !important; }
+          .hero-stats { margin-top: 22px !important; padding-top: 18px !important; }
+        }
+        @media (min-width: 1024px) and (max-height: 720px) {
+          .hero-title { font-size: clamp(32px, 4.5vw, 56px) !important; }
         }
       `}</style>
     </section>

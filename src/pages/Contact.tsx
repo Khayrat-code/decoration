@@ -7,10 +7,19 @@ interface FormState {
   name: string
   email: string
   phone: string
+  projectType: string
+  spaceSize: string
   message: string
 }
 
-const empty: FormState = { name: '', email: '', phone: '', message: '' }
+const empty: FormState = {
+  name: '',
+  email: '',
+  phone: '',
+  projectType: '',
+  spaceSize: '',
+  message: '',
+}
 
 export function Contact() {
   const [form, setForm] = useState<FormState>(empty)
@@ -38,11 +47,20 @@ export function Contact() {
     }
 
     setSubmitting(true)
+    const message = [
+      `[${form.projectType || '—'}]`,
+      form.spaceSize ? `${form.spaceSize} m²` : '',
+      '',
+      form.message.trim(),
+    ]
+      .filter(Boolean)
+      .join('\n')
+
     const { error: dbError } = await supabase.from(TABLES.contact).insert({
       name: form.name.trim(),
       email: form.email.trim(),
       phone: form.phone.trim() || null,
-      message: form.message.trim(),
+      message,
     })
     setSubmitting(false)
 
@@ -57,15 +75,17 @@ export function Contact() {
   return (
     <section className="section">
       <div className="container-narrow">
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <span className="eyebrow">{t('contact.eyebrow')}</span>
           <h1
             style={{
               fontSize: 'var(--fs-h1)',
-              fontWeight: lang === 'ar' ? 700 : 400,
-              marginTop: 12,
-              marginBottom: 16,
+              fontWeight: lang === 'ar' ? 700 : 500,
+              marginTop: 14,
+              marginBottom: 18,
               lineHeight: lang === 'ar' ? 1.3 : 1.1,
+              maxWidth: '20ch',
+              margin: '14px auto 18px',
             }}
           >
             {t('contact.title')}
@@ -73,9 +93,9 @@ export function Contact() {
           <p
             style={{
               color: 'var(--ink-2)',
-              fontSize: 17,
-              lineHeight: lang === 'ar' ? 1.95 : 1.6,
-              maxWidth: 560,
+              fontSize: 18,
+              lineHeight: lang === 'ar' ? 1.95 : 1.7,
+              maxWidth: 600,
               margin: '0 auto',
             }}
           >
@@ -100,7 +120,7 @@ export function Contact() {
               background: 'var(--surface-2)',
               border: '1px solid var(--line)',
               borderRadius: 'var(--radius-lg)',
-              padding: 32,
+              padding: 40,
             }}
             noValidate
           >
@@ -109,22 +129,22 @@ export function Contact() {
                 <div
                   style={{
                     fontFamily: 'var(--font-serif)',
-                    fontSize: 24,
-                    fontWeight: lang === 'ar' ? 700 : 400,
+                    fontSize: 26,
+                    fontWeight: lang === 'ar' ? 700 : 500,
                     color: 'var(--ink)',
-                    marginBottom: 8,
+                    marginBottom: 10,
                   }}
                 >
                   {t('contact.form.success.title')}
                 </div>
-                <p style={{ color: 'var(--ink-2)', fontSize: 15, lineHeight: lang === 'ar' ? 1.95 : 1.6 }}>
+                <p style={{ color: 'var(--ink-2)', fontSize: 16, lineHeight: lang === 'ar' ? 1.95 : 1.7 }}>
                   {t('contact.form.success.body')}
                 </p>
                 <button
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => setDone(false)}
-                  style={{ marginTop: 20 }}
+                  style={{ marginTop: 24 }}
                 >
                   {t('contact.form.sendAnother')}
                 </button>
@@ -142,7 +162,7 @@ export function Contact() {
                     required
                   />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="contact-row">
                   <div className="field">
                     <label htmlFor="email">{t('contact.form.email')}</label>
                     <input
@@ -165,6 +185,29 @@ export function Contact() {
                       value={form.phone}
                       onChange={onChange('phone')}
                       autoComplete="tel"
+                    />
+                  </div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="contact-row">
+                  <div className="field">
+                    <label htmlFor="projectType">{t('contact.form.projectType')}</label>
+                    <input
+                      id="projectType"
+                      type="text"
+                      value={form.projectType}
+                      onChange={onChange('projectType')}
+                      placeholder={t('contact.form.projectTypePh')}
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="spaceSize">{t('contact.form.spaceSize')}</label>
+                    <input
+                      id="spaceSize"
+                      type="text"
+                      inputMode="numeric"
+                      value={form.spaceSize}
+                      onChange={onChange('spaceSize')}
+                      placeholder={t('contact.form.spaceSizePh')}
                     />
                   </div>
                 </div>
@@ -209,21 +252,21 @@ export function Contact() {
             )}
           </motion.form>
 
-          <aside style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <aside style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
             <Detail
               label={t('contact.aside.studio.label')}
               value={t('contact.aside.studio.title')}
               detail={t('contact.aside.studio.detail')}
             />
             <Detail
-              label={t('contact.aside.email.label')}
-              value={t('contact.aside.email.title')}
-              detail={t('contact.aside.email.detail')}
+              label={t('contact.aside.reach.label')}
+              value={t('contact.aside.reach.title')}
+              detail={t('contact.aside.reach.detail')}
             />
             <Detail
-              label={t('contact.aside.hours.label')}
-              value={t('contact.aside.hours.title')}
-              detail={t('contact.aside.hours.detail')}
+              label={t('contact.aside.areas.label')}
+              value={t('contact.aside.areas.title')}
+              detail={t('contact.aside.areas.detail')}
             />
           </aside>
         </div>
@@ -231,6 +274,7 @@ export function Contact() {
         <style>{`
           @media (max-width: 760px) {
             .contact-grid { grid-template-columns: 1fr !important; }
+            .contact-row { grid-template-columns: 1fr !important; }
           }
         `}</style>
       </div>
@@ -248,6 +292,8 @@ function Detail({ label, value, detail }: { label: string; value: string; detail
           fontWeight: 500,
           color: 'var(--accent)',
           marginBottom: 8,
+          letterSpacing: lang === 'ar' ? 0 : '0.12em',
+          textTransform: lang === 'ar' ? 'none' : 'uppercase',
         }}
       >
         {label}
@@ -255,16 +301,16 @@ function Detail({ label, value, detail }: { label: string; value: string; detail
       <div
         style={{
           fontFamily: 'var(--font-serif)',
-          fontSize: 20,
-          fontWeight: lang === 'ar' ? 700 : 400,
+          fontSize: 22,
+          fontWeight: lang === 'ar' ? 700 : 500,
           color: 'var(--ink)',
-          marginBottom: 4,
-          lineHeight: lang === 'ar' ? 1.4 : 1.2,
+          marginBottom: 6,
+          lineHeight: lang === 'ar' ? 1.4 : 1.25,
         }}
       >
         {value}
       </div>
-      <div style={{ color: 'var(--ink-2)', fontSize: 14, lineHeight: lang === 'ar' ? 1.85 : 1.6 }}>
+      <div style={{ color: 'var(--ink-2)', fontSize: 15, lineHeight: lang === 'ar' ? 1.95 : 1.7 }}>
         {detail}
       </div>
     </div>

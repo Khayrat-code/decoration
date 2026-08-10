@@ -5,10 +5,11 @@ import { Logo } from './Logo'
 import { useLang, useT } from '../i18n/LanguageContext'
 
 const linkKeys = [
-  { to: '/',         key: 'nav.home' },
-  { to: '/gallery',  key: 'nav.gallery' },
-  { to: '/about',    key: 'nav.about' },
-  { to: '/contact',  key: 'nav.contact' },
+  { to: '/',             key: 'nav.home' },
+  { to: '/gallery',      key: 'nav.gallery' },
+  { to: '/about',        key: 'nav.about' },
+  { to: '/how-we-work',  key: 'nav.howWeWork' },
+  { to: '/contact',      key: 'nav.contact' },
 ] as const
 
 export function Navbar() {
@@ -38,6 +39,7 @@ export function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
+        height: 'var(--navbar-h)',
         background: scrolled || open
           ? 'rgba(245, 241, 234, 0.94)'
           : 'rgba(245, 241, 234, 0.78)',
@@ -45,6 +47,8 @@ export function Navbar() {
         WebkitBackdropFilter: 'saturate(140%) blur(14px)',
         borderBottom: '1px solid var(--line)',
         transition: 'background-color 240ms ease, backdrop-filter 240ms ease',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
       <div
@@ -53,13 +57,13 @@ export function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '12px 32px',
           gap: 24,
+          height: '100%',
         }}
       >
         <NavLink
           to="/"
-          style={{ borderBottom: 'none' }}
+          style={{ borderBottom: 'none', display: 'inline-flex', alignItems: 'center', lineHeight: 0 }}
           aria-label="ToolCan Decoration home"
         >
           <Logo size="sm" />
@@ -89,8 +93,11 @@ export function Navbar() {
                       letterSpacing: lang === 'ar' ? 0 : '0.18em',
                       textTransform: lang === 'ar' ? 'none' : 'uppercase',
                       borderBottom: 'none',
-                      padding: '6px 0',
+                      padding: '8px 0',
                       position: 'relative',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      height: 40,
                     })}
                   >
                     {({ isActive }) => (
@@ -137,6 +144,10 @@ export function Navbar() {
                 borderRadius: 999,
                 cursor: 'pointer',
                 minWidth: 44,
+                height: 36,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 transition: 'all 200ms var(--ease-out-soft)',
               }}
             >
@@ -208,6 +219,24 @@ export function Navbar() {
                 </NavLink>
               </li>
             ))}
+            <li>
+              <NavLink
+                to="/complaints"
+                style={{
+                  display: 'block',
+                  color: 'var(--ink-2)',
+                  background: 'transparent',
+                  fontSize: 15,
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  borderBottom: 'none',
+                  padding: '14px 16px',
+                  borderRadius: 10,
+                }}
+              >
+                {t('nav.complaints')}
+              </NavLink>
+            </li>
           </ul>
         </nav>
       )}

@@ -40,7 +40,9 @@ const T = {
     home:        { ar: 'الرئيسية',     en: 'Home' },
     gallery:     { ar: 'المعرض',       en: 'Gallery' },
     about:       { ar: 'من نحن',       en: 'About' },
+    howWeWork:   { ar: 'كيف نعمل',     en: 'How we work' },
     contact:     { ar: 'تواصل',        en: 'Contact' },
+    complaints:  { ar: 'الشكاوى والاقتراحات', en: 'Complaints' },
     exitAdmin:   { ar: 'الخروج من الإدارة', en: 'Exit admin' },
     skipToContent:{ ar: 'تخطّي إلى المحتوى', en: 'Skip to content' },
     primaryNav:  { ar: 'القائمة الرئيسية', en: 'Primary' },
@@ -76,6 +78,7 @@ const T = {
     contactTitle: { ar: 'تواصل معنا', en: 'Contact us' },
     trustTitle:   { ar: 'ثقة وتوثيق', en: 'Trust & verification' },
     certified:    { ar: 'موثّق في منصة الأعمال', en: 'Verified business' },
+    mawthoogSub:  { ar: 'موثوق · Mawthoog', en: 'Verified · Mawthoog' },
     crLabel:      { ar: 'السجل التجاري', en: 'Commercial registration' },
     whatsapp:     { ar: 'واتساب', en: 'WhatsApp' },
     complaints:   { ar: 'الشكاوى والاقتراحات', en: 'Complaints & suggestions' },
@@ -268,14 +271,59 @@ const T = {
       ],
     },
     cta: {
-      eyebrow: { ar: 'البداية',  en: 'Begin' },
-      title:   { ar: 'هل لديك غرفة في ذهنك؟',  en: 'Have a room in mind?' },
+      eyebrow:  { ar: 'تصميم يناسب مشروعك',  en: 'Design for your project' },
+      title:    { ar: 'مساحة بهوية تُرى وتُذكر', en: 'A space with an identity — seen and remembered' },
+      tagline:  { ar: 'من الفكرة إلى التنفيذ، نصنع الفرق', en: 'From idea to execution, we make the difference' },
       body: {
-        ar: 'أرسل بعض الصور وجملة قصيرة عن كيف تستخدم المساحة. نقرأ كل رسالة ونردّ في نفس الأسبوع.',
-        en: 'Send a few photos and a short note about how you use the space. We read every message and write back the same week.',
+        ar: 'حلول متكاملة في الأثاث والديكور والتجهيز الداخلي للمكاتب، الفنادق، والمساحات التجارية، بتنفيذ يواكب هوية كل مشروع.',
+        en: 'Integrated solutions in furniture, décor, and interior fit-out for offices, hotels, and commercial spaces — delivered with the identity of every project in mind.',
       },
-      button:  { ar: 'تواصل معنا', en: 'Get in touch' },
+      button:   { ar: 'لنصنع مشروعك معًا', en: 'Let’s build your project' },
     },
+  },
+
+  /* ------------------ How We Work page ------------------ */
+  howWeWork: {
+    eyebrow:   { ar: 'كيف نعمل', en: 'How we work' },
+    title:     { ar: 'عملية منضبطة، تنفيذ متأنٍّ.', en: 'A disciplined process, a careful delivery.' },
+    intro: {
+      ar: 'كل مشروع يمر بأربع مراحل متتابعة، عادةً على مدى أسابيع إلى أشهر. لا نختصر أي مرحلة، لأن الجودة لا تأتي من السرعة.',
+      en: 'Every project passes through four consecutive stages, typically over weeks to months. We never short-cut any stage — quality never comes from speed alone.',
+    },
+    principlesEyebrow: { ar: 'مبادئنا',   en: 'Our principles' },
+    principles: [
+      {
+        title: { ar: 'الإصغاء قبل التصميم', en: 'Listen before drawing' },
+        body:  {
+          ar: 'نبدأ من المساحة وكيف تُستخدم فعلاً، لا من صور جاهزة. الفكرة تأتي بعد فهم الموقع واحتياجات العميل.',
+          en: 'We start with the space and how it is actually used — not from a mood-board. The concept follows the site and the client’s needs.',
+        },
+      },
+      {
+        title: { ar: 'مواد تَعِيش', en: 'Materials that age well' },
+        body:  {
+          ar: 'نختار الخشب، الحجر، الكتان، والجبس لما يضيفونه للغرفة بعد سنة، لا لما يبدونه في أول صورة.',
+          en: 'We choose wood, stone, linen, and plaster for what they add to a room after a year — not for how they look in the first photograph.',
+        },
+      },
+      {
+        title: { ar: 'عدد قليل من المشاريع', en: 'A few projects at a time' },
+        body:  {
+          ar: 'نرفض أكثر مما نقبل. المشروع الذي يستحق الاهتمام الكامل هو مشروعٌ واحدٌ فقط، لا عدة مشاريع.',
+          en: 'We turn down more than we take on. A project worth full attention is one project, not several.',
+        },
+      },
+      {
+        title: { ar: 'شفافية كاملة', en: 'Full transparency' },
+        body:  {
+          ar: 'ميزانية واضحة، جدول زمني معتمد، وتحديثات منتظمة. لا مفاجآت في الفاتورة النهائية.',
+          en: 'A clear budget, an agreed timeline, and regular updates. No surprises in the final invoice.',
+        },
+      },
+    ],
+    timelineEyebrow: { ar: 'المراحل', en: 'Stages' },
+    timelineNote:    { ar: 'المدة تقريبية وتختلف بحسب حجم وتعقيد المشروع.', en: 'Duration is approximate and varies with project size and complexity.' },
+    discussCta:      { ar: 'ناقش مشروعك معنا', en: 'Discuss your project' },
   },
 
   /* ------------------ Gallery page ------------------ */
@@ -308,49 +356,107 @@ const T = {
   /* ------------------ Contact page ------------------ */
   contact: {
     eyebrow: { ar: 'تواصل', en: 'Contact' },
-    title:   { ar: 'أخبرنا عن الغرفة.', en: 'Tell us about the room.' },
+    title:   { ar: 'لنصنع مشروعك معًا.', en: 'Let’s build your project together.' },
     body: {
-      ar: 'نقرأ كل رسالة. ستردّ عليكم خلال خمسة أيام عمل، وغالباً قبل ذلك.',
-      en: 'We read every message. You’ll hear back within five working days, usually sooner.',
+      ar: 'أرسل لنا بعض الصور، أبعاد المساحة، وما يتخيله ذهنك. يقرأ فريقنا كل رسالة، ويُردّ خلال خمسة أيام عمل.',
+      en: 'Send us a few photos, the dimensions of the space, and what you have in mind. Our team reads every message and replies within five working days.',
     },
     form: {
-      name:    { ar: 'الاسم',    en: 'Name' },
+      name:    { ar: 'الاسم الكامل',    en: 'Full name' },
       email:   { ar: 'البريد الإلكتروني', en: 'Email' },
       phone:   { ar: 'الهاتف',   en: 'Phone' },
       phoneOptional: { ar: 'اختياري', en: 'optional' },
-      message: { ar: 'الرسالة',  en: 'Message' },
+      projectType: { ar: 'نوع المشروع', en: 'Project type' },
+      projectTypePh: { ar: 'منزل · مكتب · فندق · مطعم · حديقة · مساحة تجارية', en: 'Home · Office · Hotel · Restaurant · Garden · Commercial' },
+      spaceSize: { ar: 'مساحة المشروع (م²)', en: 'Project size (m²)' },
+      spaceSizePh: { ar: 'مثال: ١٢٠', en: 'e.g. 120' },
+      message: { ar: 'تفاصيل المشروع',  en: 'Project details' },
       messagePh: {
-        ar: 'جملة عن المساحة وما الشعور الذي تريده لها.',
-        en: 'A sentence about the space and what you’d like it to feel like.',
+        ar: 'أخبرنا عن المساحة، ما تستخدمه لها، والأجواء التي تتخيلها.',
+        en: 'Tell us about the space, how you use it, and the atmosphere you have in mind.',
       },
-      submit:  { ar: 'إرسال الرسالة', en: 'Send message' },
+      submit:  { ar: 'إرسال الطلب', en: 'Send request' },
       submitting: { ar: 'جاري الإرسال…', en: 'Sending…' },
-      sendAnother: { ar: 'إرسال رسالة أخرى', en: 'Send another' },
+      sendAnother: { ar: 'إرسال رسالة أخرى', en: 'Send another request' },
       success: {
-        title: { ar: 'شكراً لك.',  en: 'Thank you.' },
-        body:  { ar: 'رسالتك في طريقها إلينا. سنعود إليك قريباً.', en: 'Your message is on its way. We’ll be in touch soon.' },
+        title: { ar: 'تم استلام طلبك.',  en: 'Request received.' },
+        body:  { ar: 'سنعود إليك خلال خمسة أيام عمل بخطواتنا التالية.', en: 'We’ll get back to you within five working days with our next steps.' },
       },
       errors: {
-        required: { ar: 'يرجى تعبئة الاسم والبريد الإلكتروني والرسالة.', en: 'Please fill in name, email, and a short message.' },
+        required: { ar: 'يرجى تعبئة الاسم والبريد الإلكتروني وتفاصيل المشروع.', en: 'Please fill in name, email, and project details.' },
         email:    { ar: 'صيغة البريد الإلكتروني غير صحيحة.', en: 'That email doesn’t look quite right.' },
       },
     },
     aside: {
       studio: {
-        label:  { ar: 'الاستوديو',  en: 'Studio' },
-        title:  { ar: 'بموعد مسبق', en: 'By appointment only' },
-        detail: { ar: 'نعمل على عدد قليل من المشاريع في كل مرة.', en: 'We work on a small number of projects at a time.' },
+        label:  { ar: 'الاستوديو',  en: 'The studio' },
+        title:  { ar: 'تولكان للديكور', en: 'ToolCan Decoration' },
+        detail: { ar: 'نعمل على عدد قليل من المشاريع في كل مرة.', en: 'We take on a small number of projects at a time.' },
       },
-      email: {
-        label:  { ar: 'البريد', en: 'Email' },
-        title:  { ar: 'khayratum@gmail.com', en: 'khayratum@gmail.com' },
-        detail: { ar: 'نرد خلال خمسة أيام عمل.', en: 'We reply within five working days.' },
+      reach: {
+        label:  { ar: 'كيف تصل إلينا', en: 'How to reach us' },
+        title:  { ar: 'واتساب · البريد · الهاتف', en: 'WhatsApp · Email · Phone' },
+        detail: { ar: 'متاحون من الإثنين إلى الجمعة، ١٠–١٨.', en: 'Available Monday to Friday, 10–18.' },
       },
-      hours: {
-        label:  { ar: 'ساعات العمل', en: 'Hours' },
-        title:  { ar: 'الإثنين — الجمعة، ١٠–١٨', en: 'Mon — Fri, 10–18' },
-        detail: { ar: 'التوقيت: +٣ غرينتش', en: 'Time zone: GMT+3' },
+      areas: {
+        label:  { ar: 'نخدم', en: 'We serve' },
+        title:  { ar: 'الرياض · المملكة العربية السعودية', en: 'Riyadh · Saudi Arabia' },
+        detail: { ar: 'مشاريع مختارة داخل المملكة وخارجها.', en: 'Selected projects across the Kingdom and beyond.' },
       },
+    },
+  },
+
+  /* ------------------ Complaints & Suggestions page ------------------ */
+  complaints: {
+    eyebrow: { ar: 'الشكاوى والاقتراحات', en: 'Complaints & suggestions' },
+    title:   { ar: 'رأيك يصنع فرقًا.', en: 'Your opinion makes a difference.' },
+    body: {
+      ar: 'نحرص على تحسين تجربتك باستمرار. أرسل ملاحظتك بصراحة، وسنردّ عليك خلال أيام عمل قليلة.',
+      en: 'We are committed to improving our work continuously. Send your feedback honestly — we’ll reply within a few working days.',
+    },
+    form: {
+      name:        { ar: 'الاسم',    en: 'Name' },
+      email:       { ar: 'البريد الإلكتروني', en: 'Email' },
+      phone:       { ar: 'الهاتف',   en: 'Phone' },
+      phoneOptional: { ar: 'اختياري', en: 'optional' },
+      type:        { ar: 'نوع الرسالة', en: 'Message type' },
+      typeComplaint: { ar: 'شكوى', en: 'Complaint' },
+      typeSuggestion: { ar: 'اقتراح', en: 'Suggestion' },
+      typeAppreciation: { ar: 'شكر وتقدير', en: 'Appreciation' },
+      orderRef:    { ar: 'رقم الطلب / المشروع (اختياري)', en: 'Order / project reference (optional)' },
+      message:     { ar: 'تفاصيل الرسالة',  en: 'Message details' },
+      messagePh: {
+        ar: 'اشرح ملاحظتك بوضوح، مع أي تفاصيل تساعدنا على المتابعة.',
+        en: 'Explain your feedback clearly, with any details that help us follow up.',
+      },
+      submit:      { ar: 'إرسال الرسالة', en: 'Submit' },
+      submitting:  { ar: 'جاري الإرسال…', en: 'Submitting…' },
+      sendAnother: { ar: 'إرسال رسالة أخرى', en: 'Send another' },
+      success: {
+        title: { ar: 'شكرًا لوقتك.',  en: 'Thank you for your time.' },
+        body:  { ar: 'وصلتنا رسالتك. فريق المتابعة سيتواصل معك قريبًا.', en: 'We’ve received your message. Our team will be in touch soon.' },
+      },
+      errors: {
+        required: { ar: 'يرجى تعبئة الاسم والبريد الإلكتروني والتفاصيل.', en: 'Please fill in name, email, and details.' },
+        email:    { ar: 'صيغة البريد الإلكتروني غير صحيحة.', en: 'That email doesn’t look quite right.' },
+      },
+    },
+    promise: {
+      title: { ar: 'ما نعدك به', en: 'Our promise' },
+      items: [
+        {
+          ar: 'نقرأ كل رسالة يدويًا، ونتعامل معها بسرّية تامة.',
+          en: 'We read every message manually and treat it with full confidentiality.',
+        },
+        {
+          ar: 'نردّ خلال خمسة أيام عمل مع الخطوات التالية.',
+          en: 'We reply within five working days with our next steps.',
+        },
+        {
+          ar: 'نوثّق الملاحظات ونتشاركها مع فريق العمل للتحسين.',
+          en: 'We document feedback and share it with the team for improvement.',
+        },
+      ],
     },
   },
 
@@ -490,48 +596,61 @@ const T = {
 
   /* ------------------ About page ------------------ */
   about: {
-    eyebrow: { ar: 'من نحن', en: 'About' },
-    title:   { ar: 'استوديو صغير، وغرفٌ بُنيت ببطء.', en: 'A small studio, rooms built slowly.' },
+    eyebrow:  { ar: 'من نحن', en: 'About' },
+    title:    { ar: 'من نحن', en: 'About us' },
     body1: {
-      ar: 'تولكان للديكور هو أحد استوديوهات مجموعة تولكان، يعمل على عددٍ قليل من المشاريع في كل مرة. نعيش في حيٍّ هادئ، ونستقبل المشاريع ببطء — لأن العمل المتأنّي لا يُختصر.',
-      en: 'ToolCan Decoration is one of the studios under the ToolCan group, taking on a small number of projects at a time. We work slowly — considered work cannot be rushed.',
+      ar: 'شركة متخصصة في بناء هوية لمساحات متكاملة: منازل، مكاتب، فنادق، مطاعم، حدائق، ومساحات تجارية.',
+      en: 'A studio specialised in building identity for complete spaces — homes, offices, hotels, restaurants, gardens, and commercial venues.',
     },
     body2: {
-      ar: 'نصوغ غرفاً بألوانٍ ناعمة، وموادّ تتقادم بجمال: خشب، حجر، كتان، جص، ونحاس. نختار القطع لكيف تتغيّر مع السنوات، لا كيف تظهر في صورة.',
-      en: 'We shape rooms with soft palettes and materials that age well — wood, stone, linen, plaster, brass. We choose pieces for how they change over years, not how they photograph in a moment.',
+      ar: 'من خلال تصميم وتنسيق مدروس، واختيار دقيق للمواد والأثاث، وتنفيذ يُترجم الفخامة إلى واقع ملموس.',
+      en: 'Through considered design, careful selection of materials and furniture, and execution that turns luxury into a tangible reality.',
     },
     body3: {
-      ar: 'نبدأ من المحادثة الطويلة، ومن المكان نفسه. ثم نرسم، نُراجع، نُعتمد. ثم نُركّب في الموقع بهدوء. كل مشروع يترك أثره على الاستوديو وعلى مَن فيه.',
-      en: 'We start with a long conversation, and with the space itself. Then we draw, revise, and sign off. Then we install on site, calmly. Every project leaves its mark on the studio and on the people in it.',
+      ar: 'نؤمن أن لكل مساحة شخصية… ومهمتنا أن نكشفها بأعلى درجات الدقة والتميّز.',
+      en: 'We believe every space has a personality — our job is to reveal it with the highest precision and distinction.',
+    },
+    body4: {
+      ar: 'نخلق مساحات تحمل توقيعها الخاص: واضحة، واثقة، ولا تُشبه سواها.',
+      en: 'We create spaces that carry their own signature — clear, confident, and unlike anything else.',
+    },
+    body5: {
+      ar: 'نجمع بين الإبداع والخبرة، بواسطة نخبة من المصممين المحترفين، لتقديم حلول تصميمية متكاملة تشمل التصميم الداخلي، اختيار الأثاث، وتنسيق الديكورات بأعلى معايير الجودة والفخامة.',
+      en: 'We combine creativity with expertise — through a team of professional designers — to deliver integrated design solutions that include interior design, furniture selection, and décor styling at the highest standards of quality and luxury.',
+    },
+    signatureEyebrow: { ar: 'توقيعنا', en: 'Our signature' },
+    signature: {
+      ar: 'كل مساحة نُسلّمها تحمل بصمتنا: لمسة هادئة، تفاصيل متقنة، وهوية واضحة.',
+      en: 'Every space we hand over carries our signature: a quiet touch, refined details, and a clear identity.',
     },
     valuesEyebrow: { ar: 'قيمنا', en: 'Our values' },
     values: [
       {
-        title: { ar: 'الإصغاء قبل التصميم', en: 'Listen before drawing' },
+        title: { ar: 'هوية واضحة لكل مساحة', en: 'A clear identity for every space' },
         body:  {
-          ar: 'كل غرفة تبدأ بسؤال: كيف تعيش هنا؟ التصميم يأتي بعد الإجابة، لا قبلها.',
-          en: 'Every room starts with a question: how do you live here? The design comes after the answer, never before.',
+          ar: 'لا نكرّر القوالب الجاهزة. كل مشروع يُرسم من الصفر ليُعبّر عن صاحبه والمكان الذي يحتضنه.',
+          en: 'We never repeat ready-made templates. Every project is drawn from scratch to reflect its owner and its place.',
         },
       },
       {
-        title: { ar: 'مواد تَعِيش', en: 'Materials that live' },
+        title: { ar: 'اختيار دقيق للمواد', en: 'Carefully chosen materials' },
         body:  {
-          ar: 'نختار الخشب والحجر والكتان لما يتقادمون، لا لما يلمعون. الجمال في الثانية لا يكفي.',
-          en: 'We pick wood, stone, and linen for how they age, not how they gleam. A moment’s beauty is not enough.',
+          ar: 'نختار الخشب، الحجر، النسيج، والمعدن من مصادر موثوقة، بمعايير جودة صارمة ومتانة طويلة المدى.',
+          en: 'We source wood, stone, fabric, and metal from trusted suppliers with strict quality and durability standards.',
         },
       },
       {
-        title: { ar: 'عدد قليل من المشاريع', en: 'Few projects at a time' },
-        body:  {
-          ar: 'نرفض أكثر مما نقبل. المشروع الذي يستحق الاهتمام الكامل هو مشروعٌ واحدٌ فقط، لا خمسة.',
-          en: 'We turn down more than we take on. A project worth full attention is one, not five.',
+        title: { ar: 'فخامة هادئة', en: 'Quiet luxury' },
+          body: {
+          ar: 'نُحقّق الفخامة من خلال الجودة والتوازن، لا من خلال البذخ. الرقي في التفاصيل، لا في الصخب.',
+          en: 'We achieve luxury through quality and balance — not through excess. Refinement lives in the details, not in the noise.',
         },
       },
       {
-        title: { ar: 'الهدوء جزءٌ من العمل', en: 'Quiet is part of the work' },
+        title: { ar: 'تنفيذ منضبط', en: 'Disciplined execution' },
         body:  {
-          ar: 'لا نُعلن عن خطواتنا، ولا نسابق أحداً. النتيجة تظهر في الغرفة، لا على وسائل التواصل.',
-          en: 'We don’t announce our steps, and we don’t race anyone. The result shows up in the room, not on social media.',
+          ar: 'خطة واضحة، جدول زمني معتمد، وفريق متابعة يضمن التسليم بالجودة المتفق عليها.',
+          en: 'A clear plan, an agreed timeline, and a supervision team that ensures delivery at the agreed quality.',
         },
       },
     ],
@@ -540,45 +659,59 @@ const T = {
   /* ------------------ Policies page ------------------ */
   policies: {
     eyebrow: { ar: 'السياسات', en: 'Policies' },
-    title:   { ar: 'كيف نتعامل مع بياناتك وأعمالنا', en: 'How we handle your data and our work' },
+    title:   { ar: 'سياساتنا ومبادئنا في العمل.', en: 'Our policies and working principles.' },
     intro:   {
-      ar: 'صفحةٌ بسيطة بما نلتزم به. إن كان لديك أي سؤال، راسلنا على البريد أدناه.',
-      en: 'A short, plain account of what we commit to. If anything’s unclear, write to the address below.',
+      ar: 'نلتزم بمجموعة واضحة من السياسات التي تحمي بياناتك، وتضمن جودة عملنا، وتوضح حقوقك. لأي استفسار، راسلنا على البريد أدناه.',
+      en: 'We follow a clear set of policies that protect your data, guarantee our work, and clarify your rights. For any question, write to the email below.',
     },
     lastUpdated: { ar: 'آخر تحديث', en: 'Last updated' },
     privacy: {
       title: { ar: 'الخصوصية', en: 'Privacy' },
       body: {
-        ar: 'نجمع فقط ما نحتاجه: رسائلك عبر النموذج، وملفات الصور التي ترفعها عبر لوحة الإدارة عند الدخول. لا نبيع بياناتك، ولا نشاركها مع طرف ثالث. يمكنك طلب حذفها في أي وقت.',
-        en: 'We only collect what we need: the messages you send through the contact form, and the images you upload through the admin dashboard when signed in. We do not sell your data, and we do not share it with third parties. You can ask us to delete it at any time.',
+        ar: 'نجمع فقط ما نحتاجه: رسائلك عبر النموذج، وملفات الصور التي ترفعها عند الدخول إلى لوحة الإدارة. لا نبيع بياناتك، ولا نشاركها مع أي طرف ثالث. يمكنك طلب تعديلها أو حذفها في أي وقت عبر البريد الإلكتروني.',
+        en: 'We only collect what we need: the messages you send through the contact form, and the images you upload when signed in to the admin dashboard. We do not sell your data, and we do not share it with any third party. You can ask us to amend or delete it at any time by email.',
       },
     },
     cookies: {
       title: { ar: 'ملفات تعريف الارتباط', en: 'Cookies & local storage' },
       body: {
-        ar: 'نستخدم التخزين المحلي في متصفحك لحفظ اختيار اللغة، وحفظ جلسة تسجيل الدخول للإدارة. لا نضع أي ملفّات تتبّع أو إعلانات.',
-        en: 'We use your browser’s local storage to remember your language choice, and to keep you signed in to the admin area. We do not place any tracking or advertising cookies.',
+        ar: 'نستخدم التخزين المحلي في متصفحك لحفظ اختيار اللغة، وحفظ جلسة تسجيل الدخول للإدارة. لا نضع أي ملفّات تتبّع، ولا نستخدم أي إعلانات موجّهة.',
+        en: 'We use your browser’s local storage to remember your language choice and to keep you signed in to the admin area. We do not place any tracking cookies, and we do not run targeted advertising.',
       },
     },
     analytics: {
       title: { ar: 'إحصائيات الزوار', en: 'Visitor analytics' },
       body: {
-        ar: 'نسجّل زيارات مجهولة الهوية (الصفحات التي شُوهدت، ومدة البقاء التقريبية) لتحسين الموقع. لا نجمع اسمك أو بريدك إلا إذا أرسلتهما عبر النموذج.',
-        en: 'We record anonymous visits (which pages were seen, and rough time spent) to improve the site. We do not collect your name or email unless you send them through the contact form.',
+        ar: 'نسجّل زيارات مجهولة الهوية (الصفحات التي شُوهدت، ومدة البقاء التقريبية، والجهاز) لتحسين تجربة الموقع. البيانات لا تحتوي على اسمك أو بريدك، ولا تُربط بهويتك.',
+        en: 'We record anonymous visits (pages seen, approximate time on site, and device) to improve the experience. The data contains no name or email, and is not tied to your identity.',
       },
     },
     images: {
-      title: { ar: 'حقوق الصور', en: 'Image rights' },
+      title: { ar: 'حقوق الصور والمحتوى', en: 'Image and content rights' },
       body: {
-        ar: 'جميع الصور في هذا الموقع من أعمال الاستوديو، أو مأذونٌ باستخدامها من أصحابها. لا يحق لأي طرف استخدام هذه الصور دون إذن كتابي منّا.',
-        en: 'All photographs in this site are our own work, or used with the owner’s permission. No one may reuse these images without our written consent.',
+        ar: 'جميع الصور والمحتوى البصري في هذا الموقع من أعمال الاستوديو، أو مأذونٌ باستخدامها من أصحابها كتابةً. لا يحق لأي طرف نسخها أو إعادة استخدامها دون إذن كتابي مسبق.',
+        en: 'All photographs and visual content in this site are our own work, or used with the owner’s written permission. No one may copy or reuse them without our prior written consent.',
+      },
+    },
+    terms: {
+      title: { ar: 'شروط الاستخدام', en: 'Terms of use' },
+      body: {
+        ar: 'باستخدامك لهذا الموقع فإنك توافق على عدم محاولة الوصول غير المصرّح به إلى أنظمتنا، وعدم استنساخ المحتوى لأغراض تجارية. المحتوى مقدّم كما هو، دون أي ضمانات صريحة.',
+        en: 'By using this site you agree not to attempt unauthorised access to our systems, and not to reproduce the content for commercial purposes. The content is provided as-is, without any express warranties.',
+      },
+    },
+    delivery: {
+      title: { ar: 'التسليم والجودة', en: 'Delivery & quality' },
+      body: {
+        ar: 'نتقيّد بالجدول الزمني والميزانية المتفق عليهما في عقد المشروع. أي ملاحظة على جودة التنفيذ تُبلَّغ خلال ١٤ يومًا من التسليم، ونعمل على معالجتها في أسرع وقت ممكن.',
+        en: 'We adhere to the timeline and budget agreed in the project contract. Any remark on the execution quality must be raised within 14 days of hand-over, and we will address it as soon as possible.',
       },
     },
     contact: {
       title: { ar: 'تواصل', en: 'Get in touch' },
       body: {
-        ar: 'لأي استفسار يخص الخصوصية أو استخدام الصور، راسلنا على khayratum@gmail.com.',
-        en: 'For any question about privacy or image use, write to khayratum@gmail.com.',
+        ar: 'لأي استفسار يخص الخصوصية، الصور، أو شروط الاستخدام، راسلنا على khayratum@gmail.com.',
+        en: 'For any question about privacy, image rights, or terms of use, write to khayratum@gmail.com.',
       },
     },
   },
