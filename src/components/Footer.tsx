@@ -161,11 +161,6 @@ export function Footer() {
 
         <div className="f-bottom">
           <span>{t('footer.copyright', { year })}</span>
-          <div className="f-bottom-links">
-            <Link to="/policies" className="f-link">{t('footer.legal.policies')}</Link>
-            <span aria-hidden="true" style={{ opacity: 0.4 }}>·</span>
-            <Link to="/complaints" className="f-link">{t('footer.complaints')}</Link>
-          </div>
         </div>
       </div>
 
@@ -243,7 +238,7 @@ export function Footer() {
         .f-pay-chips { display: flex; gap: 10px; flex-wrap: wrap; }
         .f-bottom {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           align-items: center;
           flex-wrap: wrap;
           gap: 12px;
@@ -251,8 +246,8 @@ export function Footer() {
           border-top: 1px solid rgba(245, 241, 234, 0.1);
           color: ${LIGHT_SOFT};
           font-size: 12px;
+          text-align: center;
         }
-        .f-bottom-links { display: flex; gap: 12px; align-items: center; }
 
         @media (max-width: 980px) {
           .f-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }

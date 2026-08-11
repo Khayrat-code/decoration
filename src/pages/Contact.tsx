@@ -1,7 +1,10 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { motion } from 'framer-motion'
-import { supabase, TABLES } from '../lib/supabase'
+import { Paperclip, X } from 'lucide-react'
+import { supabase, TABLES, BUCKETS } from '../lib/supabase'
 import { useLang, useT } from '../i18n/LanguageContext'
+
+const MAX_FILE_BYTES = 10 * 1024 * 1024 // 10 MB
 
 interface FormState {
   name: string
@@ -23,14 +26,33 @@ const empty: FormState = {
 
 export function Contact() {
   const [form, setForm] = useState<FormState>(empty)
+  const [file, setFile] = useState<File | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const t = useT()
   const { lang } = useLang()
 
   const onChange = (k: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [k]: e.target.value }))
+  }
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] ?? null
+    setError(null)
+    if (f && f.size > MAX_FILE_BYTES) {
+      setError(t('contact.form.errors.fileTooBig'))
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      setFile(null)
+      return
+    }
+    setFile(f)
+  }
+
+  const clearFile = () => {
+    setFile(null)
+    if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
   const onSubmit = async (e: FormEvent) => {
@@ -47,6 +69,23 @@ export function Contact() {
     }
 
     setSubmitting(true)
+
+    let attachmentUrl: string | null = null
+    if (file) {
+      const ext = file.name.split('.').pop() || 'bin'
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+      const { error: uploadErr } = await supabase.storage.from(BUCKETS.contact).upload(path, file, {
+        cacheControl: '3600',
+        upsert: false,
+      })
+      if (!uploadErr) {
+        const { data } = supabase.storage.from(BUCKETS.contact).getPublicUrl(path)
+        attachmentUrl = data.publicUrl
+      }
+      // If the bucket isn't provisioned yet, we simply skip the attachment
+      // rather than blocking the whole submission.
+    }
+
     const message = [
       `[${form.projectType || '—'}]`,
       form.spaceSize ? `${form.spaceSize} m²` : '',
@@ -56,12 +95,21 @@ export function Contact() {
       .filter(Boolean)
       .join('\n')
 
-    const { error: dbError } = await supabase.from(TABLES.contact).insert({
+    const payload: Record<string, unknown> = {
       name: form.name.trim(),
       email: form.email.trim(),
       phone: form.phone.trim() || null,
       message,
-    })
+      attachment_url: attachmentUrl,
+    }
+
+    let dbError = (await supabase.from(TABLES.contact).insert(payload)).error
+    if (dbError && /column .* does not exist/i.test(dbError.message)) {
+      // attachment_url not migrated yet — retry without it so the form
+      // still works before supabase-setup.sql has been re-run.
+      delete payload.attachment_url
+      dbError = (await supabase.from(TABLES.contact).insert(payload)).error
+    }
     setSubmitting(false)
 
     if (dbError) {
@@ -70,6 +118,7 @@ export function Contact() {
     }
     setDone(true)
     setForm(empty)
+    clearFile()
   }
 
   return (
@@ -220,6 +269,60 @@ export function Contact() {
                     placeholder={t('contact.form.messagePh')}
                     required
                   />
+                </div>
+
+                <div className="field">
+                  <label htmlFor="attachment">{t('contact.form.attachment')}</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                    <label
+                      htmlFor="attachment"
+                      className="btn btn-secondary"
+                      style={{ cursor: 'pointer', padding: '12px 18px', fontSize: 13 }}
+                    >
+                      <Paperclip size={15} /> {t('contact.form.attachmentPh')}
+                    </label>
+                    <input
+                      ref={fileInputRef}
+                      id="attachment"
+                      type="file"
+                      accept="image/*,.pdf"
+                      onChange={onFileChange}
+                      style={{ display: 'none' }}
+                    />
+                    {file && (
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          fontSize: 13,
+                          color: 'var(--ink-2)',
+                          background: 'var(--surface)',
+                          border: '1px solid var(--line-2)',
+                          borderRadius: 999,
+                          padding: '6px 10px',
+                        }}
+                      >
+                        {file.name}
+                        <button
+                          type="button"
+                          onClick={clearFile}
+                          aria-label="Remove file"
+                          style={{
+                            display: 'inline-flex',
+                            border: 'none',
+                            background: 'none',
+                            cursor: 'pointer',
+                            color: 'var(--ink-3)',
+                            padding: 0,
+                          }}
+                        >
+                          <X size={13} />
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                  <span className="hint">{t('contact.form.attachmentHint')}</span>
                 </div>
 
                 {error && (

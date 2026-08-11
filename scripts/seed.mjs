@@ -85,13 +85,25 @@ async function ensureBucket() {
   console.log('    Ensuring storage bucket "complaints"…')
   if (buckets?.find((b) => b.name === 'complaints')) {
     console.log('    bucket already exists')
+  } else {
+    const { error: createComplaintsErr } = await supabase.storage.createBucket('complaints', {
+      public: true,
+      fileSizeLimit: 10 * 1024 * 1024, // 10 MB
+    })
+    if (createComplaintsErr) throw createComplaintsErr
+    console.log('    bucket created (public, 10MB cap)')
+  }
+
+  console.log('    Ensuring storage bucket "contact"…')
+  if (buckets?.find((b) => b.name === 'contact')) {
+    console.log('    bucket already exists')
     return
   }
-  const { error: createComplaintsErr } = await supabase.storage.createBucket('complaints', {
+  const { error: createContactErr } = await supabase.storage.createBucket('contact', {
     public: true,
     fileSizeLimit: 10 * 1024 * 1024, // 10 MB
   })
-  if (createComplaintsErr) throw createComplaintsErr
+  if (createContactErr) throw createContactErr
   console.log('    bucket created (public, 10MB cap)')
 }
 

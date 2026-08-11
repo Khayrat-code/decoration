@@ -375,6 +375,9 @@ const T = {
         ar: 'أخبرنا عن المساحة، ما تستخدمه لها، والأجواء التي تتخيلها.',
         en: 'Tell us about the space, how you use it, and the atmosphere you have in mind.',
       },
+      attachment:   { ar: 'إرفاق صورة — اختياري', en: 'Attach an image — optional' },
+      attachmentPh: { ar: 'إرفاق صورة للمساحة', en: 'Attach a photo of the space' },
+      attachmentHint: { ar: 'JPG، PNG، أو PDF. حتى ١٠ ميغابايت.', en: 'JPG, PNG, or PDF. Up to 10 MB.' },
       submit:  { ar: 'إرسال الطلب', en: 'Send request' },
       submitting: { ar: 'جاري الإرسال…', en: 'Sending…' },
       sendAnother: { ar: 'إرسال رسالة أخرى', en: 'Send another request' },
@@ -385,6 +388,7 @@ const T = {
       errors: {
         required: { ar: 'يرجى تعبئة الاسم والبريد الإلكتروني وتفاصيل المشروع.', en: 'Please fill in name, email, and project details.' },
         email:    { ar: 'صيغة البريد الإلكتروني غير صحيحة.', en: 'That email doesn’t look quite right.' },
+        fileTooBig: { ar: 'حجم الملف أكبر من ١٠ ميغابايت.', en: 'The file is larger than 10 MB.' },
       },
     },
     aside: {

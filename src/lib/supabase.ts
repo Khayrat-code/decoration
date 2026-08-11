@@ -29,4 +29,5 @@ export const TABLES = {
 export const BUCKETS = {
   gallery: 'gallery',
   complaints: 'complaints',
+  contact: 'contact',
 } as const

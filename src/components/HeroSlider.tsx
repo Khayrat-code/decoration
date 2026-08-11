@@ -272,9 +272,9 @@ export function HeroSlider() {
               to="/contact"
               className="btn"
               style={{
-                background: 'transparent',
-                color: '#F5F1EA',
-                border: '1px solid rgba(245, 241, 234, 0.55)',
+                background: '#C7A87A',
+                color: '#1F1F1F',
+                border: '1px solid #C7A87A',
               }}
             >
               {t('home.hero.cta2')}
