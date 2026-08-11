@@ -75,6 +75,37 @@ export function IconBadge({ children, label }: { children: React.ReactNode; labe
   )
 }
 
+/**
+ * Text badge — for payment methods that are a service, not a brand
+ * logo (bank transfer, cash on delivery). Spelling the method out is
+ * clearer than guessing at a universal icon for it.
+ */
+export function TextBadge({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <span
+      className="pay-badge"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 7,
+        height: 40,
+        borderRadius: 8,
+        background: '#FFFFFF',
+        border: '1px solid rgba(0,0,0,0.06)',
+        color: '#1F1F1F',
+        padding: '0 14px',
+        fontSize: 12.5,
+        fontWeight: 600,
+        whiteSpace: 'nowrap',
+        flexShrink: 0,
+      }}
+    >
+      <span style={{ color: '#3D4F3D', display: 'inline-flex' }}>{icon}</span>
+      {label}
+    </span>
+  )
+}
+
 /* ============================================================
    Non-brand icons — generic marks we control ourselves, so no
    trademark-accuracy concerns. Drawn with the site's own tokens.
@@ -94,9 +125,9 @@ export function BankIcon({ size = 20 }: { size?: number }) {
 export function CodIcon({ size = 20 }: { size?: number }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="6" width="18" height="12" rx="2" />
-      <circle cx="12" cy="12" r="3" />
-      <path d="M6.5 6v0M17.5 18v0" />
+      <rect x="2.5" y="6.5" width="19" height="12" rx="2" />
+      <circle cx="12" cy="12.5" r="2.6" />
+      <path d="M5.5 6.5v-1a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
     </svg>
   )
 }

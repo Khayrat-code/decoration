@@ -11,7 +11,7 @@ import { BUSINESS } from '../lib/business'
 import { TikTokIcon, SnapchatIcon, InstagramIcon, XIcon } from './SocialIcons'
 import {
   PaymentBadge,
-  IconBadge,
+  TextBadge,
   BankIcon,
   CodIcon,
   CRIcon,
@@ -147,9 +147,11 @@ export function Footer() {
           <div className="f-pay-chips">
             {payments.map((p) =>
               p.generic ? (
-                <IconBadge key={p.key} label={p.label}>
-                  {p.generic === 'bank' ? <BankIcon size={20} /> : <CodIcon size={20} />}
-                </IconBadge>
+                <TextBadge
+                  key={p.key}
+                  label={p.label}
+                  icon={p.generic === 'bank' ? <BankIcon size={16} /> : <CodIcon size={16} />}
+                />
               ) : (
                 <PaymentBadge key={p.key} src={p.src!} label={p.label} />
               ),
