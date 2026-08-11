@@ -16,27 +16,10 @@ const EASE = [0.16, 1, 0.3, 1] as const
 type Lang = 'ar' | 'en'
 
 // Map an image's category to one of the existing 3 hero slides.
-// We keep using the site's existing copy verbatim — no new content is
-// invented. For categories that don't have a dedicated slide (Kitchen,
-// Bathroom, etc.) we fall back to the generic slide 0.
-//
-//   Living   → slide 1  ("أناقة تليق بذوقك الرفيع" — living rooms)
-//   Bedroom  → slide 2  ("راحتك تبدأ من تصميمنا"   — bedrooms)
-//   default  → slide 0  ("نحوّل منزلك إلى تحفة فنية" — generic)
 function slideIndexForCategory(category: string | undefined): number {
   if (category === 'Living')  return 1
   if (category === 'Bedroom') return 2
   return 0
-}
-
-// Look up the localized category name from the existing CATEGORIES
-// constant — used to put the category word in the hero subtitle so
-// viewers always see the room name that matches the image.
-function categoryLabel(category: string | undefined, lang: Lang): string {
-  if (!category) return ''
-  const found = CATEGORIES.find((c) => c.key === category)
-  if (!found) return category
-  return lang === 'ar' ? found.ar : found.en
 }
 
 export function HeroSlider() {
@@ -93,13 +76,9 @@ export function HeroSlider() {
   }, [next, index])
 
   // Pick the slide from the existing 3 by the current image's category.
-  // The subtitle is replaced with the localized category name so the
-  // category word always appears on screen (per the brief: "إذا كانت
-  // الخلفية تعرض مطبخ، فلازم يطلع مطبخ").
   const current = images[index] ?? images[0]
   const slide = slides[slideIndexForCategory(current.category)]
   const bg = current.url
-  const subtitle = categoryLabel(current.category, lang)
 
   const stats: Array<{ value: string; label: string }> = [
     { value: projectCount !== null ? String(projectCount) : '+', label: t('home.hero.stats.projects') },
@@ -170,19 +149,6 @@ export function HeroSlider() {
               exit={{ opacity: 0, y: -14 }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              <span
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  letterSpacing: 0,
-                  textTransform: 'none',
-                  color: '#C7A87A',
-                  display: 'inline-block',
-                  marginBottom: 20,
-                }}
-              >
-                {subtitle}
-              </span>
               <h1
                 className="hero-title"
                 style={{

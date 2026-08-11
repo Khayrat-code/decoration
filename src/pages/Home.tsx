@@ -119,25 +119,11 @@ export function Home() {
               </h2>
               <p
                 style={{
-                  fontFamily: 'var(--font-serif)',
-                  color: 'rgba(245, 241, 234, 0.92)',
-                  fontSize: 'clamp(20px, 2.2vw, 26px)',
-                  fontWeight: 700,
-                  lineHeight: 1.5,
-                  marginTop: 18,
-                  maxWidth: 640,
-                  fontStyle: 'normal',
-                }}
-              >
-                {t('home.cta.tagline')}
-              </p>
-              <p
-                style={{
                   color: 'rgba(245, 241, 234, 0.78)',
                   fontSize: 17,
                   lineHeight: 1.95,
                   maxWidth: 560,
-                  marginTop: 22,
+                  marginTop: 24,
                 }}
               >
                 {t('home.cta.body')}

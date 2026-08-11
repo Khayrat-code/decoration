@@ -26,7 +26,7 @@ export function PaymentBadge({
 }) {
   return (
     <span
-      className="pay-badge"
+      className="pay-badge pay-badge-card"
       title={label}
       aria-label={label}
       style={{

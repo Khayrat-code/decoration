@@ -51,8 +51,8 @@ const T = {
   /* ------------------ Footer ------------------ */
   footer: {
     blurb: {
-      ar: 'استوديو ديكور داخلي صغير يصوغ غرفاً هادئة ومدروسة لعملائنا في المنطقة.',
-      en: 'A small interior decoration studio shaping quiet, considered rooms for clients across the region.',
+      ar: 'من الفكرة إلى التنفيذ، نصنع الفرق',
+      en: 'From idea to execution, we make the difference',
     },
     columns: {
       explore: { ar: 'استكشف',   en: 'Explore' },

@@ -57,7 +57,6 @@ export function Footer() {
     { key: 'visa',       label: t('footer.payments.visa'),       src: '/payments/visa.svg' },
     { key: 'mastercard', label: t('footer.payments.mastercard'), src: '/payments/mastercard.svg' },
     { key: 'amex',       label: t('footer.payments.amex'),       src: '/payments/amex.svg' },
-    { key: 'applePay',   label: t('footer.payments.applePay'),   src: '/payments/apple-pay.svg' },
     { key: 'tabby',      label: t('footer.payments.tabby'),      src: '/payments/tabby.svg' },
     { key: 'tamara',     label: t('footer.payments.tamara'),     src: '/payments/tamara.svg' },
     { key: 'bank',       label: t('footer.payments.bank'),       generic: 'bank' },
@@ -234,7 +233,7 @@ export function Footer() {
           padding: 20px 0;
           border-top: 1px solid rgba(245, 241, 234, 0.1);
         }
-        .f-pay-label { font-size: 12px; color: ${LIGHT_SOFT}; }
+        .f-pay-label { font-size: 12px; color: ${LIGHT_SOFT}; flex-shrink: 0; }
         .f-pay-chips { display: flex; gap: 10px; flex-wrap: wrap; }
         .f-bottom {
           display: flex;
@@ -250,21 +249,24 @@ export function Footer() {
         }
 
         @media (max-width: 980px) {
-          .f-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
+          .f-wrap { padding: 48px 24px 0; }
+          .f-grid { grid-template-columns: 1fr 1fr; gap: 36px 28px; padding-bottom: 36px; }
         }
         @media (max-width: 620px) {
-          .f-wrap { padding: 48px 20px 0; }
-          .f-grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
-          .f-brand, .f-trust { grid-column: 1 / -1; margin: 0; }
-          .f-blurb { max-width: none; }
+          .f-wrap { padding: 44px 20px 0; }
+          .f-grid { grid-template-columns: 1fr; gap: 28px; padding-bottom: 28px; }
+          .f-brand, .f-trust { grid-column: auto; margin: 0; }
+          .f-blurb { max-width: none; font-size: 15px; }
           .f-socials { margin-top: 16px; }
-          .f-contact-rows { gap: 12px; font-size: 13px; }
-          .f-pay { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 0; }
+          .f-contact-rows { gap: 12px; font-size: 14px; }
+          .f-pay { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 0; }
+          .f-pay-chips { gap: 8px; }
+          .pay-badge-card { width: 56px !important; height: 36px !important; }
           .f-bottom {
             flex-direction: column;
             justify-content: center;
             text-align: center;
-            gap: 6px;
+            gap: 8px;
             padding: 14px 0 18px;
           }
         }
