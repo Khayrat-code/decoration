@@ -1,11 +1,14 @@
 // Payment + trust badges.
 //
-// International/regional card & BNPL logos are the *real* brand marks —
-// downloaded from Wikimedia Commons (freely licensed, exactly for this
-// "accepted payment methods" use case) and self-hosted under
-// /public/payments/ so the footer never depends on an external CDN.
-// Tabby and Tamara have no public vector asset, so their wordmarks are
-// hand-set in the brand's real colour.
+// Every card/BNPL logo under /public/payments/ is the *real* brand mark,
+// self-hosted so the footer never depends on an external CDN:
+//   - Visa, Mastercard, American Express, Apple Pay, mada — Wikimedia
+//     Commons (freely licensed, exactly for "accepted payment methods").
+//   - Tabby — the official badge asset from docs.tabby.ai/marketing/
+//     brand-assets. Tabby's own brand guidelines say to use this badge
+//     (not the wordmark) "in a row of accepted payment method logos" —
+//     precisely this footer's use case.
+//   - Tamara — the official black wordmark from tamara.co.
 //
 // Every payment logo renders inside `PaymentBadge` — a small white
 // "merchant badge" card (the convention used by virtually every KSA
