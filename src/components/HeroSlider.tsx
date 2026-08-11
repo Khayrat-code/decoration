@@ -22,6 +22,13 @@ function slideIndexForCategory(category: string | undefined): number {
   return 0
 }
 
+function categoryLabel(category: string | undefined, lang: Lang): string {
+  if (!category) return ''
+  const found = CATEGORIES.find((c) => c.key === category)
+  if (!found) return category
+  return lang === 'ar' ? found.ar : found.en
+}
+
 export function HeroSlider() {
   const t = useT()
   const { lang } = useLang()
@@ -79,6 +86,7 @@ export function HeroSlider() {
   const current = images[index] ?? images[0]
   const slide = slides[slideIndexForCategory(current.category)]
   const bg = current.url
+  const subtitle = categoryLabel(current.category, lang)
 
   const stats: Array<{ value: string; label: string }> = [
     { value: projectCount !== null ? String(projectCount) : '+', label: t('home.hero.stats.projects') },
@@ -149,6 +157,19 @@ export function HeroSlider() {
               exit={{ opacity: 0, y: -14 }}
               transition={{ duration: 0.7, ease: EASE }}
             >
+              <span
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  letterSpacing: 0,
+                  textTransform: 'none',
+                  color: '#C7A87A',
+                  display: 'inline-block',
+                  marginBottom: 20,
+                }}
+              >
+                {subtitle}
+              </span>
               <h1
                 className="hero-title"
                 style={{

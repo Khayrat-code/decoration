@@ -69,62 +69,6 @@ export function Navbar() {
           <Logo size="sm" />
         </NavLink>
 
-        {!isAdmin && (
-          <nav className="nav-desktop" aria-label={t('nav.primaryNav')}>
-            <ul
-              style={{
-                display: 'flex',
-                gap: 36,
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-                alignItems: 'center',
-              }}
-            >
-              {linkKeys.map((l) => (
-                <li key={l.to}>
-                  <NavLink
-                    to={l.to}
-                    end={l.to === '/'}
-                    style={({ isActive }) => ({
-                      color: isActive ? 'var(--ink)' : 'var(--ink-2)',
-                      fontSize: 13,
-                      fontWeight: 500,
-                      letterSpacing: 0,
-                      textTransform: 'none',
-                      borderBottom: 'none',
-                      padding: '8px 0',
-                      position: 'relative',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      height: 40,
-                    })}
-                  >
-                    {({ isActive }) => (
-                      <>
-                        {t(l.key)}
-                        {isActive && (
-                          <span
-                            aria-hidden="true"
-                            style={{
-                              position: 'absolute',
-                              insetInlineStart: 0,
-                              insetInlineEnd: 0,
-                              bottom: -2,
-                              height: 1,
-                              background: 'var(--accent)',
-                            }}
-                          />
-                        )}
-                      </>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {!isAdmin && (
             <button
@@ -163,8 +107,8 @@ export function Navbar() {
               aria-label={open ? 'Close menu' : 'Open menu'}
               onClick={() => setOpen((v) => !v)}
               style={{
-                display: 'none',
-                alignItems: 'center',
+                  display: 'flex',
+                  alignItems: 'center',
                 justifyContent: 'center',
                 width: 40,
                 height: 40,
@@ -243,9 +187,7 @@ export function Navbar() {
 
       <style>{`
         @media (max-width: 880px) {
-          .nav-desktop { display: none; }
-          .nav-burger { display: inline-flex !important; }
-          .nav-bar { padding: 10px 16px !important; gap: 12px; }
+          .nav-bar { padding: 10px 16px !important; gap: 8px; }
         }
         .nav-mobile {
           border-top: 1px solid var(--line);
