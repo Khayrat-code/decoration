@@ -26,10 +26,10 @@ export function Policies() {
           <h1
             style={{
               fontSize: 'var(--fs-h1)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 16,
               marginBottom: 24,
-              lineHeight: lang === 'ar' ? 1.3 : 1.15,
+              lineHeight: 1.3,
               maxWidth: '20ch',
             }}
           >
@@ -39,7 +39,7 @@ export function Policies() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 17,
-              lineHeight: lang === 'ar' ? 1.9 : 1.75,
+              lineHeight: 1.9,
               maxWidth: 640,
               marginBottom: 12,
             }}
@@ -72,7 +72,7 @@ export function Policies() {
               <h2
                 style={{
                   fontSize: 24,
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   marginBottom: 12,
                 }}
               >
@@ -82,7 +82,7 @@ export function Policies() {
                 style={{
                   color: 'var(--ink-2)',
                   fontSize: 16,
-                  lineHeight: lang === 'ar' ? 1.95 : 1.85,
+                  lineHeight: 1.95,
                   maxWidth: 680,
                   margin: 0,
                 }}
@@ -110,14 +110,14 @@ function PrivacySection({ index }: { index: number }) {
       transition={{ duration: 0.5, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
       style={{ borderTop: '1px solid var(--line)', paddingTop: 28 }}
     >
-      <h2 style={{ fontSize: 24, fontWeight: lang === 'ar' ? 700 : 500, marginBottom: 12 }}>
+      <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>
         {t('policies.privacy.title')}
       </h2>
       <p
         style={{
           color: 'var(--ink-2)',
           fontSize: 16,
-          lineHeight: lang === 'ar' ? 1.95 : 1.85,
+          lineHeight: 1.95,
           maxWidth: 680,
           margin: 0,
           marginBottom: 28,
@@ -176,7 +176,7 @@ function privacyBodyStyle(lang: 'ar' | 'en'): React.CSSProperties {
   return {
     color: 'var(--ink-2)',
     fontSize: 15,
-    lineHeight: lang === 'ar' ? 1.95 : 1.8,
+    lineHeight: 1.95,
     margin: 0,
   }
 }

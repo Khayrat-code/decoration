@@ -172,10 +172,10 @@ export function HeroSlider() {
             >
               <span
                 style={{
-                  fontSize: lang === 'ar' ? 14 : 12,
+                  fontSize: 14,
                   fontWeight: 500,
-                  letterSpacing: lang === 'ar' ? 0 : '0.32em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                  letterSpacing: 0,
+                  textTransform: 'none',
                   color: '#C7A87A',
                   display: 'inline-block',
                   marginBottom: 20,
@@ -189,9 +189,9 @@ export function HeroSlider() {
                   fontFamily: 'var(--font-serif)',
                   color: '#F5F1EA',
                   fontSize: 'clamp(40px, 6.5vw, 92px)',
-                  fontWeight: lang === 'ar' ? 700 : 500,
-                  lineHeight: lang === 'ar' ? 1.3 : 1.05,
-                  letterSpacing: lang === 'ar' ? 0 : '-0.02em',
+                  fontWeight: 700,
+                  lineHeight: 1.3,
+                  letterSpacing: 0,
                   margin: 0,
                   maxWidth: '20ch',
                 }}
@@ -200,8 +200,8 @@ export function HeroSlider() {
                 <em
                   style={{
                     color: '#C7A87A',
-                    fontStyle: lang === 'ar' ? 'normal' : 'italic',
-                    fontWeight: lang === 'ar' ? 700 : 500,
+                    fontStyle: 'normal',
+                    fontWeight: 700,
                   }}
                 >
                   {slide.highlight[lang]}
@@ -214,7 +214,7 @@ export function HeroSlider() {
                   fontSize: 18,
                   color: 'rgba(245, 241, 234, 0.86)',
                   maxWidth: 560,
-                  lineHeight: lang === 'ar' ? 1.85 : 1.6,
+                  lineHeight: 1.85,
                 }}
               >
                 {slide.description[lang]}
@@ -229,7 +229,7 @@ export function HeroSlider() {
             className="hero-tags"
             style={{
               display: 'flex',
-              gap: lang === 'ar' ? 22 : 20,
+              gap: 22,
               flexWrap: 'wrap',
               alignItems: 'center',
               marginTop: 24,
@@ -245,8 +245,8 @@ export function HeroSlider() {
                   color: 'rgba(245, 241, 234, 0.88)',
                   fontSize: 13,
                   fontWeight: 500,
-                  letterSpacing: lang === 'ar' ? 0 : '0.04em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                  letterSpacing: 0,
+                  textTransform: 'none',
                 }}
               >
                 <span
@@ -265,17 +265,20 @@ export function HeroSlider() {
           </div>
 
           <div className="hero-ctas" style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
-            <Link to="/gallery" className="btn btn-light">
+            <Link
+              to="/gallery"
+              className="btn"
+              style={{
+                background: 'transparent',
+                color: '#F5F1EA',
+                border: '1px solid rgba(245, 241, 234, 0.55)',
+              }}
+            >
               {t('home.hero.cta1')} <ArrowRight size={16} className="icon-flip" />
             </Link>
             <Link
               to="/contact"
-              className="btn"
-              style={{
-                background: '#C7A87A',
-                color: '#1F1F1F',
-                border: '1px solid #C7A87A',
-              }}
+              className="btn btn-light"
             >
               {t('home.hero.cta2')}
             </Link>
@@ -352,7 +355,7 @@ export function HeroSlider() {
                   fontSize: 30,
                   lineHeight: 1,
                   color: '#F5F1EA',
-                  fontWeight: lang === 'ar' ? 700 : 400,
+                   fontWeight: 700,
                 }}
               >
                 {s.value}
@@ -362,8 +365,8 @@ export function HeroSlider() {
                   marginTop: 6,
                   fontSize: 12,
                   color: 'rgba(245, 241, 234, 0.66)',
-                  letterSpacing: lang === 'ar' ? 0 : '0.14em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                  letterSpacing: 0,
+                  textTransform: 'none',
                 }}
               >
                 {s.label}

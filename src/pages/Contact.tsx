@@ -129,10 +129,10 @@ export function Contact() {
           <h1
             style={{
               fontSize: 'var(--fs-h1)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 14,
               marginBottom: 18,
-              lineHeight: lang === 'ar' ? 1.3 : 1.1,
+              lineHeight: 1.3,
               maxWidth: '20ch',
               margin: '14px auto 18px',
             }}
@@ -143,7 +143,7 @@ export function Contact() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 18,
-              lineHeight: lang === 'ar' ? 1.95 : 1.7,
+              lineHeight: 1.95,
               maxWidth: 600,
               margin: '0 auto',
             }}
@@ -179,14 +179,14 @@ export function Contact() {
                   style={{
                     fontFamily: 'var(--font-serif)',
                     fontSize: 26,
-                    fontWeight: lang === 'ar' ? 700 : 500,
+                    fontWeight: 700,
                     color: 'var(--ink)',
                     marginBottom: 10,
                   }}
                 >
                   {t('contact.form.success.title')}
                 </div>
-                <p style={{ color: 'var(--ink-2)', fontSize: 16, lineHeight: lang === 'ar' ? 1.95 : 1.7 }}>
+                <p style={{ color: 'var(--ink-2)', fontSize: 16, lineHeight: 1.95 }}>
                   {t('contact.form.success.body')}
                 </p>
                 <button
@@ -391,12 +391,12 @@ function Detail({ label, value, detail }: { label: string; value: string; detail
     <div>
       <div
         style={{
-          fontSize: lang === 'ar' ? 13 : 12,
+          fontSize: 13,
           fontWeight: 500,
           color: 'var(--accent)',
           marginBottom: 8,
-          letterSpacing: lang === 'ar' ? 0 : '0.12em',
-          textTransform: lang === 'ar' ? 'none' : 'uppercase',
+          letterSpacing: 0,
+          textTransform: 'none',
         }}
       >
         {label}
@@ -405,15 +405,15 @@ function Detail({ label, value, detail }: { label: string; value: string; detail
         style={{
           fontFamily: 'var(--font-serif)',
           fontSize: 22,
-          fontWeight: lang === 'ar' ? 700 : 500,
+          fontWeight: 700,
           color: 'var(--ink)',
           marginBottom: 6,
-          lineHeight: lang === 'ar' ? 1.4 : 1.25,
+          lineHeight: 1.4,
         }}
       >
         {value}
       </div>
-      <div style={{ color: 'var(--ink-2)', fontSize: 15, lineHeight: lang === 'ar' ? 1.95 : 1.7 }}>
+      <div style={{ color: 'var(--ink-2)', fontSize: 15, lineHeight: 1.95 }}>
         {detail}
       </div>
     </div>

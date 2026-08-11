@@ -90,8 +90,8 @@ export function Navbar() {
                       color: isActive ? 'var(--ink)' : 'var(--ink-2)',
                       fontSize: 13,
                       fontWeight: 500,
-                      letterSpacing: lang === 'ar' ? 0 : '0.18em',
-                      textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                      letterSpacing: 0,
+                      textTransform: 'none',
                       borderBottom: 'none',
                       padding: '8px 0',
                       position: 'relative',
@@ -135,8 +135,8 @@ export function Navbar() {
                 fontFamily: 'inherit',
                 fontSize: 12,
                 fontWeight: 500,
-                letterSpacing: lang === 'ar' ? 0 : '0.18em',
-                textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                letterSpacing: 0,
+                textTransform: 'none',
                 padding: '8px 14px',
                 border: '1px solid var(--line-2)',
                 background: 'rgba(255, 255, 255, 0.4)',
@@ -183,8 +183,8 @@ export function Navbar() {
               to="/"
               style={{
                 fontSize: 13,
-                letterSpacing: lang === 'ar' ? 0 : '0.18em',
-                textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                letterSpacing: 0,
+                textTransform: 'none',
                 color: 'var(--ink-2)',
                 borderBottom: 'none',
               }}

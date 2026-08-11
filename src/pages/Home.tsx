@@ -99,8 +99,8 @@ export function Home() {
                   fontSize: 13,
                   fontWeight: 500,
                   color: 'rgba(245, 241, 234, 0.7)',
-                  letterSpacing: lang === 'ar' ? 0 : '0.22em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                  letterSpacing: 0,
+                  textTransform: 'none',
                 }}
               >
                 {t('home.cta.eyebrow')}
@@ -109,10 +109,10 @@ export function Home() {
                 style={{
                   color: 'var(--bg)',
                   fontSize: 'clamp(36px, 5vw, 64px)',
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   marginTop: 16,
-                  lineHeight: lang === 'ar' ? 1.3 : 1.15,
-                  maxWidth: lang === 'ar' ? '20ch' : '18ch',
+                  lineHeight: 1.3,
+                  maxWidth: '20ch',
                 }}
               >
                 {t('home.cta.title')}
@@ -122,11 +122,11 @@ export function Home() {
                   fontFamily: 'var(--font-serif)',
                   color: 'rgba(245, 241, 234, 0.92)',
                   fontSize: 'clamp(20px, 2.2vw, 26px)',
-                  fontWeight: lang === 'ar' ? 700 : 500,
-                  lineHeight: lang === 'ar' ? 1.5 : 1.3,
+                  fontWeight: 700,
+                  lineHeight: 1.5,
                   marginTop: 18,
                   maxWidth: 640,
-                  fontStyle: lang === 'ar' ? 'normal' : 'italic',
+                  fontStyle: 'normal',
                 }}
               >
                 {t('home.cta.tagline')}
@@ -135,7 +135,7 @@ export function Home() {
                 style={{
                   color: 'rgba(245, 241, 234, 0.78)',
                   fontSize: 17,
-                  lineHeight: lang === 'ar' ? 1.95 : 1.7,
+                  lineHeight: 1.95,
                   maxWidth: 560,
                   marginTop: 22,
                 }}
@@ -224,10 +224,10 @@ function ServicesSection() {
                 >
                   <Icon size={20} strokeWidth={1.5} />
                 </div>
-                <h3 style={{ fontSize: 19, fontWeight: lang === 'ar' ? 700 : 500, marginBottom: 8 }}>
+                <h3 style={{ fontSize: 19, fontWeight: 700, marginBottom: 8 }}>
                   {s.title[lang]}
                 </h3>
-                <p style={{ color: 'var(--ink-2)', fontSize: 14, lineHeight: lang === 'ar' ? 1.85 : 1.65, margin: 0 }}>
+                <p style={{ color: 'var(--ink-2)', fontSize: 14, lineHeight: 1.85, margin: 0 }}>
                   {s.description[lang]}
                 </p>
               </motion.div>
@@ -310,7 +310,7 @@ function TestimonialsSection() {
                   margin: 0,
                   color: 'var(--ink-2)',
                   fontSize: 15,
-                  lineHeight: lang === 'ar' ? 1.9 : 1.7,
+                  lineHeight: 1.9,
                   whiteSpace: 'pre-wrap',
                 }}
               >
@@ -321,7 +321,7 @@ function TestimonialsSection() {
                   marginTop: 16,
                   fontFamily: 'var(--font-serif)',
                   fontSize: 16,
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   color: 'var(--ink)',
                 }}
               >
@@ -379,7 +379,7 @@ function ProcessSteps() {
             <h3
               style={{
                 fontSize: 19,
-                fontWeight: lang === 'ar' ? 700 : 500,
+                fontWeight: 700,
                 marginBottom: 8,
               }}
             >
@@ -389,7 +389,7 @@ function ProcessSteps() {
               style={{
                 color: 'var(--ink-2)',
                 fontSize: 14,
-                lineHeight: lang === 'ar' ? 1.85 : 1.65,
+                lineHeight: 1.85,
                 margin: 0,
               }}
             >
@@ -416,7 +416,7 @@ function SectionHead({
       <h2
         style={{
           fontSize: 'var(--fs-h2)',
-          fontWeight: lang === 'ar' ? 700 : 400,
+          fontWeight: 700,
           marginTop: 14,
           maxWidth: '20ch',
         }}

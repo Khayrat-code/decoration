@@ -36,10 +36,10 @@ export function HowWeWork() {
             <h1
               style={{
                 fontSize: 'var(--fs-h1)',
-                fontWeight: lang === 'ar' ? 700 : 500,
+                fontWeight: 700,
                 marginTop: 14,
                 marginBottom: 24,
-                lineHeight: lang === 'ar' ? 1.3 : 1.1,
+                lineHeight: 1.3,
                 maxWidth: '20ch',
               }}
             >
@@ -49,7 +49,7 @@ export function HowWeWork() {
               style={{
                 color: 'var(--ink-2)',
                 fontSize: 19,
-                lineHeight: lang === 'ar' ? 2.0 : 1.85,
+                lineHeight: 2.0,
                 maxWidth: 680,
               }}
             >
@@ -65,10 +65,10 @@ export function HowWeWork() {
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 14,
               marginBottom: 12,
-              lineHeight: lang === 'ar' ? 1.3 : 1.2,
+              lineHeight: 1.3,
               maxWidth: '20ch',
             }}
           >
@@ -149,9 +149,9 @@ export function HowWeWork() {
                   <h3
                     style={{
                       fontSize: 22,
-                      fontWeight: lang === 'ar' ? 700 : 500,
+                      fontWeight: 700,
                       marginBottom: 8,
-                      lineHeight: lang === 'ar' ? 1.4 : 1.25,
+                      lineHeight: 1.4,
                     }}
                   >
                     {step.title[lang]}
@@ -160,7 +160,7 @@ export function HowWeWork() {
                     style={{
                       color: 'var(--ink-2)',
                       fontSize: 15,
-                      lineHeight: lang === 'ar' ? 1.95 : 1.7,
+                      lineHeight: 1.95,
                       margin: 0,
                       marginBottom: 18,
                     }}
@@ -173,7 +173,7 @@ export function HowWeWork() {
                       paddingTop: 12,
                       fontSize: 12,
                       color: 'var(--accent-2)',
-                      letterSpacing: lang === 'ar' ? 0 : '0.06em',
+                      letterSpacing: 0,
                       fontWeight: 500,
                     }}
                   >
@@ -207,10 +207,10 @@ export function HowWeWork() {
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 14,
               marginBottom: 56,
-              lineHeight: lang === 'ar' ? 1.3 : 1.2,
+              lineHeight: 1.3,
               maxWidth: '20ch',
             }}
           >
@@ -248,9 +248,9 @@ export function HowWeWork() {
                 <h3
                   style={{
                     fontSize: 22,
-                    fontWeight: lang === 'ar' ? 700 : 500,
+                    fontWeight: 700,
                     marginBottom: 12,
-                    lineHeight: lang === 'ar' ? 1.4 : 1.25,
+                    lineHeight: 1.4,
                   }}
                 >
                   {p.title[lang]}
@@ -259,7 +259,7 @@ export function HowWeWork() {
                   style={{
                     color: 'var(--ink-2)',
                     fontSize: 16,
-                    lineHeight: lang === 'ar' ? 1.95 : 1.7,
+                    lineHeight: 1.95,
                     margin: 0,
                   }}
                 >
@@ -289,8 +289,8 @@ export function HowWeWork() {
               fontSize: 13,
               fontWeight: 500,
               color: 'rgba(245, 241, 234, 0.7)',
-              letterSpacing: lang === 'ar' ? 0 : '0.22em',
-              textTransform: lang === 'ar' ? 'none' : 'uppercase',
+              letterSpacing: 0,
+              textTransform: 'none',
             }}
           >
             {t('home.cta.eyebrow')}
@@ -299,10 +299,10 @@ export function HowWeWork() {
             style={{
               color: 'var(--bg)',
               fontSize: 'clamp(36px, 5vw, 64px)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 14,
               marginBottom: 18,
-              lineHeight: lang === 'ar' ? 1.3 : 1.15,
+              lineHeight: 1.3,
               maxWidth: '20ch',
               margin: '14px auto 18px',
             }}
@@ -313,7 +313,7 @@ export function HowWeWork() {
             style={{
               color: 'rgba(245, 241, 234, 0.78)',
               fontSize: 18,
-              lineHeight: lang === 'ar' ? 1.95 : 1.7,
+              lineHeight: 1.95,
               maxWidth: 560,
               margin: '0 auto 32px',
             }}

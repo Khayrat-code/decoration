@@ -133,10 +133,10 @@ export function Complaints() {
           <h1
             style={{
               fontSize: 'var(--fs-h1)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 14,
               marginBottom: 18,
-              lineHeight: lang === 'ar' ? 1.3 : 1.1,
+              lineHeight: 1.3,
               maxWidth: '20ch',
               margin: '14px auto 18px',
             }}
@@ -147,7 +147,7 @@ export function Complaints() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 18,
-              lineHeight: lang === 'ar' ? 1.95 : 1.7,
+              lineHeight: 1.95,
               maxWidth: 620,
               margin: '0 auto',
             }}
@@ -192,21 +192,21 @@ export function Complaints() {
                 style={{
                   fontFamily: 'var(--font-serif)',
                   fontSize: 26,
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   color: 'var(--ink)',
                   marginBottom: 12,
                 }}
               >
                 {t('complaints.form.success.title')}
               </div>
-              <p style={{ color: 'var(--ink-2)', fontSize: 16, lineHeight: lang === 'ar' ? 1.95 : 1.7, maxWidth: 460, margin: '0 auto' }}>
+              <p style={{ color: 'var(--ink-2)', fontSize: 16, lineHeight: 1.95, maxWidth: 460, margin: '0 auto' }}>
                 {t('complaints.form.success.body')}
               </p>
               <p
                 style={{
                   fontFamily: 'var(--font-serif)',
                   fontSize: 18,
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   color: 'var(--accent)',
                   marginTop: 20,
                 }}
@@ -227,7 +227,7 @@ export function Complaints() {
               <h2
                 style={{
                   fontSize: 22,
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   marginBottom: 24,
                 }}
               >
@@ -412,7 +412,7 @@ export function Complaints() {
                 <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)', marginBottom: 6 }}>
                   {t('complaints.form.afterHeading')}
                 </div>
-                <p style={{ color: 'var(--ink-2)', fontSize: 14, lineHeight: lang === 'ar' ? 1.9 : 1.6, margin: 0 }}>
+                <p style={{ color: 'var(--ink-2)', fontSize: 14, lineHeight: 1.9, margin: 0 }}>
                   {t('complaints.form.afterBody')}
                 </p>
               </div>

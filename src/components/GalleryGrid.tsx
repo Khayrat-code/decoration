@@ -101,8 +101,8 @@ export function GalleryGrid({ items: propItems, showCategories = true, compact =
           textAlign: 'center',
           color: 'var(--ink-3)',
           fontSize: 13,
-          letterSpacing: lang === 'ar' ? 0 : '0.18em',
-          textTransform: lang === 'ar' ? 'none' : 'uppercase',
+          letterSpacing: 0,
+          textTransform: 'none',
         }}
       >
         {t('gallery.loading')}
@@ -143,7 +143,7 @@ export function GalleryGrid({ items: propItems, showCategories = true, compact =
           style={{
             fontFamily: 'var(--font-serif)',
             fontSize: 28,
-            fontWeight: lang === 'ar' ? 700 : 400,
+            fontWeight: 700,
             color: 'var(--ink-2)',
             marginBottom: 8,
           }}
@@ -179,10 +179,10 @@ export function GalleryGrid({ items: propItems, showCategories = true, compact =
                 onClick={() => setActive(c.value)}
                 style={{
                   fontFamily: 'inherit',
-                  fontSize: lang === 'ar' ? 13 : 12,
+                  fontSize: 13,
                   fontWeight: 500,
-                  letterSpacing: lang === 'ar' ? 0 : '0.18em',
-                  textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                  letterSpacing: 0,
+                  textTransform: 'none',
                   padding: '10px 20px',
                   borderRadius: 999,
                   border: '1px solid',
@@ -336,8 +336,8 @@ function GalleryCard({
               style={{
                 fontSize: 12,
                 fontWeight: 500,
-                letterSpacing: lang === 'ar' ? 0 : '0.22em',
-                textTransform: lang === 'ar' ? 'none' : 'uppercase',
+                letterSpacing: 0,
+                textTransform: 'none',
                 color: 'rgba(245, 241, 234, 0.92)',
               }}
             >

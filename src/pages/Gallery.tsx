@@ -28,11 +28,11 @@ export function Gallery() {
             <h1
               style={{
                 fontSize: 'var(--fs-h1)',
-                fontWeight: lang === 'ar' ? 700 : 400,
+                fontWeight: 700,
                 marginTop: 16,
                 marginBottom: 24,
-                maxWidth: lang === 'ar' ? '20ch' : '14ch',
-                lineHeight: lang === 'ar' ? 1.3 : 1.1,
+                maxWidth: '20ch',
+                lineHeight: 1.3,
               }}
             >
               {t('gallery.titleFallback')}
@@ -41,7 +41,7 @@ export function Gallery() {
               style={{
                 color: 'var(--ink-2)',
                 fontSize: 19,
-                lineHeight: lang === 'ar' ? 1.95 : 1.6,
+                lineHeight: 1.95,
                 maxWidth: 620,
               }}
             >
@@ -69,10 +69,10 @@ export function Gallery() {
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
-              fontWeight: lang === 'ar' ? 700 : 400,
+              fontWeight: 700,
               marginTop: 16,
               marginBottom: 24,
-              lineHeight: lang === 'ar' ? 1.3 : 1.1,
+              lineHeight: 1.3,
             }}
           >
             {t('contact.title')}
@@ -81,7 +81,7 @@ export function Gallery() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 17,
-              lineHeight: lang === 'ar' ? 1.95 : 1.6,
+              lineHeight: 1.95,
               maxWidth: 540,
               margin: '0 auto 32px',
             }}

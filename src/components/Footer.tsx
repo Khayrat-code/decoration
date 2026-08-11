@@ -175,7 +175,7 @@ export function Footer() {
         .f-blurb {
           margin: 20px 0 0;
           font-size: 14px;
-          line-height: ${lang === 'ar' ? 1.95 : 1.7};
+          line-height: 1.95;
           max-width: 300px;
         }
         .f-socials { display: flex; gap: 10px; margin-top: 20px; }

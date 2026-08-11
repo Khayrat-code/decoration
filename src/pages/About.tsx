@@ -35,10 +35,10 @@ export function About() {
             <h1
               style={{
                 fontSize: 'var(--fs-h1)',
-                fontWeight: lang === 'ar' ? 700 : 500,
+                fontWeight: 700,
                 marginTop: 16,
                 marginBottom: 56,
-                lineHeight: lang === 'ar' ? 1.3 : 1.1,
+                lineHeight: 1.3,
                 maxWidth: '14ch',
               }}
             >
@@ -50,7 +50,7 @@ export function About() {
               style={{
                 color: 'var(--ink-2)',
                 fontSize: 19,
-                lineHeight: lang === 'ar' ? 2.0 : 1.85,
+                lineHeight: 2.0,
                 maxWidth: 720,
               }}
             >
@@ -118,9 +118,9 @@ export function About() {
                 style={{
                   fontFamily: 'var(--font-serif)',
                   fontSize: 'clamp(22px, 2.4vw, 30px)',
-                  lineHeight: lang === 'ar' ? 1.55 : 1.35,
+                  lineHeight: 1.55,
                   color: 'var(--ink)',
-                  fontWeight: lang === 'ar' ? 700 : 500,
+                  fontWeight: 700,
                   margin: 0,
                   maxWidth: 640,
                 }}
@@ -144,10 +144,10 @@ export function About() {
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 14,
               marginBottom: 56,
-              lineHeight: lang === 'ar' ? 1.3 : 1.2,
+              lineHeight: 1.3,
               maxWidth: '20ch',
             }}
           >
@@ -185,9 +185,9 @@ export function About() {
                 <h3
                   style={{
                     fontSize: 22,
-                    fontWeight: lang === 'ar' ? 700 : 500,
+                    fontWeight: 700,
                     marginBottom: 12,
-                    lineHeight: lang === 'ar' ? 1.4 : 1.25,
+                    lineHeight: 1.4,
                   }}
                 >
                   {v.title[lang]}
@@ -196,7 +196,7 @@ export function About() {
                   style={{
                     color: 'var(--ink-2)',
                     fontSize: 16,
-                    lineHeight: lang === 'ar' ? 1.95 : 1.7,
+                    lineHeight: 1.95,
                     margin: 0,
                   }}
                 >
@@ -227,10 +227,10 @@ export function About() {
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
-              fontWeight: lang === 'ar' ? 700 : 500,
+              fontWeight: 700,
               marginTop: 16,
               marginBottom: 24,
-              lineHeight: lang === 'ar' ? 1.35 : 1.2,
+              lineHeight: 1.35,
             }}
           >
             {t('contact.title')}
@@ -239,7 +239,7 @@ export function About() {
             style={{
               color: 'var(--ink-2)',
               fontSize: 17,
-              lineHeight: lang === 'ar' ? 1.95 : 1.7,
+              lineHeight: 1.95,
               maxWidth: 560,
               margin: '0 auto 32px',
             }}
