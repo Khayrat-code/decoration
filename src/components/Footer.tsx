@@ -65,37 +65,37 @@ export function Footer() {
 
   return (
     <footer className="dark-surface" style={{ background: 'var(--ink)', color: LIGHT, marginTop: 'auto' }}>
-      <div className="container f-wrap">
-        <div className="f-grid">
-          <div className="f-brand">
-            <Logo size="md" tone="light" />
-            <p className="f-blurb">{t('footer.blurb')}</p>
-            <div className="f-socials">
-              {socialLinks.map((s) => {
-                const Icon = SOCIAL_ICONS[s.key]
-                return (
-                  <a key={s.href} href={s.href} target="_blank" rel="noreferrer" className="f-soc" aria-label={s.label} title={s.label}>
-                    <Icon size={16} />
-                  </a>
-                )
-              })}
-            </div>
+      <div className="container" style={{ padding: '0 32px' }}>
+        {/* ======== Brand row — centered ======== */}
+        <div className="f-brand-top">
+          <Logo size="md" tone="light" />
+          <p className="f-blurb">{t('footer.blurb')}</p>
+          <div className="f-socials">
+            {socialLinks.map((s) => {
+              const Icon = SOCIAL_ICONS[s.key]
+              return (
+                <a key={s.href} href={s.href} target="_blank" rel="noreferrer" className="f-soc" aria-label={s.label} title={s.label}>
+                  <Icon size={16} />
+                </a>
+              )
+            })}
           </div>
+        </div>
 
-          <div className="f-links">
+        {/* ======== Info grid ======== */}
+        <div className="f-grid">
+          <div className="f-col">
             <FooterHeading>{t('footer.quickTitle')}</FooterHeading>
             <ul className="f-list">
               {quickLinks.map((l, i) => (
                 <li key={i}>
-                  <Link to={l.to} className="f-link">
-                    {l.label}
-                  </Link>
+                  <Link to={l.to} className="f-link">{l.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="f-contact">
+          <div className="f-col">
             <FooterHeading>{t('footer.contactTitle')}</FooterHeading>
             <div className="f-contact-rows">
               <ContactRow icon={<MapPin size={15} />}>
@@ -119,7 +119,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="f-trust">
+          <div className="f-col">
             <FooterHeading>{t('footer.trustTitle')}</FooterHeading>
             <div className="f-trust-card">
               <MawthoogIcon size={36} />
@@ -127,7 +127,7 @@ export function Footer() {
                 <span style={{ fontSize: 13, color: 'rgba(245, 241, 234, 0.92)', fontWeight: 500 }}>
                   {t('footer.certified')}
                 </span>
-                <span style={{ fontSize: 11, color: 'rgba(245, 241, 234, 0.62)', letterSpacing: '0.04em' }}>
+                <span style={{ fontSize: 11, color: 'rgba(245, 241, 234, 0.62)' }}>
                   {t('footer.mawthoogSub')}
                 </span>
               </div>
@@ -141,6 +141,7 @@ export function Footer() {
           </div>
         </div>
 
+        {/* ======== Payments ======== */}
         <div className="f-pay">
           <span className="f-pay-label">{t('footer.paymentsTitle')}</span>
           <div className="f-pay-chips">
@@ -164,20 +165,22 @@ export function Footer() {
       </div>
 
       <style>{`
-        .f-wrap { padding: 64px 32px 0; }
-        .f-grid {
-          display: grid;
-          grid-template-columns: 1.3fr 0.8fr 1.1fr 1.1fr;
-          gap: 48px;
-          padding-bottom: 44px;
+        /* Brand top — centered across the full width */
+        .f-brand-top {
+          text-align: center;
+          padding: 64px 0 40px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         .f-blurb {
-          margin: 20px 0 0;
+          margin: 16px 0 0;
           font-size: 14px;
           line-height: 1.95;
-          max-width: 300px;
+          max-width: 380px;
+          text-align: center;
         }
-        .f-socials { display: flex; gap: 10px; margin-top: 20px; }
+        .f-socials { display: flex; gap: 10px; margin-top: 18px; justify-content: center; }
         .f-soc {
           width: 38px;
           height: 38px;
@@ -191,13 +194,23 @@ export function Footer() {
           transition: color 200ms, border-color 200ms;
         }
         .f-soc:hover { color: ${GOLD}; border-color: ${GOLD}; }
+
+        /* Grid — 3 equal columns */
+        .f-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 40px;
+          padding-bottom: 36px;
+          border-top: 1px solid rgba(245, 241, 234, 0.1);
+          padding-top: 48px;
+        }
         .f-list {
           list-style: none;
           margin: 0;
           padding: 0;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 10px;
         }
         .f-link {
           color: ${LIGHT};
@@ -239,36 +252,21 @@ export function Footer() {
           display: flex;
           justify-content: center;
           align-items: center;
-          flex-wrap: wrap;
-          gap: 12px;
-          padding: 16px 0 20px;
+          padding: 16px 0 24px;
           border-top: 1px solid rgba(245, 241, 234, 0.1);
           color: ${LIGHT_SOFT};
           font-size: 12px;
-          text-align: center;
         }
 
-        @media (max-width: 980px) {
-          .f-wrap { padding: 48px 24px 0; }
-          .f-grid { grid-template-columns: 1fr 1fr; gap: 36px 28px; padding-bottom: 36px; }
-        }
-        @media (max-width: 620px) {
-          .f-wrap { padding: 44px 20px 0; }
-          .f-grid { grid-template-columns: 1fr; gap: 28px; padding-bottom: 28px; }
-          .f-brand, .f-trust { grid-column: auto; margin: 0; }
-          .f-blurb { max-width: none; font-size: 15px; }
-          .f-socials { margin-top: 16px; }
+        @media (max-width: 760px) {
+          .f-brand-top { padding: 48px 0 32px; }
+          .f-blurb { max-width: none; }
+          .f-grid { grid-template-columns: 1fr; gap: 32px; padding-top: 36px; }
           .f-contact-rows { gap: 12px; font-size: 14px; }
           .f-pay { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 0; }
           .f-pay-chips { gap: 8px; }
           .pay-badge-card { width: 56px !important; height: 36px !important; }
-          .f-bottom {
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            gap: 8px;
-            padding: 14px 0 18px;
-          }
+          .f-bottom { padding: 14px 0 20px; }
         }
       `}</style>
     </footer>
@@ -277,8 +275,8 @@ export function Footer() {
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div style={{ color: '#F5F1EA', fontSize: 15, fontWeight: 600, marginBottom: 10 }}>
+    <div style={{ marginBottom: 16 }}>
+      <div style={{ color: '#F5F1EA', fontSize: 15, fontWeight: 600, marginBottom: 8 }}>
         {children}
       </div>
       <div style={{ width: 28, height: 2, background: GOLD, borderRadius: 999 }} />

@@ -103,7 +103,6 @@ export function HeroSlider() {
         height: 'min(92vh, 860px)',
         minHeight: 640,
         width: '100%',
-        overflow: 'hidden',
         background: 'var(--ink)',
       }}
     >
