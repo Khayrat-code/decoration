@@ -100,8 +100,7 @@ export function HeroSlider() {
       className="hero-laptop"
       style={{
         position: 'relative',
-        height: 'min(92vh, 860px)',
-        minHeight: 640,
+        minHeight: 'min(92vh, 860px)',
         width: '100%',
         background: 'var(--ink)',
       }}
@@ -139,12 +138,12 @@ export function HeroSlider() {
         className="container"
         style={{
           position: 'relative',
-          height: '100%',
+          padding: 'calc(var(--navbar-h) + 28px) 32px 48px',
+          color: '#F5F1EA',
+          minHeight: 'min(92vh, 860px)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',
-          padding: 'calc(var(--navbar-h) + 28px) 32px 48px',
-          color: '#F5F1EA',
         }}
       >
         <div style={{ maxWidth: 880 }}>
