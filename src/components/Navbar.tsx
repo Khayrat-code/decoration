@@ -52,15 +52,16 @@ export function Navbar() {
       }}
     >
       <div
-        className="container nav-bar"
+        className="container"
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 24,
           height: '100%',
+          padding: '0 32px',
         }}
       >
+        {/* Logo */}
         <NavLink
           to="/"
           style={{ borderBottom: 'none', display: 'inline-flex', alignItems: 'center', lineHeight: 0 }}
@@ -69,7 +70,28 @@ export function Navbar() {
           <Logo size="sm" />
         </NavLink>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* Desktop nav — centered, clean, no uppercase */}
+        {!isAdmin && (
+          <nav className="nav-desktop" aria-label={t('nav.primaryNav')}>
+            {linkKeys.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === '/'}
+                className="nav-link"
+                style={({ isActive }) => ({
+                  color: isActive ? 'var(--ink)' : 'var(--ink-2)',
+                  borderBottom: isActive ? '2px solid var(--accent)' : '2px solid transparent',
+                })}
+              >
+                {t(l.key)}
+              </NavLink>
+            ))}
+          </nav>
+        )}
+
+        {/* Right side: lang toggle + burger */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {!isAdmin && (
             <button
               type="button"
@@ -79,16 +101,14 @@ export function Navbar() {
                 fontFamily: 'inherit',
                 fontSize: 12,
                 fontWeight: 500,
-                letterSpacing: 0,
-                textTransform: 'none',
-                padding: '8px 14px',
+                padding: '6px 12px',
                 border: '1px solid var(--line-2)',
-                background: 'rgba(255, 255, 255, 0.4)',
+                background: 'transparent',
                 color: 'var(--ink-2)',
                 borderRadius: 999,
                 cursor: 'pointer',
-                minWidth: 44,
-                height: 36,
+                minWidth: 40,
+                height: 32,
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -106,18 +126,6 @@ export function Navbar() {
               aria-controls="mobile-menu"
               aria-label={open ? 'Close menu' : 'Open menu'}
               onClick={() => setOpen((v) => !v)}
-              style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                justifyContent: 'center',
-                width: 40,
-                height: 40,
-                border: '1px solid var(--line-2)',
-                background: 'rgba(255, 255, 255, 0.4)',
-                color: 'var(--ink)',
-                borderRadius: 10,
-                cursor: 'pointer',
-              }}
             >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -127,8 +135,6 @@ export function Navbar() {
               to="/"
               style={{
                 fontSize: 13,
-                letterSpacing: 0,
-                textTransform: 'none',
                 color: 'var(--ink-2)',
                 borderBottom: 'none',
               }}
@@ -139,6 +145,7 @@ export function Navbar() {
         </div>
       </div>
 
+      {/* Mobile menu dropdown */}
       {!isAdmin && open && (
         <nav id="mobile-menu" className="nav-mobile" aria-label={t('nav.primaryNav')}>
           <ul>
@@ -147,16 +154,11 @@ export function Navbar() {
                 <NavLink
                   to={l.to}
                   end={l.to === '/'}
+                  className="nav-mobile-link"
                   style={({ isActive }) => ({
-                    display: 'block',
                     color: isActive ? 'var(--ink)' : 'var(--ink-2)',
-                    background: isActive ? 'rgba(61, 79, 61, 0.08)' : 'transparent',
-                    fontSize: 15,
+                    background: isActive ? 'rgba(61, 79, 61, 0.06)' : 'transparent',
                     fontWeight: isActive ? 700 : 500,
-                    textDecoration: 'none',
-                    borderBottom: 'none',
-                    padding: '14px 16px',
-                    borderRadius: 10,
                   })}
                 >
                   {t(l.key)}
@@ -164,20 +166,7 @@ export function Navbar() {
               </li>
             ))}
             <li>
-              <NavLink
-                to="/complaints"
-                style={{
-                  display: 'block',
-                  color: 'var(--ink-2)',
-                  background: 'transparent',
-                  fontSize: 15,
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  borderBottom: 'none',
-                  padding: '14px 16px',
-                  borderRadius: 10,
-                }}
-              >
+              <NavLink to="/complaints" className="nav-mobile-link" style={{ color: 'var(--ink-2)', fontWeight: 500, background: 'transparent' }}>
                 {t('nav.complaints')}
               </NavLink>
             </li>
@@ -186,12 +175,50 @@ export function Navbar() {
       )}
 
       <style>{`
-        @media (max-width: 880px) {
-          .nav-bar { padding: 10px 16px !important; gap: 8px; }
+        /* Desktop nav — minimal, elegant, no list bullshit */
+        .nav-desktop {
+          display: flex;
+          align-items: center;
+          gap: 40px;
         }
+        .nav-link {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          border-bottom: 2px solid transparent !important;
+          padding: 24px 0 22px;
+          transition: color 180ms var(--ease-out-soft), border-color 180ms var(--ease-out-soft);
+        }
+        .nav-link:hover {
+          color: var(--ink) !important;
+        }
+
+        /* Burger: hidden on desktop, visible on mobile */
+        .nav-burger {
+          display: none;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border: 1px solid var(--line-2);
+          background: transparent;
+          color: var(--ink);
+          border-radius: 10px;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 880px) {
+          .nav-desktop { display: none; }
+          .nav-burger { display: flex; }
+        }
+
+        /* Mobile menu */
         .nav-mobile {
           border-top: 1px solid var(--line);
           padding: 8px 16px 16px;
+          background: rgba(245, 241, 234, 0.98);
         }
         .nav-mobile ul {
           list-style: none;
@@ -200,6 +227,18 @@ export function Navbar() {
           display: flex;
           flex-direction: column;
           gap: 2px;
+        }
+        .nav-mobile-link {
+          display: block;
+          font-size: 15px;
+          text-decoration: none;
+          border-bottom: none !important;
+          padding: 14px 16px;
+          border-radius: 10px;
+          transition: background-color 120ms var(--ease-out-soft);
+        }
+        .nav-mobile-link:hover {
+          background: rgba(61, 79, 61, 0.05);
         }
       `}</style>
     </header>
