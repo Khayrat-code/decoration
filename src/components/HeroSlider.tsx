@@ -306,7 +306,7 @@ export function HeroSlider() {
           className="hero-stats"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(120px, 100%), 1fr))',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 16,
             marginTop: 28,
             paddingTop: 22,
@@ -344,7 +344,7 @@ export function HeroSlider() {
 
       <style>{`
         @media (max-width: 720px) {
-          .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+          .hero-stats { gap: 10px !important; }
         }
 
         @media (min-width: 1024px) and (max-height: 820px) {
