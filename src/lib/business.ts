@@ -7,7 +7,7 @@ export const BUSINESS = {
     ar: 'الرياض، المملكة العربية السعودية',
     en: 'Riyadh, Saudi Arabia',
   },
-  cr: '1010000000',
+  cr: '7054962811',
   socials: [
     { key: 'tiktok', href: 'https://www.tiktok.com/@toolcan.sa' },
     { key: 'snap', href: 'https://www.snapchat.com/add/toolcan.sa' },
