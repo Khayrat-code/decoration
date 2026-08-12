@@ -130,7 +130,7 @@ const T = {
         {
           subtitle: { ar: 'مكاتب عصرية', en: 'Executive Offices' },
           title: { ar: 'مساحات عمل', en: 'Workspaces that' },
-          highlight: { ar: 'تلهم الإبداع', en: 'inspire productivity' },
+          highlight: { ar: 'تلهم', en: 'inspire productivity' },
           description: {
             ar: 'نصمم مكاتب عصرية تجمع بين الوظيفية والأناقة لتمنحك بيئة عمل مثالية',
             en: 'We design modern offices that blend function with elegance for the ultimate work environment',
@@ -278,7 +278,7 @@ const T = {
         ar: 'حلول متكاملة في الأثاث والديكور والتجهيز الداخلي للمكاتب، الفنادق، والمساحات التجارية، بتنفيذ يواكب هوية كل مشروع.',
         en: 'Integrated solutions in furniture, décor, and interior fit-out for offices, hotels, and commercial spaces — delivered with the identity of every project in mind.',
       },
-      button:   { ar: 'لنصنع مشروعك معًا', en: 'Let’s build your project' },
+      button:   { ar: 'لنصمم مشروعك معًا', en: 'Let’s build your project' },
     },
   },
 
@@ -356,7 +356,7 @@ const T = {
   /* ------------------ Contact page ------------------ */
   contact: {
     eyebrow: { ar: 'تواصل', en: 'Contact' },
-    title:   { ar: 'لنصنع مشروعك معًا.', en: 'Let’s build your project together.' },
+    title:   { ar: 'لنصمم مشروعك معًا.', en: 'Let’s build your project together.' },
     body: {
       ar: 'أرسل لنا بعض الصور، أبعاد المساحة، وما يتخيله ذهنك. يقرأ فريقنا كل رسالة، ويُردّ خلال خمسة أيام عمل.',
       en: 'Send us a few photos, the dimensions of the space, and what you have in mind. Our team reads every message and replies within five working days.',

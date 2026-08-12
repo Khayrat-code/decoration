@@ -31,7 +31,6 @@ export function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="eyebrow">{t('about.eyebrow')}</span>
             <h1
               style={{
                 fontSize: 'var(--fs-h1)',
@@ -140,7 +139,6 @@ export function About() {
       {/* ============ VALUES ============ */}
       <section className="section">
         <div className="container-narrow">
-          <span className="eyebrow">{t('about.valuesEyebrow')}</span>
           <h2
             style={{
               fontSize: 'var(--fs-h2)',
