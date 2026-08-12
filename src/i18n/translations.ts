@@ -62,7 +62,7 @@ const T = {
     studio: {
       appointment:  { ar: 'بموعد مسبق',   en: 'By appointment' },
       hours:        { ar: 'الإثنين — الجمعة، ١٠–١٨', en: 'Mon — Fri, 10–18' },
-      email:        { ar: 'khayratum@gmail.com',       en: 'khayratum@gmail.com' },
+      email:        { ar: 'Toolcan.sa@gmail.com',       en: 'Toolcan.sa@gmail.com' },
     },
     connect: {
       tiktok:    { ar: 'تيك توك',     en: 'TikTok' },
@@ -755,8 +755,8 @@ const T = {
     contact: {
       title: { ar: 'تواصل', en: 'Get in touch' },
       body: {
-        ar: 'لأي استفسار يخص الخصوصية، الصور، أو شروط الاستخدام، راسلنا على khayratum@gmail.com.',
-        en: 'For any question about privacy, image rights, or terms of use, write to khayratum@gmail.com.',
+        ar: 'لأي استفسار يخص الخصوصية، الصور، أو شروط الاستخدام، راسلنا على Toolcan.sa@gmail.com.',
+        en: 'For any question about privacy, image rights, or terms of use, write to Toolcan.sa@gmail.com.',
       },
     },
   },
