@@ -4,16 +4,20 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useLang, useT } from '../i18n/LanguageContext'
 import T, { CATEGORIES } from '../i18n/translations'
-import { supabase, TABLES } from '../lib/supabase'
 import { getSetting } from '../lib/settings'
 import { DEFAULT_HERO, normalizeHero, type HeroSettings } from '../lib/content'
 
-const FALLBACK_IMAGE =
-  'https://fpmjlkqiljfwbnnljptr.supabase.co/storage/v1/object/public/gallery/projects/living/Image-19-1786134733164.jpg'
+type Lang = 'ar' | 'en'
+
+type HeroImage = { url: string; category: string }
+
+const HERO_IMAGES: HeroImage[] = [
+  { url: '/hero/office.jpeg',      category: 'Office'  },
+  { url: '/hero/living_room.jpeg',  category: 'Living'  },
+  { url: '/hero/sleeping.jpeg',     category: 'Bedroom' },
+]
 
 const EASE = [0.16, 1, 0.3, 1] as const
-
-type Lang = 'ar' | 'en'
 
 // Map an image's category to one of the existing 3 hero slides.
 function slideIndexForCategory(category: string | undefined): number {
@@ -33,49 +37,26 @@ export function HeroSlider() {
   const t = useT()
   const { lang } = useLang()
   const [settings, setSettings] = useState<HeroSettings>(DEFAULT_HERO)
-  const [images, setImages] = useState<Array<{ url: string; category: string }>>([
-    { url: FALLBACK_IMAGE, category: 'Living' },
-  ])
+  const [images] = useState<HeroImage[]>(HERO_IMAGES)
   const [index, setIndex] = useState(0)
-  const [projectCount, setProjectCount] = useState<number | null>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    ;(async () => {
-      const [hero, gallery] = await Promise.all([
-        getSetting<Partial<HeroSettings>>('hero'),
-        supabase.from(TABLES.gallery).select('id, category, image_url'),
-      ])
-      if (cancelled) return
-      setSettings(normalizeHero(hero))
-      if (!gallery.error && gallery.data) {
-        const rows = gallery.data as Array<{ id: string; category: string; image_url: string }>
-        setProjectCount(rows.length)
-        // First image per category, in CATEGORIES order so the slider
-        // always cycles Living → Bedroom → Kitchen → ... instead of
-        // an arbitrary gallery order.
-        const byCategory = new Map<string, string>()
-        for (const row of rows) {
-          if (!byCategory.has(row.category)) byCategory.set(row.category, row.image_url)
-        }
-        const ordered: Array<{ url: string; category: string }> = []
-        for (const c of CATEGORIES) {
-          const url = byCategory.get(c.key)
-          if (url) ordered.push({ url, category: c.key })
-        }
-        if (ordered.length > 0) setImages(ordered)
-      }
-    })()
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   const slides = settings.slides
   const count = images.length
 
   const next = useCallback(() => setIndex((i) => (i + 1) % count), [count])
   const prev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count])
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const hero = await getSetting<Partial<HeroSettings>>('hero')
+      if (cancelled) return
+      setSettings(normalizeHero(hero))
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     const id = window.setInterval(next, 6500)
@@ -89,9 +70,8 @@ export function HeroSlider() {
   const subtitle = categoryLabel(current.category, lang)
 
   const stats: Array<{ value: string; label: string }> = [
-    { value: projectCount !== null ? String(projectCount) : '+', label: t('home.hero.stats.projects') },
-    { value: `${settings.stats.years}+`, label: t('home.hero.stats.years') },
-    { value: `${settings.stats.designers}+`, label: t('home.hero.stats.designers') },
+    { value: settings.stats.years.toString(), label: t('home.hero.stats.years') },
+    { value: settings.stats.designers.toString(), label: t('home.hero.stats.designers') },
     { value: `${settings.stats.satisfaction}%`, label: t('home.hero.stats.satisfaction') },
   ]
 
@@ -103,6 +83,7 @@ export function HeroSlider() {
         minHeight: 'min(92vh, 860px)',
         width: '100%',
         background: 'var(--ink)',
+        overflow: 'hidden',
       }}
     >
       <AnimatePresence initial={false}>
@@ -325,7 +306,7 @@ export function HeroSlider() {
           className="hero-stats"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 16,
             marginTop: 28,
             paddingTop: 22,

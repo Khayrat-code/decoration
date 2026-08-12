@@ -116,7 +116,7 @@ const T = {
         en: 'An interior decoration studio shaping warm, considered spaces from a small workshop. Soft palettes, honest materials, rooms that breathe.',
       },
       cta1: { ar: 'شاهد الأعمال', en: 'See the work' },
-      cta2: { ar: 'ابدأ مشروعاً', en: 'Start a project' },
+      cta2: { ar: 'آمر تدلل', en: 'Start a project' },
       // 3 inline service tags rendered under the hero description, with a
       // gold dot before each label. Pattern borrowed from zarva.sa —
       // labels are pulled verbatim from the existing services items so we
@@ -128,12 +128,12 @@ const T = {
       ],
       slides: [
         {
-          subtitle: { ar: 'تصميم داخلي & ديكورات منزلية', en: 'Interior Design & Home Décor' },
-          title: { ar: 'نحوّل منزلك إلى', en: 'We transform your home into a' },
-          highlight: { ar: 'تحفة فنية', en: 'masterpiece' },
+          subtitle: { ar: 'مكاتب عصرية', en: 'Executive Offices' },
+          title: { ar: 'مساحات عمل', en: 'Workspaces that' },
+          highlight: { ar: 'تلهم الإبداع', en: 'inspire productivity' },
           description: {
-            ar: 'نقدم لكم أفخم التصاميم الداخلية والأثاث المنزلي بأعلى معايير الجودة والإبداع',
-            en: 'We offer the finest interior designs and home furniture with the highest standards of quality and creativity',
+            ar: 'نصمم مكاتب عصرية تجمع بين الوظيفية والأناقة لتمنحك بيئة عمل مثالية',
+            en: 'We design modern offices that blend function with elegance for the ultimate work environment',
           },
         },
         {
