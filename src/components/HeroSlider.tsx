@@ -344,7 +344,7 @@ export function HeroSlider() {
 
       <style>{`
         @media (max-width: 720px) {
-          .hero-stats { grid-template-columns: repeat(2, 1fr); }
+          .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
         }
 
         @media (min-width: 1024px) and (max-height: 820px) {
