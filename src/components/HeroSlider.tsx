@@ -306,6 +306,7 @@ export function HeroSlider() {
           className="hero-stats"
           style={{
             display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(120px, 100%), 1fr))',
             gap: 16,
             marginTop: 28,
             paddingTop: 22,
@@ -315,20 +316,20 @@ export function HeroSlider() {
           {stats.map((s, i) => (
             <div key={i} style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}>
               <div
-                className="hero-stat-value"
                 style={{
                   fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(22px, 6vw, 30px)',
                   lineHeight: 1,
                   color: '#F5F1EA',
-                   fontWeight: 700,
+                  fontWeight: 700,
                 }}
               >
                 {s.value}
               </div>
               <div
-                className="hero-stat-label"
                 style={{
                   marginTop: 6,
+                  fontSize: 'clamp(10px, 3vw, 12px)',
                   color: 'rgba(245, 241, 234, 0.66)',
                   letterSpacing: 0,
                   textTransform: 'none',
@@ -342,18 +343,8 @@ export function HeroSlider() {
       </div>
 
       <style>{`
-        .hero-stats { grid-template-columns: repeat(2, 1fr); }
-        .hero-stat-value { font-size: 22px; }
-        .hero-stat-label { font-size: 11px; }
-
-        @media (min-width: 480px) {
-          .hero-stats { grid-template-columns: repeat(3, 1fr); }
-          .hero-stat-value { font-size: 30px; }
-          .hero-stat-label { font-size: 12px; }
-        }
-
         @media (max-width: 720px) {
-          .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+          .hero-stats { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (min-width: 1024px) and (max-height: 820px) {
