@@ -6,7 +6,7 @@ interface WhatsAppButtonProps {
 /**
  * Floating WhatsApp contact button.
  *
- * The number is the studio's Saudi mobile line (0590970028). We
+ * The number is the studio's Saudi mobile line (0590970090). We
  * strip the leading 0 and prepend the country code (966) so the
  * link works from any locale, and the click opens WhatsApp in a
  * new tab (or the app on mobile).
@@ -20,7 +20,7 @@ interface WhatsAppButtonProps {
  * standard focus ring for keyboard users.
  */
 export function WhatsAppButton({ label = 'WhatsApp' }: WhatsAppButtonProps) {
-  const phone = '966590970028' // 0590970028 → +966 59 097 0028
+  const phone = '966590970090' // 0590970090 → +966 59 097 0090
   const href = `https://wa.me/${phone}`
 
   return (

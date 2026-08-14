@@ -128,21 +128,21 @@ const T = {
       ],
       slides: [
         {
-          subtitle: { ar: 'مكاتب عصرية', en: 'Executive Offices' },
-          title: { ar: 'مساحات عمل', en: 'Workspaces that' },
-          highlight: { ar: 'تلهم', en: 'inspire productivity' },
-          description: {
-            ar: 'نصمم مكاتب عصرية تجمع بين الوظيفية والأناقة لتمنحك بيئة عمل مثالية',
-            en: 'We design modern offices that blend function with elegance for the ultimate work environment',
-          },
-        },
-        {
           subtitle: { ar: 'صالات استقبال فاخرة', en: 'Luxury Reception Halls' },
           title: { ar: 'أناقة تليق', en: 'Elegance that matches' },
           highlight: { ar: 'بذوقك الرفيع', en: 'your refined taste' },
           description: {
             ar: 'تصاميم صالات استقبال بلمسات عصرية تجمع بين الفخامة والراحة',
             en: 'Modern reception hall designs that combine luxury and comfort',
+          },
+        },
+        {
+          subtitle: { ar: 'مكاتب عصرية', en: 'Executive Offices' },
+          title: { ar: 'مساحات عمل', en: 'Workspaces that' },
+          highlight: { ar: 'تلهم', en: 'inspire productivity' },
+          description: {
+            ar: 'نصمم مكاتب عصرية تجمع بين الوظيفية والأناقة لتمنحك بيئة عمل مثالية',
+            en: 'We design modern offices that blend function with elegance for the ultimate work environment',
           },
         },
         {
@@ -358,8 +358,8 @@ const T = {
     eyebrow: { ar: 'تواصل', en: 'Contact' },
     title:   { ar: 'لنصمم مشروعك معًا.', en: 'Let’s build your project together.' },
     body: {
-      ar: 'أرسل لنا بعض الصور، أبعاد المساحة، وما يتخيله ذهنك. يقرأ فريقنا كل رسالة، ويُردّ خلال خمسة أيام عمل.',
-      en: 'Send us a few photos, the dimensions of the space, and what you have in mind. Our team reads every message and replies within five working days.',
+      ar: 'أرسل لنا بعض الصور، أبعاد المساحة، وما يتخيله ذهنك. يقرأ فريقنا كل رسالة، ويُردّ فوراً.',
+      en: 'Send us a few photos, the dimensions of the space, and what you have in mind. Our team reads every message and replies immediately.',
     },
     form: {
       name:    { ar: 'الاسم الكامل',    en: 'Full name' },
@@ -383,7 +383,7 @@ const T = {
       sendAnother: { ar: 'إرسال رسالة أخرى', en: 'Send another request' },
       success: {
         title: { ar: 'تم استلام طلبك.',  en: 'Request received.' },
-        body:  { ar: 'سنعود إليك خلال خمسة أيام عمل بخطواتنا التالية.', en: 'We’ll get back to you within five working days with our next steps.' },
+        body:  { ar: 'سنرد عليك فوراً. أوقات العمل: من الإثنين إلى الجمعة، ١٠–١٨.', en: "We'll reply to you immediately. Working hours: Monday to Friday, 10–18." },
       },
       errors: {
         required: { ar: 'يرجى تعبئة الاسم والبريد الإلكتروني وتفاصيل المشروع.', en: 'Please fill in name, email, and project details.' },

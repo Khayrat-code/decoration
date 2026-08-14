@@ -1,7 +1,7 @@
 export const BUSINESS = {
-  phoneDisplay: '0590970028',
-  phoneHref: 'tel:+966590970028',
-  whatsappHref: 'https://wa.me/966590970028',
+  phoneDisplay: '0590970090',
+  phoneHref: 'tel:+966590970090',
+  whatsappHref: 'https://wa.me/966590970090',
   email: 'Toolcan.sa@gmail.com',
   address: {
     ar: 'الرياض، المملكة العربية السعودية',

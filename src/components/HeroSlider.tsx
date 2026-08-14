@@ -12,18 +12,18 @@ type Lang = 'ar' | 'en'
 type HeroImage = { url: string; category: string }
 
 const HERO_IMAGES: HeroImage[] = [
-  { url: '/hero/office.jpeg',      category: 'Office'  },
   { url: '/hero/living_room.jpeg',  category: 'Living'  },
-  { url: '/hero/sleeping.jpeg',     category: 'Bedroom' },
+  { url: '/hero/office.webp',        category: 'Office'  },
+  { url: '/hero/sleeping.jpeg',      category: 'Bedroom' },
 ]
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
 // Map an image's category to one of the existing 3 hero slides.
 function slideIndexForCategory(category: string | undefined): number {
-  if (category === 'Living')  return 1
+  if (category === 'Living')  return 0
   if (category === 'Bedroom') return 2
-  return 0
+  return 1
 }
 
 function categoryLabel(category: string | undefined, lang: Lang): string {
