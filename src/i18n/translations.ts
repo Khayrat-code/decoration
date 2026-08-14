@@ -61,7 +61,7 @@ const T = {
     },
     studio: {
       appointment:  { ar: 'بموعد مسبق',   en: 'By appointment' },
-      hours:        { ar: 'الإثنين — الجمعة، ١٠–١٨', en: 'Mon — Fri, 10–18' },
+      hours:        { ar: 'السبت — الخميس، ٩ ص — ١٠ م', en: 'Sat — Thu, 9 AM — 10 PM' },
       email:        { ar: 'Toolcan.sa@gmail.com',       en: 'Toolcan.sa@gmail.com' },
     },
     connect: {
@@ -123,7 +123,7 @@ const T = {
       // do not invent new marketing copy.
       tags: [
         { ar: 'التصميم الداخلي',        en: 'Interior Design'    },
-        { ar: 'الديكور المنزلي',        en: 'Home Décor'         },
+        { ar: 'الديكور',        en: 'Décor'         },
         { ar: 'معاينة ثلاثية الأبعاد',  en: '3D Visualization'   },
       ],
       slides: [
@@ -174,7 +174,7 @@ const T = {
           },
         },
         {
-          title: { ar: 'الديكور المنزلي', en: 'Home Décor' },
+          title: { ar: 'الديكور', en: 'Décor' },
           description: {
             ar: 'نختار أرقى قطع الديكور والإكسسوارات التي تضيف لمسة فنية لكل زاوية في منزلك',
             en: 'We select the finest décor and accessories that add an artistic touch to every corner of your home',
@@ -383,7 +383,7 @@ const T = {
       sendAnother: { ar: 'إرسال رسالة أخرى', en: 'Send another request' },
       success: {
         title: { ar: 'تم استلام طلبك.',  en: 'Request received.' },
-        body:  { ar: 'سنرد عليك فوراً. أوقات العمل: من الإثنين إلى الجمعة، ١٠–١٨.', en: "We'll reply to you immediately. Working hours: Monday to Friday, 10–18." },
+        body:  { ar: 'سنرد عليك فوراً. أوقات العمل: من السبت إلى الخميس. من ٩ ص إلى ١٠ م.', en: "We'll reply to you immediately. Working hours: Saturday to Thursday, 9 AM to 10 PM." },
       },
       errors: {
         required: { ar: 'يرجى تعبئة الاسم والبريد الإلكتروني وتفاصيل المشروع.', en: 'Please fill in name, email, and project details.' },
@@ -400,7 +400,7 @@ const T = {
       reach: {
         label:  { ar: 'كيف تصل إلينا', en: 'How to reach us' },
         title:  { ar: 'واتساب · البريد · الهاتف', en: 'WhatsApp · Email · Phone' },
-        detail: { ar: 'متاحون من الإثنين إلى الجمعة، ١٠–١٨.', en: 'Available Monday to Friday, 10–18.' },
+        detail: { ar: 'متاحون من السبت إلى الخميس. من ٩ ص إلى ١٠ م.', en: 'Available Saturday to Thursday. 9 AM to 10 PM.' },
       },
       areas: {
         label:  { ar: 'نخدم', en: 'We serve' },
